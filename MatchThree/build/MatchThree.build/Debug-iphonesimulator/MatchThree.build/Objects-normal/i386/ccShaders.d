@@ -1,0 +1,24 @@
+dependencies: \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShaders.cpp \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShaders.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/platform/ios/CCGL.h \
+  MatchThree/libs/cocos2dx/platform/CCPlatformMacros.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/include/ccConfig.h \
+  MatchThree/libs/cocos2dx/platform/CCPlatformConfig.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/platform/ios/CCPlatformDefine.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_Position_uColor_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_Position_uColor_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionColor_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionColor_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTexture_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTexture_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTextureA8Color_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTextureA8Color_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTextureColor_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTextureColor_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTextureColorAlphaTest_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTexture_uColor_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionTexture_uColor_vert.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShaderEx_SwitchMask_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionColorLengthTexture_frag.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/shaders/ccShader_PositionColorLengthTexture_vert.h
