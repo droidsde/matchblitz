@@ -131,5 +131,8 @@ dependencies: \
   MatchThree/libs/cocos2dx/touch_dispatcher/CCTouchDispatcher.h \
   MatchThree/libs/cocos2dx/touch_dispatcher/CCTouchHandler.h \
   /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/cocos2dx/CCScheduler.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/Classes/Box.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/Classes/constants.h \
+  /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/Classes/Tile2.h \
   /Users/kpuspesh/Documents/hack/matchthree/MatchThree/MatchThree/libs/CocosDenshion/include/SimpleAudioEngine.h \
   MatchThree/libs/CocosDenshion/include/Export.h

@@ -25,9 +25,9 @@ public:
     void menuCloseCallback(CCObject* pSender);
     void onEnterTransitionDidFinish();
     
-    void changeWithTileA(Tile2 *a, Tile2 * b);
-    void backCheck(Tile2 * sender, Tile2 * data);
-    void check(Tile2 * sender, Tile2 * data);
+    void changeWithTileA(Tile2 *a, Tile2 * b, SEL_CallFuncND sel);
+    void backCheck(CCNode * sender, Tile2 * data);
+    void check(CCNode * sender, Tile2 * data);
     void ccTouchesBegan(CCSet* touches, CCEvent* event);
     void afterTurn(CCSprite * node);
     

@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5A175E6B8D0064D46F /* Box.cpp */; };
+		F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5D175E6B8D0064D46F /* Tile2.cpp */; };
+		F61EA519175D196F003C4E82 /* block_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA513175D196E003C4E82 /* block_1.png */; };
+		F61EA51A175D196F003C4E82 /* block_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA514175D196E003C4E82 /* block_2.png */; };
+		F61EA51B175D196F003C4E82 /* block_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA515175D196F003C4E82 /* block_3.png */; };
+		F61EA51C175D196F003C4E82 /* block_4.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA516175D196F003C4E82 /* block_4.png */; };
+		F61EA51D175D196F003C4E82 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA517175D196F003C4E82 /* fps_images.png */; };
+		F61EA51E175D196F003C4E82 /* ingame_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA518175D196F003C4E82 /* ingame_menu.png */; };
 		F6FDC3581746374F00280CD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3571746374F00280CD8 /* QuartzCore.framework */; };
 		F6FDC35A1746374F00280CD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3591746374F00280CD8 /* OpenGLES.framework */; };
 		F6FDC35C1746374F00280CD8 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC35B1746374F00280CD8 /* OpenAL.framework */; };
@@ -269,6 +277,17 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		F61B4A5A175E6B8D0064D46F /* Box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box.cpp; path = Classes/Box.cpp; sourceTree = "<group>"; };
+		F61B4A5B175E6B8D0064D46F /* Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box.h; path = Classes/Box.h; sourceTree = "<group>"; };
+		F61B4A5C175E6B8D0064D46F /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = constants.h; path = Classes/constants.h; sourceTree = "<group>"; };
+		F61B4A5D175E6B8D0064D46F /* Tile2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile2.cpp; path = Classes/Tile2.cpp; sourceTree = "<group>"; };
+		F61B4A5E175E6B8D0064D46F /* Tile2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tile2.h; path = Classes/Tile2.h; sourceTree = "<group>"; };
+		F61EA513175D196E003C4E82 /* block_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_1.png; path = Resources/block_1.png; sourceTree = "<group>"; };
+		F61EA514175D196E003C4E82 /* block_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_2.png; path = Resources/block_2.png; sourceTree = "<group>"; };
+		F61EA515175D196F003C4E82 /* block_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_3.png; path = Resources/block_3.png; sourceTree = "<group>"; };
+		F61EA516175D196F003C4E82 /* block_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_4.png; path = Resources/block_4.png; sourceTree = "<group>"; };
+		F61EA517175D196F003C4E82 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
+		F61EA518175D196F003C4E82 /* ingame_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ingame_menu.png; path = Resources/ingame_menu.png; sourceTree = "<group>"; };
 		F6FDC3541746374F00280CD8 /* MatchThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FDC3571746374F00280CD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F6FDC3591746374F00280CD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -902,6 +921,12 @@
 		F6FDC3681746374F00280CD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F61EA513175D196E003C4E82 /* block_1.png */,
+				F61EA514175D196E003C4E82 /* block_2.png */,
+				F61EA515175D196F003C4E82 /* block_3.png */,
+				F61EA516175D196F003C4E82 /* block_4.png */,
+				F61EA517175D196F003C4E82 /* fps_images.png */,
+				F61EA518175D196F003C4E82 /* ingame_menu.png */,
 				F6FDC3691746374F00280CD8 /* CloseNormal.png */,
 				F6FDC36B1746374F00280CD8 /* CloseSelected.png */,
 				F6FDC36D1746374F00280CD8 /* Default.png */,
@@ -1976,6 +2001,11 @@
 		F6FDC6C91746375400280CD8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F61B4A5A175E6B8D0064D46F /* Box.cpp */,
+				F61B4A5B175E6B8D0064D46F /* Box.h */,
+				F61B4A5C175E6B8D0064D46F /* constants.h */,
+				F61B4A5D175E6B8D0064D46F /* Tile2.cpp */,
+				F61B4A5E175E6B8D0064D46F /* Tile2.h */,
 				F6FDC6CA1746375400280CD8 /* AppDelegate.h */,
 				F6FDC6CB1746375400280CD8 /* AppDelegate.cpp */,
 				F6FDC6CD1746375400280CD8 /* MainScene.h */,
@@ -2047,6 +2077,12 @@
 				F6FDC37E1746374F00280CD8 /* iTunesArtwork in Resources */,
 				F6FDC41A1746375000280CD8 /* ChangeLog in Resources */,
 				F6FDC5841746375300280CD8 /* project.pbxproj in Resources */,
+				F61EA519175D196F003C4E82 /* block_1.png in Resources */,
+				F61EA51A175D196F003C4E82 /* block_2.png in Resources */,
+				F61EA51B175D196F003C4E82 /* block_3.png in Resources */,
+				F61EA51C175D196F003C4E82 /* block_4.png in Resources */,
+				F61EA51D175D196F003C4E82 /* fps_images.png in Resources */,
+				F61EA51E175D196F003C4E82 /* ingame_menu.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2293,6 +2329,8 @@
 				F6FDC6C51746375400280CD8 /* cpVect.c in Sources */,
 				F6FDC6CC1746375400280CD8 /* AppDelegate.cpp in Sources */,
 				F6FDC6CF1746375400280CD8 /* MainScene.cpp in Sources */,
+				F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */,
+				F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
