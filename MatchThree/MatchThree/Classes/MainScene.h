@@ -1,14 +1,18 @@
 #ifndef __HELLOWORLD_SCENE_H__
 #define __HELLOWORLD_SCENE_H__
 #include "cocos2d.h"
+#include "Box.h"
+#include "Tile2.h"
 
 USING_NS_CC;
 class MatchThree : public cocos2d::CCLayer
 {
 private:
 	cocos2d::CCSpriteBatchNode * _batchNode;
-	cocos2d::CCSprite * _flower;
-    void update(float dt);
+    
+    Box * _box;
+    Tile2 * _selectedTile;
+    Tile2 * _firstOne;
     
 public:
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
@@ -19,7 +23,14 @@ public:
     
     // a selector callback
     void menuCloseCallback(CCObject* pSender);
-
+    void onEnterTransitionDidFinish();
+    
+    void changeWithTileA(Tile2 *a, Tile2 * b);
+    void backCheck(Tile2 * sender, Tile2 * data);
+    void check(Tile2 * sender, Tile2 * data);
+    void ccTouchesBegan(CCSet* touches, CCEvent* event);
+    void afterTurn(CCSprite * node);
+    
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(MatchThree);
 };

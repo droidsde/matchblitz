@@ -6,85 +6,133 @@ using namespace CocosDenshion;
 
 CCScene* MatchThree::scene()
 {
-    // 'scene' is an autorelease object
     CCScene *scene = CCScene::create();
-    
-    // 'layer' is an autorelease object
     MatchThree *layer = MatchThree::create();
-
-    // add layer as a child to scene
     scene->addChild(layer);
-
-    // return the scene
     return scene;
 }
 
-// on "init" you need to initialize your instance
 bool MatchThree::init()
 {
-    //////////////////////////////
-    // 1. super init first
     if ( !CCLayer::init() )
     {
         return false;
     }
 
-    /////////////////////////////
-    // 2. add a menu item with "X" image, which is clicked to quit the program
-    //    you may modify it.
+    CCSize size = CCDirector::sharedDirector()->getWinSize();
+    CCDirector::sharedDirector()->getTouchDispatcher()->addStandardDelegate(this, 0); 
+      
+    CCSprite *bg = CCSprite::create("ingame_menu.png");
+    bg->setPosition(ccp(size.width/2, size.height/2));
+    this->addChild(bg, 0);
 
-    // add a "close" icon to exit the progress. it's an autorelease object
-   /* CCMenuItemImage *pCloseItem = CCMenuItemImage::create(
-                                        "CloseNormal.png",
-                                        "CloseSelected.png",
-                                        this,
-                                        menu_selector(MatchThree::menuCloseCallback) );
-    pCloseItem->setPosition( ccp(CCDirector::sharedDirector()->getWinSize().width - 20, 20) );
-
-    // create menu, it's an autorelease object
-    CCMenu* pMenu = CCMenu::create(pCloseItem, NULL);
-    pMenu->setPosition( CCPointZero );
-    this->addChild(pMenu, 1);
-*/
-    /////////////////////////////
-    // 3. add your codes below...
+    _box = Box::create();
+    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);
+    _box->layer = this;
+    _box->lock = true;
     
-    // ask director the window size
-    CCSize winSize = CCDirector::sharedDirector()->getWinSize();
-    
-    _batchNode = CCSpriteBatchNode::create("Sprites.pvr.ccz");
-    this->addChild(_batchNode);
-    CCSpriteFrameCache::sharedSpriteFrameCache()->addSpriteFramesWithFile("Sprites.plist");
-    
-    _flower = CCSprite::createWithSpriteFrameName("SpaceFlier_sm_1.png");
-    _flower->setPosition( ccp(winSize.width * 0.1, winSize.height * 0.5) );
-    _batchNode->addChild(_flower, 1);
-
-    /*CCParticleSystemQuad* m_emitter = new CCParticleSystemQuad();
-    m_emitter = CCParticleFlower::create();
-    m_emitter->setPosition(10, 10);
-    // Gravity Mode
-    this->addChild(m_emitter, 0);
-    
-    CCParticleSystemQuad* m_emitter2 = new CCParticleSystemQuad();
-    m_emitter2 = CCParticleSmoke::create();
-    m_emitter2->setPosition(100, 100);
-    this->addChild(m_emitter2, 10);
-    
-    CCParticleSystemQuad* m_emitter3 = new CCParticleSystemQuad();
-    m_emitter3 = CCParticleFire::create();
-    this->addChild(m_emitter3, 20);*/
-    
-    this->scheduleUpdate();
+    //this->isTouchEnabled = true;
     
     return true;
 }
 
-void MatchThree::update(<#float dt#>)
+void MatchThree::onEnterTransitionDidFinish ()
 {
-    // do something
-    return;
+    _box->check();
 }
+
+void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
+{
+    if (_box->lock) {
+       // return;
+    }
+    
+    CCTouch* touch = (CCTouch *) touches->anyObject();
+    CCPoint location = touch->getLocationInView();
+    location = CCDirector::sharedDirector()->convertToGL(location);
+    
+    
+    int x = (location.x -kStartX) / kTileSize;
+    int y = (location.y -kStartY) / kTileSize;
+    
+    
+    if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
+        return;
+    }
+    
+    Tile2 *tile = _box->objectAtX(x, y);
+    
+    if (_selectedTile && _selectedTile->nearTile(tile)) {
+        _box->lock = true;
+        this->changeWithTileA(_selectedTile, tile); // @selector(check:data:)
+        _selectedTile = NULL;
+    } else {
+        _selectedTile = tile;
+   //     this->afterTurn(tile->sprite);
+    }
+}
+
+
+void MatchThree::changeWithTileA(Tile2 * a, Tile2 * b)
+{
+   /* CCAction *actionA = CCSequence::createWithTwoActions(CCMoveTo::initWithDuration(kMoveTileTime, b->pixPosition()), CCCallFuncND::actionWithTarget($this->check(a));
+    CCAction *actionB = CCSequence::actions(CCMoveTo::initWithDuration(kMoveTileTime, a->pixPosition()), CCCallFuncND::actionWithTarget($this->check(b), NULL);
+                                                                                    
+    CCAction *actionB = [CCSequence actions:
+                         [CCMoveTo actionWithDuration:kMoveTileTime position:[a pixPosition]],
+                         [CCCallFuncND actionWithTarget:self selector:sel data: b],
+                         nil
+                         ];
+ 
+                                            
+    a->sprite->runAction(actionA);
+    b->sprite->runAction(actionB);
+    a->trade(b);*/
+}
+                                            
+void MatchThree::backCheck(Tile2 * sender, Tile2 * data)
+{
+    if(NULL == _firstOne){
+        _firstOne = data;
+        return;
+    }
+    _firstOne = NULL;
+    _box->lock = false;
+}
+
+void MatchThree::check(Tile2 * sender, Tile2 * data)
+{
+    if(NULL == _firstOne){
+        _firstOne = data;
+        return;
+    }
+    bool result = _box->check();
+    if (result) {
+        _box->lock = false;
+    } else {
+        this->changeWithTileA(data, _firstOne);
+        
+     //this->runAction(CCSequence::createWithTwoActions(CCDelayTime::actionWithDuration(kMoveTileTime + 0.03f),
+       //                                                CCCallFunc::actionWithTarget(_box->backCheck(sender, <#Tile2 *data#>));
+    }
+    
+    _firstOne = NULL;
+}
+
+
+void MatchThree::afterTurn(CCSprite * node)
+{
+   /* if (_selectedTile && node == _selectedTile->sprite) {
+        CCSprite *sprite = (CCSprite *)node;
+        CCSequence *someAction = CCSequence::createWithVariableList(CCScaleBy::actionWithDuration(kMoveTileTime, 0.5f),
+                                                                    CCScaleBy::actionWithDuration(kMoveTileTime, 2.0f),
+                                                                    CCCallFuncN::actionWithTarget:self selector:@selector(afterTurn:)],
+                                  nil];
+        
+        sprite->runAction(someAction);
+    } */
+}
+
 
 void MatchThree::menuCloseCallback(CCObject* pSender)
 {
