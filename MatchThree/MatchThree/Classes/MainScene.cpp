@@ -4,30 +4,39 @@
 using namespace cocos2d;
 using namespace CocosDenshion;
 
+/**
+ * Constructor
+ */
 CCScene* MatchThree::scene()
 {
     CCScene *scene = CCScene::create();
     MatchThree *layer = MatchThree::create();
-    scene->addChild(layer);
+    scene->addChild(layer);                     // Adding layer to the main scene
     return scene;
 }
 
+/**
+ * Initialize
+ */
 bool MatchThree::init()
 {
+    // initialize parent
     if ( !CCLayer::init() )
     {
         return false;
     }
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
-      
+    
+    // Adding background sprite
     CCSprite *bg = CCSprite::create("ingame_menu.png");
     bg->setPosition(ccp(size.width/2, size.height/2));
     this->addChild(bg, 0);
 
+    // Creating the Box (n x n) grid
     _box = Box::create();
     _box->retain();
-    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);
+    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
     _box->layer = this;
     _box->lock = true;
     
@@ -36,11 +45,20 @@ bool MatchThree::init()
     return true;
 }
 
+/**
+ * When all screen transitions are done, 
+ * this function is called which in turn
+ * calls Box::check to verify the current 
+ * status of the grid/tiles. 
+ */
 void MatchThree::onEnterTransitionDidFinish ()
 {
     _box->check();
 }
 
+/**
+ * Function to handle touch events
+ */
 void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
 {
     if (_box->lock) {
@@ -54,13 +72,17 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     int x = (location.x -kStartX) / kTileSize;
     int y = (location.y -kStartY) / kTileSize;
     
-    
     if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
         return;
     }
     
+    // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
+    
     if (_selectedTile && _selectedTile->nearTile(tile)) {
+        
+        // If its the second touch, do the swap!
+        
         _box->lock = true;
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
@@ -70,15 +92,19 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     }
 }
 
-
+/**
+ * Change tile A with tile B
+ */
 void MatchThree::changeWithTileA(Tile2 * a, Tile2 * b, SEL_CallFuncND sel)
 {
-    CCAction *actionA = CCSequence::createWithTwoActions(
+    CCFiniteTimeAction *actionA = CCSequence::create(
                             CCMoveTo::create(kMoveTileTime, b->pixPosition()),
-                            CCCallFuncND::create(this, sel, a));
-    CCAction *actionB = CCSequence::createWithTwoActions(
+                            CCCallFuncND::create(this, sel, a),
+                            NULL);
+    CCFiniteTimeAction *actionB = CCSequence::create(
                             CCMoveTo::create(kMoveTileTime, a->pixPosition()),
-                            CCCallFuncND::create(this, sel, b));
+                            CCCallFuncND::create(this, sel, b),
+                            NULL);
                                                          
     a->sprite->runAction(actionA);
     b->sprite->runAction(actionB);
@@ -111,7 +137,7 @@ void MatchThree::check(CCNode * sender, Tile2 * data)
         this->changeWithTileA(data, _firstOne, callfuncND_selector(MatchThree::backCheck));
         this->runAction(CCSequence::create(
                             CCDelayTime::create(kMoveTileTime + 0.03f),
-                            CCCallFuncN::create(_box, callfuncN_selector(Box::unlock))));
+                            CCCallFuncN::create(_box, callfuncN_selector(Box::unlock)), NULL));
     }
     
     _firstOne = NULL;
