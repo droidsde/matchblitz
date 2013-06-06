@@ -8,11 +8,13 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "134"
-         endingLineNumber = "134">
+         startingLineNumber = "137"
+         endingLineNumber = "137"
+         landmarkName = "MatchThree::check(CCNode * sender, Tile2 * data)"
+         landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -136,12 +138,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "46"
-         endingLineNumber = "46"
-         landmarkName = "MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)"
+         startingLineNumber = "47"
+         endingLineNumber = "47"
+         landmarkName = "MatchThree::init()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -149,25 +151,23 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "58"
-         endingLineNumber = "58"
-         landmarkName = "MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)"
-         landmarkType = "5">
+         startingLineNumber = "59"
+         endingLineNumber = "59">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "128"
-         endingLineNumber = "128"
-         landmarkName = "MatchThree::afterTurn(CCSprite * node)"
+         startingLineNumber = "131"
+         endingLineNumber = "131"
+         landmarkName = "MatchThree::check(CCNode * sender, Tile2 * data)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -188,12 +188,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "79"
-         endingLineNumber = "79"
-         landmarkName = "MatchThree::changeWithTileA(Tile2 * a, Tile2 * b, SEL_CallFuncND sel)"
+         startingLineNumber = "81"
+         endingLineNumber = "81"
+         landmarkName = "MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -253,12 +253,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/MainScene.cpp"
-         timestampString = "392063895.280031"
+         timestampString = "392234335.22023"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "85"
-         endingLineNumber = "85"
-         landmarkName = "MatchThree::changeWithTileA(Tile2 * a, Tile2 * b, SEL_CallFuncND sel)"
+         startingLineNumber = "88"
+         endingLineNumber = "88"
+         landmarkName = "MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -266,12 +266,25 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
+         timestampString = "392236872.788159"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "105"
+         endingLineNumber = "105"
+         landmarkName = "Box::check()"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/Box.cpp"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "104"
          endingLineNumber = "104"
-         landmarkName = "Box::checkWith(Orientation orient)"
+         landmarkName = "Box::check()"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -279,59 +292,18 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "103"
-         endingLineNumber = "103"
-         landmarkName = "Box::checkWith(Orientation orient)"
-         landmarkType = "5">
+         startingLineNumber = "109"
+         endingLineNumber = "109">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "108"
-         endingLineNumber = "108"
-         landmarkName = "Box::checkWith(Orientation orient)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "114"
-         endingLineNumber = "114"
-         landmarkName = "Box::checkWith(Orientation orient)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "113"
-         endingLineNumber = "113"
-         landmarkName = "Box::checkWith(Orientation orient)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "115"
@@ -344,12 +316,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392065536.75399"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "58"
-         endingLineNumber = "58"
-         landmarkName = "Box::check()"
+         startingLineNumber = "114"
+         endingLineNumber = "114"
+         landmarkName = "Box::checkWith(Orientation orient)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -357,7 +329,7 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "116"
@@ -370,7 +342,46 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
+         timestampString = "392236872.788159"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "58"
+         endingLineNumber = "58"
+         landmarkName = "Box::objectAtX(int x, int y)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/Box.cpp"
+         timestampString = "392236872.788159"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "117"
+         endingLineNumber = "117"
+         landmarkName = "Box::checkWith(Orientation orient)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/Box.cpp"
+         timestampString = "392236872.788159"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "144"
+         endingLineNumber = "144"
+         landmarkName = "Box::checkWith(Orientation orient)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/Box.cpp"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "84"
@@ -383,51 +394,60 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "143"
-         endingLineNumber = "143"
-         landmarkName = "Box::afterAllMoveDone(CCNode * sender)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "83"
-         endingLineNumber = "83"
-         landmarkName = "Box::check()"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067378.185926"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "78"
-         endingLineNumber = "78"
-         landmarkName = "Box::check()"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "392067047.88284"
+         timestampString = "392236872.788159"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "64"
-         endingLineNumber = "64"
-         landmarkName = "Box::check()"
+         endingLineNumber = "64">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/MainScene.cpp"
+         timestampString = "392234335.22023"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "107"
+         endingLineNumber = "107"
+         landmarkName = "MatchThree::changeWithTileA(Tile2 * a, Tile2 * b, SEL_CallFuncND sel)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/Classes/MainScene.cpp"
+         timestampString = "392234335.22023"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "63"
+         endingLineNumber = "63">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/libs/cocos2dx/cocoa/CCObject.cpp"
+         timestampString = "392235707.910696"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "86"
+         endingLineNumber = "86"
+         landmarkName = "CCObject::release(void)"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         filePath = "MatchThree/libs/cocos2dx/cocoa/CCObject.cpp"
+         timestampString = "392235710.192992"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "84"
+         endingLineNumber = "84"
+         landmarkName = "CCObject::release(void)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

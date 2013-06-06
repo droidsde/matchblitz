@@ -32,7 +32,7 @@ bool MatchThree::init()
     // Adding background sprite
     CCSprite *bg = CCSprite::create("ingame_menu.png");
     bg->setPosition(ccp(size.width/2, size.height/2));
-    this->addChild(bg, 0);
+   // this->addChild(bg, 0);
 
     // Creating the Box (n x n) grid
     _box = Box::create();
