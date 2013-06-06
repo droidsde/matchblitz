@@ -18,11 +18,12 @@ class Box : public CCObject {
 private:
     int repair();
     int repairSingleColumn(int columnIndex);
+    void checkWith(Orientation orient);
     
 public:
     bool lock;
     CCSize size;
-    CCLayer *layer;
+    CCLayer* layer;
     
     Tile2 *OutBorderTile;
     Tile2 * first;
@@ -34,11 +35,11 @@ public:
     Tile2 * objectAtX (int posX, int posY);
     
     bool check();
-    void checkWith(Orientation orient);
     void unlock();
     void removeSprite (CCNode * sender);
     void afterAllMoveDone(CCNode * sender);
     bool haveMore();
+    void initLayer(CCLayer * l);
     
     virtual bool init();
     CREATE_FUNC(Box);

@@ -19,7 +19,7 @@ bool Box::init()
 bool Box::initWithSize (CCSize aSize, int aFactor)
 {
     size = aSize;
-    OutBorderTile = Tile2::create();
+    OutBorderTile = new Tile2();
     OutBorderTile->retain();
     OutBorderTile->initWithX(-1, -1);
 	
@@ -30,9 +30,9 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 	for (int y=0; y<size.height; y++) {
 		CCArray *rowContent = CCArray::createWithCapacity(size.width);
 		for (int x=0; x < size.width; x++) {
-			Tile2 *tile = Tile2::create();
-            tile->retain();
+			Tile2 *tile = new Tile2();
             tile->initWithX(x, y);
+            tile->autorelease();
 			rowContent->addObject(tile);
 		}
         rowContent->retain();
@@ -44,7 +44,7 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 	readyToRemoveTiles = CCSet::create();
 	readyToRemoveTiles->retain();
   
-	return this;
+	return true;
 }
 
 /**
@@ -55,8 +55,8 @@ Tile2 * Box::objectAtX(int x, int y)
 	if (x < 0 || x >= kBoxWidth || y < 0 || y >= kBoxHeight) {
 		return OutBorderTile;
 	}
-    CCArray * tmp = (CCArray *) content->objectAtIndex(y); // revisit @PUSPESH
-	return (Tile2*) tmp->objectAtIndex(x);
+    CCArray * tmp = (CCArray *) content->objectAtIndex(y);
+	return (Tile2 *) tmp->objectAtIndex(x);
 }
 
 /**
@@ -90,7 +90,7 @@ bool Box::check() {
     
     // temp hack to empty the array of tiles which got removed
     readyToRemoveTiles->removeAllObjects();
-    readyToRemoveTiles->release();
+    //readyToRemoveTiles->release();
     readyToRemoveTiles = CCSet::create();
 	readyToRemoveTiles->retain();
     
@@ -225,9 +225,10 @@ int Box::repairSingleColumn(int columnIndex)
       for (int i=0; i<extension; i++) {
           int value = (arc4random()%kKindCount+1);
           Tile2 *destTile = this->objectAtX(columnIndex, kBoxHeight-extension+i);
+          //destTile->retain();
           CCString *name = CCString::createWithFormat("block_%d.png", value);
           CCSprite *sprite = CCSprite::create(name->getCString());
-          //sprite->retain();
+          sprite->retain();
           sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
           CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*extension, ccp(0,-kTileSize*extension));
           

@@ -11,8 +11,8 @@
 
 #define kTileSize 80.0f
 #define kMoveTileTime 0.2f
-#define kBoxWidth 3
-#define kBoxHeight 3
+#define kBoxWidth 7
+#define kBoxHeight 7
 #define kStartX 20
 #define kStartY 70
 #define kMaxLevelNo 10

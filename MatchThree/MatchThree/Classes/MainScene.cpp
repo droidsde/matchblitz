@@ -11,6 +11,7 @@ CCScene* MatchThree::scene()
 {
     CCScene *scene = CCScene::create();
     MatchThree *layer = MatchThree::create();
+    layer->retain();
     scene->addChild(layer);                     // Adding layer to the main scene
     return scene;
 }

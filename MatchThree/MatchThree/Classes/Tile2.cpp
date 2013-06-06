@@ -16,8 +16,9 @@ bool Tile2::init()
 
 bool Tile2::initWithX (int posX, int posY)
 {
-    x = posX;
-	y = posY;
+    this->x = posX;
+	this->y = posY;
+    this->retain();
     return true;
 }
 
@@ -31,13 +32,14 @@ bool Tile2::nearTile (Tile2 *othertile)
 
 void Tile2::trade (Tile2 * otherTile)
 {
-    CCSprite *tempSprite = sprite;
-	int tempValue = value;
-    sprite = otherTile->sprite;
-	value = otherTile->value;
+    this->sprite->retain();
+    CCSprite *tempSprite = this->sprite;
+	int tempValue = this->value;
+    this->sprite = otherTile->sprite;
+	this->value = otherTile->value;
 	otherTile->sprite = tempSprite;
 	otherTile->value = tempValue;
-	free(tempSprite);
+    tempSprite->release();
 }
 
 CCPoint Tile2::pixPosition()
