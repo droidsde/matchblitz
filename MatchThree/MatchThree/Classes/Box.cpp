@@ -202,35 +202,38 @@ int Box::repairSingleColumn(int columnIndex)
     
     // If there were deleted tiles then running the drop
     // animation for the column so that new tiles can be
-    // added on top
-   for (int y=0; y<size.height; y++) {
+    // added on t
+   for (int y = size.height - 1; y >=0 ; --y) {
        Tile2 *tile = this->objectAtX(columnIndex, y);
        if(tile->value == 0) {
            extension++;
        } else if (extension == 0) {
            
        } else {
-           Tile2 *destTile = this->objectAtX(columnIndex, y-extension);
+           Tile2 *destTile = this->objectAtX(columnIndex, y+extension);
            
-           CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*extension, ccp(0,-kTileSize*extension));
+           CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*extension, ccp(0,kTileSize*extension));
            tile->sprite->runAction(action);
            
            destTile->value = tile->value;
            destTile->sprite = tile->sprite;
        }
     }
-    
+
     // Creating those extra tiles by randomly generating
     // tile types and running the animation for same
-      for (int i=0; i<extension; i++) {
+      for (int i = extension - 1; i >= 0 ; --i) {
           int value = (arc4random()%kKindCount+1);
-          Tile2 *destTile = this->objectAtX(columnIndex, kBoxHeight-extension+i);
+          //Tile2 *destTile = this->objectAtX(columnIndex, size.height-extension+i);
+          Tile2 *destTile = this->objectAtX(columnIndex, i);
+
           //destTile->retain();
           CCString *name = CCString::createWithFormat("block_%d.png", value);
           CCSprite *sprite = CCSprite::create(name->getCString());
           sprite->retain();
-          sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
-          CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*extension, ccp(0,-kTileSize*extension));
+          // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
+          sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY - kTileSize/2));
+          CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*(i+1), ccp(0,kTileSize*(i+1)));
           
           layer->addChild(sprite);
           sprite->runAction(action);
@@ -238,6 +241,7 @@ int Box::repairSingleColumn(int columnIndex)
           destTile->value = value;
           destTile->sprite = sprite;
       }
+
      
     return extension;
   }

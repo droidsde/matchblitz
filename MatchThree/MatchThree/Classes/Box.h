@@ -5,7 +5,15 @@
 //  Created by kpuspesh on 6/2/13.
 //
 //
-
+// Note 0,0 index on Box os bottom left
+//
+//  ^
+//  |
+//  4
+//  3
+//  2
+//  1
+//  0 1 2 3 4 ->
 #ifndef MatchThree_Box_h
 #define MatchThree_Box_h
 
