@@ -10,7 +10,7 @@
 #define MatchThree_Tile_h
 
 #import "cocos2d.h"
-#import "constants.h"
+#import "common.h"
 
 USING_NS_CC;
 class Tile2 : public CCObject

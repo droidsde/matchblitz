@@ -238,8 +238,8 @@ int Box::repairSingleColumn(int columnIndex)
           Tile2 *destTile = this->objectAtX(columnIndex, i);
 
           //destTile->retain();
-          CCString *name = CCString::createWithFormat("block_%d.png", value);
-          CCSprite *sprite = CCSprite::create(name->getCString());
+          CCSprite *sprite = CCSprite::create(play_filenames[value-1].c_str());
+          sprite->setScale(kPieceWidth/sprite->getContentSize().width);
           sprite->retain();
           // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
           sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));

@@ -18,7 +18,7 @@
 #define MatchThree_Box_h
 
 #include "cocos2d.h"
-#include "constants.h"
+#include "common.h"
 #include "Tile2.h"
 
 USING_NS_CC;

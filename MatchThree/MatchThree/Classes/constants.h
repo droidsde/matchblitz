@@ -10,6 +10,8 @@
 #define MatchThree_constants_h
 
 #define kTileSize 60.0f
+#define kPieceHeight 50.0f
+#define kPieceWidth 45.0f
 #define kMoveTileTime 0.3f
 #define kBoxWidth 7
 #define kBoxHeight 7
@@ -25,5 +27,6 @@ enum Orientation{
 	OrientationVert,
 };
 typedef enum Orientation Orientation;
+
 
 #endif
