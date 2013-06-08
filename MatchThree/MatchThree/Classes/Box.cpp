@@ -180,14 +180,41 @@ void Box::unlock()
    this->lock = false;
 }
 
+CCFiniteTimeAction* Box::createPlayPieceSwiggle(int moves){
+    if ( 0 == moves ) {
+        return CCDelayTime::create(0.0);
+    } else if ( moves <= 4) {
+        int angle = 10 + moves * 5;
+        if (rand() % 2 == 0) {
+            angle *= -1;
+        }
+        return CCSequence::create(CCEaseOut::create(CCRotateBy::create( (kMoveTileTime*moves)/4.0, angle),1),
+                           CCEaseInOut::create(CCRotateBy::create( (kMoveTileTime*moves)/2.0, angle * -2),1),
+                           CCEaseIn::create(CCRotateTo::create(kMoveTileTime*moves/4.0,0),1),
+                           NULL);
+    } else {
+        int first = rand() % (moves -1) + 1;
+        int second = moves - first;
+        return CCEaseInOut::create(CCSequence::create(
+                                                      this->createPlayPieceSwiggle(first),
+                                                      this->createPlayPieceSwiggle(second),
+                                                      NULL),1);
+    }
+}
+
+CCFiniteTimeAction* Box::createPlayPieceMovement(int moves) {
+    return  CCSpawn::createWithTwoActions(
+                                          CCEaseInOut::create(CCMoveBy::create(kMoveTileTime * (moves), ccp(0, kTileSize *( moves))),2),
+                                          this->createPlayPieceSwiggle(moves));
+}
+
 CCFiniteTimeAction* Box::createPlayPieceAction(int index, int total) {
     return CCSequence::create(
-                       CCDelayTime::create(kMoveTileTime * (total - (index))),
-                       CCFadeIn::create(kTileFadeInTime),
-                       CCMoveBy::create(kMoveTileTime * (index), ccp(0, kTileSize *( index))),
-                       NULL
-                       );
-}
+                              CCDelayTime::create(kMoveTileTime * (total - (index))),
+                              CCFadeIn::create(kTileFadeInTime),
+                              this->createPlayPieceMovement(index),
+                              NULL);
+                             }
 
 
 /**
@@ -222,7 +249,7 @@ int Box::repairSingleColumn(int columnIndex)
        } else {
            Tile2 *destTile = this->objectAtX(columnIndex, y+extension);
            
-           CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*extension, ccp(0,kTileSize*extension));
+           CCFiniteTimeAction *action = this->createPlayPieceMovement(extension);
            tile->sprite->runAction(action);
            
            destTile->value = tile->value;

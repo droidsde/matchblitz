@@ -9,13 +9,13 @@
 #ifndef MatchThree_constants_h
 #define MatchThree_constants_h
 
-#define kTileSize 60.0f
-#define kPieceHeight 50.0f
-#define kPieceWidth 45.0f
+#define kTileSize 100.0f
+#define kPieceHeight 80.0f
+#define kPieceWidth 80.0f
 #define kMoveTileTime 0.3f
 #define kBoxWidth 7
 #define kBoxHeight 7
-#define kStartX 300
+#define kStartX 200
 #define kStartY 60
 #define kMaxLevelNo 10
 #define kMaxRecordCount 5

@@ -28,6 +28,8 @@ private:
     int repairSingleColumn(int columnIndex);
     void checkWith(Orientation orient);
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
+    CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
+    CCFiniteTimeAction* createPlayPieceMovement(int moves);
     
 public:
     bool lock;
