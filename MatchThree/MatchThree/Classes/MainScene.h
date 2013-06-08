@@ -5,7 +5,7 @@
 #include "Tile2.h"
 
 USING_NS_CC;
-class MatchThree : public cocos2d::CCLayer
+class MatchThree : public cocos2d::CCLayerColor
 {
 private:
 	cocos2d::CCSpriteBatchNode * _batchNode;

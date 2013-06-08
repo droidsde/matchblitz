@@ -22,7 +22,7 @@ CCScene* MatchThree::scene()
 bool MatchThree::init()
 {
     // initialize parent
-    if ( !CCLayer::init() )
+    if ( !CCLayerColor::initWithColor(ccc4(140,216,250,255)) ) //sky blue
     {
         return false;
     }
@@ -40,7 +40,7 @@ bool MatchThree::init()
     _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
     _box->layer = this;
     _box->lock = true;
-    
+    //this->setColor(ccc3(200,200,255));
     this->setTouchEnabled(true);
     
     return true;
