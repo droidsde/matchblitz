@@ -27,6 +27,7 @@ private:
     int repair();
     int repairSingleColumn(int columnIndex);
     void checkWith(Orientation orient);
+    CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     
 public:
     bool lock;

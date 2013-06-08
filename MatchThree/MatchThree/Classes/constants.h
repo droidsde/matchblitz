@@ -18,6 +18,7 @@
 #define kMaxLevelNo 10
 #define kMaxRecordCount 5
 #define kKindCount 4
+#define kTileFadeInTime 0.3f
 
 enum Orientation{
 	OrientationHori,

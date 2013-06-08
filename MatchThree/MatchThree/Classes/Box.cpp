@@ -180,6 +180,16 @@ void Box::unlock()
    this->lock = false;
 }
 
+CCFiniteTimeAction* Box::createPlayPieceAction(int index, int total) {
+    return CCSequence::create(
+                       CCDelayTime::create(kMoveTileTime * (total - (index))),
+                       CCFadeIn::create(kTileFadeInTime),
+                       CCMoveBy::create(kMoveTileTime * (index), ccp(0, kTileSize *( index))),
+                       NULL
+                       );
+}
+
+
 /**
  * Repair the columns one by one to fill in missing
  * tiles which got deleted due to some match
@@ -232,8 +242,9 @@ int Box::repairSingleColumn(int columnIndex)
           CCSprite *sprite = CCSprite::create(name->getCString());
           sprite->retain();
           // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
-          sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY - kTileSize/2));
-          CCFiniteTimeAction *action = CCMoveBy::create(kMoveTileTime*(i+1), ccp(0,kTileSize*(i+1)));
+          sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
+          sprite->setOpacity(0);
+          CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
           
           layer->addChild(sprite);
           sprite->runAction(action);
