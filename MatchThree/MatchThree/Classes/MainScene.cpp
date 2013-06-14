@@ -79,19 +79,43 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     
     // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
+    _selectedTile = tile;
     
-    if (_selectedTile && _selectedTile->nearTile(tile)) {
+   }
+
+/**
+ * Function to handle touch events
+ */
+void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
+{
+    if (_box->lock || !_selectedTile) {
+        return;
+    }
+    
+    CCTouch* touch = (CCTouch *) touches->anyObject();
+    CCPoint location = touch->getLocationInView();
+    location = CCDirector::sharedDirector()->convertToGL(location);
+    
+    int x = (location.x -kStartX) / kTileSize;
+    int y = (location.y -kStartY) / kTileSize;
+    
+    if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
+        return;
+    }
+    
+    // Getting the tile at location where touch was made
+    Tile2 *tile = _box->objectAtX(x, y);
+    
+    if (_selectedTile->nearTile(tile)) {
         
         // If its the second touch, do the swap!
         
         _box->lock = true;
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
-    } else {
-        _selectedTile = tile;
-        this->afterTurn(tile->sprite);
-    }
+    } 
 }
+
 
 /**
  * Change tile A with tile B

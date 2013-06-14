@@ -29,6 +29,7 @@ public:
     void backCheck(CCNode * sender, Tile2 * data);
     void check(CCNode * sender, Tile2 * data);
     void ccTouchesBegan(CCSet* touches, CCEvent* event);
+    void ccTouchesMoved(CCSet* touches, CCEvent* event);
     void afterTurn(CCSprite * node);
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )

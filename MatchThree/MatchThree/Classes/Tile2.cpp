@@ -46,3 +46,7 @@ CCPoint Tile2::pixPosition()
 {
 	return ccp(kStartX + x * kTileSize +kTileSize/2.0f,kStartY + y * kTileSize +kTileSize/2.0f);
 }
+
+bool Tile2::operator==(const Tile2 &other) const {
+    return ((other.x == x) && (other.y ==y));
+}

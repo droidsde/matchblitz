@@ -28,6 +28,7 @@ public:
     bool nearTile(Tile2 * othertile);
     void trade(Tile2 * otherTile);
     CCPoint pixPosition();
+    bool operator==(const Tile2 &other) const;
 
     CREATE_FUNC(Tile2);
 };
