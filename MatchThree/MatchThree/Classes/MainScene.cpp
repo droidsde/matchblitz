@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 
+
 using namespace cocos2d;
 using namespace CocosDenshion;
 
@@ -30,16 +31,18 @@ bool MatchThree::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     // Adding background sprite
-    CCSprite *bg = CCSprite::create("ingame_menu.png");
+    CCSprite *bg = CCSprite::create(bg_filename.c_str());
     bg->setPosition(ccp(size.width/2, size.height/2));
-   // this->addChild(bg, 0);
+    bg->setScaleX(size.width/bg->getContentSize().width);
+    bg->setScaleY(size.height/bg->getContentSize().height);
+    this->addChild(bg, 0);
 
     // Creating the Box (n x n) grid
     _box = Box::create();
     _box->retain();
-    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
     _box->layer = this;
-    _box->lock = true;
+    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
+        _box->lock = true;
     //this->setColor(ccc3(200,200,255));
     this->setTouchEnabled(true);
     
@@ -79,19 +82,43 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     
     // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
+    _selectedTile = tile;
     
-    if (_selectedTile && _selectedTile->nearTile(tile)) {
+   }
+
+/**
+ * Function to handle touch events
+ */
+void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
+{
+    if (_box->lock || !_selectedTile) {
+        return;
+    }
+    
+    CCTouch* touch = (CCTouch *) touches->anyObject();
+    CCPoint location = touch->getLocationInView();
+    location = CCDirector::sharedDirector()->convertToGL(location);
+    
+    int x = (location.x -kStartX) / kTileSize;
+    int y = (location.y -kStartY) / kTileSize;
+    
+    if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
+        return;
+    }
+    
+    // Getting the tile at location where touch was made
+    Tile2 *tile = _box->objectAtX(x, y);
+    
+    if (_selectedTile->nearTile(tile)) {
         
         // If its the second touch, do the swap!
         
         _box->lock = true;
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
-    } else {
-        _selectedTile = tile;
-        this->afterTurn(tile->sprite);
-    }
+    } 
 }
+
 
 /**
  * Change tile A with tile B

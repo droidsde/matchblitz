@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "Box.h"
 #include "Tile2.h"
+#include "common.h"
 
 USING_NS_CC;
 class MatchThree : public cocos2d::CCLayerColor
@@ -29,6 +30,7 @@ public:
     void backCheck(CCNode * sender, Tile2 * data);
     void check(CCNode * sender, Tile2 * data);
     void ccTouchesBegan(CCSet* touches, CCEvent* event);
+    void ccTouchesMoved(CCSet* touches, CCEvent* event);
     void afterTurn(CCSprite * node);
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )

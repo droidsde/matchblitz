@@ -16,6 +16,17 @@ bool Box::init()
     return true;
 }
 
+bool Box::drawBG(int x, int y){
+    CCSprite *sprite = CCSprite::create(tile_bg_filename.c_str());
+    sprite->setScale(kTileSize/sprite->getContentSize().width);
+    sprite->retain();
+    // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
+    sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
+    sprite->setOpacity(kTileBGOpacity);
+    layer->addChild(sprite);
+    return true;  // not in use for now
+}
+
 bool Box::initWithSize (CCSize aSize, int aFactor)
 {
     size = aSize;
@@ -32,6 +43,7 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 		for (int x=0; x < size.width; x++) {
 			Tile2 *tile = new Tile2();
             tile->initWithX(x, y);
+            drawBG(x, y);
             tile->autorelease();
 			rowContent->addObject(tile);
 		}
