@@ -41,6 +41,7 @@ public:
     Tile2 * second;
     CCArray *content;
     CCSet *readyToRemoveTiles;
+    bool drawBG(int x, int y);
     
     bool initWithSize(CCSize size,int factor);
     Tile2 * objectAtX (int posX, int posY);

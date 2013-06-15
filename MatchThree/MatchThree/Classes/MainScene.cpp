@@ -1,6 +1,7 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
 
+
 using namespace cocos2d;
 using namespace CocosDenshion;
 
@@ -30,16 +31,18 @@ bool MatchThree::init()
     CCSize size = CCDirector::sharedDirector()->getWinSize();
     
     // Adding background sprite
-    CCSprite *bg = CCSprite::create("ingame_menu.png");
+    CCSprite *bg = CCSprite::create(bg_filename.c_str());
     bg->setPosition(ccp(size.width/2, size.height/2));
-   // this->addChild(bg, 0);
+    bg->setScaleX(size.width/bg->getContentSize().width);
+    bg->setScaleY(size.height/bg->getContentSize().height);
+    this->addChild(bg, 0);
 
     // Creating the Box (n x n) grid
     _box = Box::create();
     _box->retain();
-    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
     _box->layer = this;
-    _box->lock = true;
+    _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
+        _box->lock = true;
     //this->setColor(ccc3(200,200,255));
     this->setTouchEnabled(true);
     

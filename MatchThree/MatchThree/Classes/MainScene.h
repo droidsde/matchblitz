@@ -3,6 +3,7 @@
 #include "cocos2d.h"
 #include "Box.h"
 #include "Tile2.h"
+#include "common.h"
 
 USING_NS_CC;
 class MatchThree : public cocos2d::CCLayerColor
