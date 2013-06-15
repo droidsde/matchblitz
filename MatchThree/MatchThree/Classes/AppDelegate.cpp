@@ -30,6 +30,11 @@ bool AppDelegate::applicationDidFinishLaunching()
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
+    
+    CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
+    CCSize screenSize = pEGLView->getFrameSize();
+    CCSize designSize = CCSize(1024,768);
+    CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionExactFit);
 
     // turn on display FPS
     pDirector->setDisplayStats(true);
@@ -42,6 +47,7 @@ bool AppDelegate::applicationDidFinishLaunching()
 
     // run
     pDirector->runWithScene(pScene);
+    pDirector->setContentScaleFactor(screenSize.height/designSize.height);
 
     return true;
 }

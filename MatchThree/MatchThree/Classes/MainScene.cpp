@@ -29,6 +29,7 @@ bool MatchThree::init()
     }
 
     CCSize size = CCDirector::sharedDirector()->getWinSize();
+    CCSize size2 = CCDirector::sharedDirector()->getWinSizeInPixels();
     
     // Adding background sprite
     CCSprite *bg = CCSprite::create(bg_filename.c_str());
