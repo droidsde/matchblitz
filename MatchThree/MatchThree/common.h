@@ -14,5 +14,6 @@
 extern std::string play_filenames[];
 extern std::string tile_bg_filename;
 extern std::string bg_filename;
+extern std::string burst_effect_filename;
 
 #endif /* defined(__MatchThree__common__) */

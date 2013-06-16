@@ -22,3 +22,4 @@ std::string play_filenames[kKindCount] = {
 std::string tile_bg_filename = "BG.png";
 //std::string bg_filename = "Blue_Sky_Green_Grass_Wide_1920x1200_1996.jpg";
 std::string bg_filename = "img1357225474.jpg";
+std::string burst_effect_filename = "burst.plist";

@@ -98,6 +98,10 @@ bool Box::check() {
                                                 );
             tile->sprite->runAction(action);
         }
+        CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
+        burst->setPosition(tile->pixPosition());
+        burst->setAutoRemoveOnFinish(true);
+        layer->addChild(burst);
     }
     
     // temp hack to empty the array of tiles which got removed
