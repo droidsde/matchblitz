@@ -226,7 +226,7 @@ CCFiniteTimeAction* Box::createPlayPieceAction(int index, int total) {
                               CCFadeIn::create(kTileFadeInTime),
                               this->createPlayPieceMovement(index),
                               NULL);
-                             }
+}
 
 
 /**
@@ -280,7 +280,12 @@ int Box::repairSingleColumn(int columnIndex)
           CCSprite *sprite = CCSprite::create(play_filenames[value-1].c_str());
           sprite->setScale(kPieceWidth/sprite->getContentSize().width);
           sprite->retain();
-          // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
+          // Generate a mipmap that should antialias bubbles edges when scaled down.
+          // Note: This only works if image size are a power of 2.
+          sprite->getTexture()->generateMipmap();
+          ccTexParams tex_params = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, GL_CLAMP_TO_EDGE };
+          sprite->getTexture()->setTexParameters(&tex_params);
+
           sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
           sprite->setOpacity(0);
           CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
