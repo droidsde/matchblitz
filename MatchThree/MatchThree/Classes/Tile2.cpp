@@ -11,6 +11,7 @@
 bool Tile2::init()
 {
     value = 99;
+    type = Normal;
     return true;
 }
 
@@ -35,10 +36,13 @@ void Tile2::trade (Tile2 * otherTile)
     this->sprite->retain();
     CCSprite *tempSprite = this->sprite;
 	int tempValue = this->value;
+    BalloonType tempType = this->type;
     this->sprite = otherTile->sprite;
 	this->value = otherTile->value;
+    this->type = otherTile->type;
 	otherTile->sprite = tempSprite;
 	otherTile->value = tempValue;
+    otherTile->type = tempType;
     tempSprite->release();
 }
 
@@ -49,4 +53,38 @@ CCPoint Tile2::pixPosition()
 
 bool Tile2::operator==(const Tile2 &other) const {
     return ((other.x == x) && (other.y ==y));
+}
+
+CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
+    CCSprite *sprite = NULL;
+    ccTexParams tex_params = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, GL_CLAMP_TO_EDGE };
+    switch (type) {
+        case Normal:
+            CCAssert(value <= kKindCount && value > 0, "Invalid color");
+            sprite = CCSprite::create(play_filenames[value - 1].c_str());
+            sprite->setScale(kPieceWidth/sprite->getContentSize().width);
+            sprite->getTexture()->generateMipmap();
+            sprite->getTexture()->setTexParameters(&tex_params);
+            break;
+            
+        case StripedVertical:
+            CCAssert(value <= kKindCount && value > 0, "Invalid color");
+            sprite = CCSprite::create(play_vstripe_filenames[value - 1].c_str());
+            sprite->setScale(kPieceWidth/sprite->getContentSize().width);
+            sprite->getTexture()->generateMipmap();
+            sprite->getTexture()->setTexParameters(&tex_params);
+            break;
+            
+        case StripedHorizontal:
+            CCAssert(value <= kKindCount && value > 0, "Invalid color");
+            sprite = CCSprite::create(play_hstripe_filenames[value - 1].c_str());
+            sprite->setScale(kPieceWidth/sprite->getContentSize().width);
+            sprite->getTexture()->generateMipmap();
+            sprite->getTexture()->setTexParameters(&tex_params);
+            break;
+            
+        default:
+            break;
+    }
+    return sprite;
 }

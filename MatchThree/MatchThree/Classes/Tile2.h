@@ -12,6 +12,16 @@
 #import "cocos2d.h"
 #import "common.h"
 
+enum BalloonType{
+	Normal,
+    StripedVertical,
+    StripedHorizontal,
+    Wrapped,
+    ColorBurst
+};
+typedef enum BalloonType BalloonType;
+
+
 USING_NS_CC;
 class Tile2 : public CCObject
 {
@@ -20,6 +30,8 @@ private:
 public:
     int x, y;
 	int value;
+    BalloonType type;
+    
 	CCSprite *sprite;
     
     virtual bool init();
@@ -28,6 +40,7 @@ public:
     bool nearTile(Tile2 * othertile);
     void trade(Tile2 * otherTile);
     CCPoint pixPosition();
+    static CCSprite* getBalloonSprite(int value, BalloonType type);
     bool operator==(const Tile2 &other) const;
 
     CREATE_FUNC(Tile2);

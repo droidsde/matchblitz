@@ -30,6 +30,7 @@ private:
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
     CCFiniteTimeAction* createPlayPieceMovement(int moves);
+    void burstTile(Tile2 *tile);
     
 public:
     bool lock;
@@ -41,6 +42,7 @@ public:
     Tile2 * second;
     CCArray *content;
     CCSet *readyToRemoveTiles;
+    CCSet *readyToChangeTiles;
     bool drawBG(int x, int y);
     
     bool initWithSize(CCSize size,int factor);
@@ -50,6 +52,7 @@ public:
     void unlock();
     void removeSprite (CCNode * sender);
     void afterAllMoveDone(CCNode * sender);
+    void repairCallback();
     bool haveMore();
     void initLayer(CCLayer * l);
     

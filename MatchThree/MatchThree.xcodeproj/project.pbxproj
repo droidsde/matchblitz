@@ -33,6 +33,9 @@
 		F598C6D9176C945E006BBEE8 /* ba_star_plain.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6C9176C945E006BBEE8 /* ba_star_plain.png */; };
 		F598C6DA176C945E006BBEE8 /* ba_star_vstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6CA176C945E006BBEE8 /* ba_star_vstripe.png */; };
 		F598C6DC176DB9E7006BBEE8 /* burst.plist in Resources */ = {isa = PBXBuildFile; fileRef = F598C6DB176DB9E7006BBEE8 /* burst.plist */; };
+		F598C6DE176DCE77006BBEE8 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6DD176DCE77006BBEE8 /* Default-568h@2x.png */; };
+		F598C6E1176DEC1F006BBEE8 /* ba_donut_hstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6DF176DEC1F006BBEE8 /* ba_donut_hstripe.png */; };
+		F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6E0176DEC1F006BBEE8 /* ba_donut_vstripe.png */; };
 		F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5A175E6B8D0064D46F /* Box.cpp */; };
 		F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5D175E6B8D0064D46F /* Tile2.cpp */; };
 		F61EA519175D196F003C4E82 /* block_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA513175D196E003C4E82 /* block_1.png */; };
@@ -330,6 +333,9 @@
 		F598C6C9176C945E006BBEE8 /* ba_star_plain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_star_plain.png; path = Resources/ba_star_plain.png; sourceTree = "<group>"; };
 		F598C6CA176C945E006BBEE8 /* ba_star_vstripe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_star_vstripe.png; path = Resources/ba_star_vstripe.png; sourceTree = "<group>"; };
 		F598C6DB176DB9E7006BBEE8 /* burst.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = burst.plist; path = Resources/burst.plist; sourceTree = "<group>"; };
+		F598C6DD176DCE77006BBEE8 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		F598C6DF176DEC1F006BBEE8 /* ba_donut_hstripe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_donut_hstripe.png; path = Resources/ba_donut_hstripe.png; sourceTree = "<group>"; };
+		F598C6E0176DEC1F006BBEE8 /* ba_donut_vstripe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_donut_vstripe.png; path = Resources/ba_donut_vstripe.png; sourceTree = "<group>"; };
 		F61B4A5A175E6B8D0064D46F /* Box.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Box.cpp; path = Classes/Box.cpp; sourceTree = "<group>"; };
 		F61B4A5B175E6B8D0064D46F /* Box.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Box.h; path = Classes/Box.h; sourceTree = "<group>"; };
 		F61B4A5C175E6B8D0064D46F /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = constants.h; path = Classes/constants.h; sourceTree = "<group>"; };
@@ -930,6 +936,7 @@
 		F6FDC34B1746374F00280CD8 = {
 			isa = PBXGroup;
 			children = (
+				F598C6DD176DCE77006BBEE8 /* Default-568h@2x.png */,
 				F6FDC3671746374F00280CD8 /* MatchThree */,
 				F6FDC3561746374F00280CD8 /* Frameworks */,
 				F6FDC3551746374F00280CD8 /* Products */,
@@ -974,6 +981,8 @@
 		F6FDC3681746374F00280CD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F598C6DF176DEC1F006BBEE8 /* ba_donut_hstripe.png */,
+				F598C6E0176DEC1F006BBEE8 /* ba_donut_vstripe.png */,
 				F598C6DB176DB9E7006BBEE8 /* burst.plist */,
 				F598C6BB176C945E006BBEE8 /* ba_diamond_hstripe.png */,
 				F598C6BC176C945E006BBEE8 /* ba_diamond_plain.png */,
@@ -2188,6 +2197,9 @@
 				F598C6D9176C945E006BBEE8 /* ba_star_plain.png in Resources */,
 				F598C6DA176C945E006BBEE8 /* ba_star_vstripe.png in Resources */,
 				F598C6DC176DB9E7006BBEE8 /* burst.plist in Resources */,
+				F598C6DE176DCE77006BBEE8 /* Default-568h@2x.png in Resources */,
+				F598C6E1176DEC1F006BBEE8 /* ba_donut_hstripe.png in Resources */,
+				F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

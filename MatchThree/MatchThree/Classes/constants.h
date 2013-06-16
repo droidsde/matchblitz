@@ -22,6 +22,7 @@
 #define kKindCount 6
 #define kTileFadeInTime 0.3f
 #define kTileBGOpacity 180 // between 0 and 255
+#define kRepairDelayTime 0.3f
 
 enum Orientation{
 	OrientationHori,

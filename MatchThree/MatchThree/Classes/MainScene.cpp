@@ -74,13 +74,24 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     CCPoint location = touch->getLocationInView();
     location = CCDirector::sharedDirector()->convertToGL(location);
     
+    this->_debugChangeToHStriped = false;
+    this->_debugChangeToVStriped = false;
+    this->_debugCycleColor = false;
+    
     int x = (location.x -kStartX) / kTileSize;
     int y = (location.y -kStartY) / kTileSize;
     
-    if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
-        return;
+    if (location.x - kStartX < 0){
+        this->_debugChangeToHStriped = true;
+    } else if (location.y - kStartY < 0) {
+         this->_debugChangeToVStriped = true;
+    } else if (x>=kBoxWidth) {
+        this->_debugCycleColor = true;
     }
     
+    if (x < 0 || y < 0 || x >= kBoxWidth || y >= kBoxHeight) {
+        return;
+    }
     // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
     _selectedTile = tile;
@@ -102,6 +113,9 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
     
     int x = (location.x -kStartX) / kTileSize;
     int y = (location.y -kStartY) / kTileSize;
+    if (x < 0 || y < 0 || x >= kBoxWidth || y >= kBoxHeight) {
+        return;
+    }
     
     if (_selectedTile && _selectedTile->x == x && _selectedTile->y == y) {
         return;
@@ -118,6 +132,38 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
     } 
+}
+
+void MatchThree::ccTouchesEnded(CCSet* touches, CCEvent* event){
+    // Debug mode:: set the tile to striped;
+    if(this->_debugChangeToHStriped || this->_debugChangeToVStriped || this->_debugCycleColor) {
+        CCTouch* touch = (CCTouch *) touches->anyObject();
+        CCPoint location = touch->getLocationInView();
+        location = CCDirector::sharedDirector()->convertToGL(location);
+        
+        int x = (location.x -kStartX) / kTileSize;
+        int y = (location.y -kStartY) / kTileSize;
+        if (x < 0 || y < 0 || x >= kBoxWidth || y >= kBoxHeight) {
+            return;
+        }
+        Tile2 *tile = _box->objectAtX(x, y);
+        if (this->_debugChangeToHStriped || this->_debugChangeToVStriped) {
+            tile->type =  (this->_debugChangeToHStriped)?StripedHorizontal:StripedVertical;
+        }
+        if (this->_debugCycleColor) {
+            // cycle through the color
+            int value = tile->value -1;
+            value = (value +1) % kKindCount;
+            tile->value = value + 1;
+        }
+        tile->sprite->setVisible(false);
+        tile->sprite = Tile2::getBalloonSprite(tile->value, tile->type);
+        tile->sprite->setPosition(tile->pixPosition());
+        _box->layer->addChild(tile->sprite);
+        
+        
+
+    }
 }
 
 

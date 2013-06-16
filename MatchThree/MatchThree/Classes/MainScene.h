@@ -14,6 +14,9 @@ private:
     Box * _box;
     Tile2 * _selectedTile;
     Tile2 * _firstOne;
+    bool _debugChangeToVStriped;
+    bool _debugChangeToHStriped;
+    bool _debugCycleColor;
     
 public:
     // Method 'init' in cocos2d-x returns bool, instead of 'id' in cocos2d-iphone (an object pointer)
@@ -31,6 +34,8 @@ public:
     void check(CCNode * sender, Tile2 * data);
     void ccTouchesBegan(CCSet* touches, CCEvent* event);
     void ccTouchesMoved(CCSet* touches, CCEvent* event);
+    void ccTouchesEnded(CCSet* touches, CCEvent* event);
+
     void afterTurn(CCSprite * node);
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
