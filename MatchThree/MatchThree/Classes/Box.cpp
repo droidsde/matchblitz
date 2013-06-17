@@ -110,7 +110,7 @@ bool Box::check() {
         if (tile->sprite) {
             CCFiniteTimeAction *action = CCSequence::create(
                                                         CCFadeOut::create(0.3f),
-                                                        CCCallFuncN::create(tile, callfuncN_selector(Box::removeSprite)),
+                                                        CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
                                                         NULL
                                                         );
             tile->sprite->runAction(action);
@@ -135,7 +135,7 @@ bool Box::check() {
         if (tile->sprite) {
             CCFiniteTimeAction *action = CCSequence::create(
                                                     CCScaleTo::create(0.3f, 0.0f),
-                                                    CCCallFuncN::create(tile, callfuncN_selector(Box::removeSprite)),
+                                                    CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
                                                     NULL
                                                 );
             tile->sprite->runAction(action);
@@ -258,7 +258,7 @@ void Box::checkWith(Orientation orient)
 void Box::removeSprite(CCNode * sender)
 {
     //TODO(ajain) fix leak
-  //    layer->removeChild( sender, true);
+    layer->removeChild( sender, true);
 }
 
 /**
