@@ -21,7 +21,7 @@
 #define kMaxRecordCount 5
 #define kKindCount 6
 #define kTileFadeInTime 0.3f
-#define kTileBGOpacity 180 // between 0 and 255
+#define kTileBGOpacity 210 // between 0 and 255
 #define kRepairDelayTime 0.3f
 
 enum Orientation{
