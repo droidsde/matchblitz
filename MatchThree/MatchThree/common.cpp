@@ -12,7 +12,7 @@
 //std::string play_filenames[kKindCount] = {"block_1.png","block_2.png","block_3.png","block_4.png"};
 
 std::string play_filenames[kKindCount] = {
-    "ba_diamond_plain.png",
+    "ba_heart_plain.png",
     "ba_donut_plain.png",
     "ba_oval_plain.png",
     "ba_peanut_plain.png",
@@ -20,7 +20,7 @@ std::string play_filenames[kKindCount] = {
     "ba_star_plain.png"
 };
 std::string play_vstripe_filenames[kKindCount] = {
-    "ba_diamond_vstripe.png",
+    "ba_heart_vstripe.png",
     "ba_donut_vstripe.png",
     "ba_oval_vstripe.png",
     "ba_peanut_vstripe.png",
@@ -28,7 +28,7 @@ std::string play_vstripe_filenames[kKindCount] = {
     "ba_star_vstripe.png"
 };
 std::string play_hstripe_filenames[kKindCount] = {
-    "ba_diamond_hstripe.png",
+    "ba_heart_hstripe.png",
     "ba_donut_hstripe.png",
     "ba_oval_hstripe.png",
     "ba_peanut_hstripe.png",
