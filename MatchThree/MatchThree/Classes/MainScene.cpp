@@ -12,7 +12,8 @@ CCScene* MatchThree::scene()
 {
     CCScene *scene = CCScene::create();
     MatchThree *layer = MatchThree::create();
-    layer->retain();
+    // layer->retain();
+    CCAssert(layer, "No layer created");
     scene->addChild(layer);                     // Adding layer to the main scene
     return scene;
 }
@@ -40,6 +41,9 @@ bool MatchThree::init()
 
     // Creating the Box (n x n) grid
     _box = Box::create();
+    if (!_box) {
+        return false;
+    }
     _box->retain();
     _box->layer = this;
     _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles

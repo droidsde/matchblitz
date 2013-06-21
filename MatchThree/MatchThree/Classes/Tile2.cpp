@@ -19,7 +19,7 @@ bool Tile2::initWithX (int posX, int posY)
 {
     this->x = posX;
 	this->y = posY;
-    this->retain();
+ //   this->retain();
     return true;
 }
 
@@ -87,4 +87,21 @@ CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
             break;
     }
     return sprite;
+}
+
+Tile2::~Tile2() {
+    CCLOG("DELETING tile at %d, %d  %s -> %p", x, y, (_debug_isOriginal)? "Old":"New", this);
+    CCAssert(!_debug_isOriginal, "Trying to delete original box tile");
+    }
+
+void Tile2::release() {
+    
+    CCLOG("Releasing tile at %d, %d  %s -> %p", x, y, (_debug_isOriginal)? "Old":"New", this);
+    
+    //gejCCAssert(!(_debug_isOriginal && (this->m_uReference + this->m_uAutoReleaseCount< 2)), "Releasing old tile to 0");
+    if (!_debug_isOriginal && (x || y)) {
+        CCLOG("Releaseing new tile");
+    }
+
+    CCObject::release();
 }

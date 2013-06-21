@@ -27,6 +27,7 @@ THE SOFTWARE.
 #include "CCAutoreleasePool.h"
 #include "ccMacros.h"
 #include "script_support/CCScriptSupport.h"
+#include <typeinfo>
 
 NS_CC_BEGIN
 
@@ -82,7 +83,8 @@ void CCObject::release(void)
     --m_uReference;
 
     if (m_uReference == 0)
-    {
+    {;
+        //CCLOG("deleting %p of type %s", this, typeid(this).name());
         delete this;
     }
 }
