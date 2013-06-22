@@ -23,6 +23,7 @@
 #define kTileFadeInTime 0.3f
 #define kTileBGOpacity 210 // between 0 and 255
 #define kRepairDelayTime 0.3f
+#define kBurstPropogationTime 0.3f // Time it takes for burst to travel;
 
 enum Orientation{
 	OrientationHori,

@@ -31,10 +31,13 @@ public:
     int x, y;
 	int value;
     BalloonType type;
+    float burstDelay;
+    bool _debug_isOriginal;
     
 	CCSprite *sprite;
     
     virtual bool init();
+    virtual void release(void);
     bool initWithX(int posX, int posY);
     
     bool nearTile(Tile2 * othertile);
@@ -42,8 +45,8 @@ public:
     CCPoint pixPosition();
     static CCSprite* getBalloonSprite(int value, BalloonType type);
     bool operator==(const Tile2 &other) const;
-
     CREATE_FUNC(Tile2);
+    ~Tile2();
 };
 
 #endif

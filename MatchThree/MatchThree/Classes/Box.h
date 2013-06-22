@@ -30,7 +30,7 @@ private:
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
     CCFiniteTimeAction* createPlayPieceMovement(int moves);
-    void burstTile(Tile2 *tile);
+    void burstTile(Tile2 *tile, float burstDelay);
     
 public:
     bool lock;
@@ -41,6 +41,7 @@ public:
     Tile2 * first;
     Tile2 * second;
     CCArray *content;
+    CCArray *delayTimeContent;
     CCSet *readyToRemoveTiles;
     CCSet *readyToChangeTiles;
     bool drawBG(int x, int y);
@@ -55,8 +56,11 @@ public:
     void repairCallback();
     bool haveMore();
     void initLayer(CCLayer * l);
+    void clearBurstDelay();
+    float getMaxBurstDelay();
     
     virtual bool init();
+    ~Box();
     CREATE_FUNC(Box);
 };
 #endif

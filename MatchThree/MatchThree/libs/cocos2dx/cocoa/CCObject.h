@@ -52,7 +52,7 @@ public:
     unsigned int        m_uID;
     // Lua reference id
     int                 m_nLuaID;
-protected:
+public:
     // count of references
     unsigned int        m_uReference;
     // count of autorelease
@@ -61,7 +61,7 @@ public:
     CCObject(void);
     virtual ~CCObject(void);
     
-    void release(void);
+    virtual void release(void);
     void retain(void);
     CCObject* autorelease(void);
     CCObject* copy(void);
