@@ -8,6 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		6B053845176EECCD00AF7473 /* Laputa_BG.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6B053844176EECCD00AF7473 /* Laputa_BG.jpg */; };
+		6B577A321775B6E0005CA080 /* ba_heart_hstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A231775B6E0005CA080 /* ba_heart_hstripe.png */; };
+		6B577A331775B6E0005CA080 /* ba_heart_plain.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A241775B6E0005CA080 /* ba_heart_plain.png */; };
+		6B577A341775B6E0005CA080 /* ba_heart_vstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A251775B6E0005CA080 /* ba_heart_vstripe.png */; };
+		6B577A351775B6E0005CA080 /* BG1.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A261775B6E0005CA080 /* BG1.png */; };
+		6B577A361775B6E0005CA080 /* BG2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A271775B6E0005CA080 /* BG2.png */; };
+		6B577A371775B6E0005CA080 /* BG3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A281775B6E0005CA080 /* BG3.png */; };
+		6B577A381775B6E0005CA080 /* BG4.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A291775B6E0005CA080 /* BG4.png */; };
+		6B577A391775B6E0005CA080 /* BG5.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2A1775B6E0005CA080 /* BG5.png */; };
+		6B577A3A1775B6E0005CA080 /* BG6.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2B1775B6E0005CA080 /* BG6.png */; };
+		6B577A3C1775B6E0005CA080 /* burst2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2D1775B6E0005CA080 /* burst2.plist */; };
+		6B577A3D1775B6E0005CA080 /* burst3.plist in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2E1775B6E0005CA080 /* burst3.plist */; };
+		6B577A3E1775B6E0005CA080 /* laputa_flying_castle.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2F1775B6E0005CA080 /* laputa_flying_castle.jpeg */; };
+		6B577A3F1775B6E0005CA080 /* laputa2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A301775B6E0005CA080 /* laputa2.png */; };
+		6B577A401775B6E0005CA080 /* laputa3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A311775B6E0005CA080 /* laputa3.png */; };
 		F512915E1763A56600821E1F /* block_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F512915D1763A56600821E1F /* block_5.png */; };
 		F51291691763A89000821E1F /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51291671763A89000821E1F /* common.cpp */; };
 		F512916E1763ABD500821E1F /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F512916A1763ABD500821E1F /* heart.png */; };
@@ -308,6 +322,20 @@
 
 /* Begin PBXFileReference section */
 		6B053844176EECCD00AF7473 /* Laputa_BG.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = Laputa_BG.jpg; path = Resources/Laputa_BG.jpg; sourceTree = "<group>"; };
+		6B577A231775B6E0005CA080 /* ba_heart_hstripe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_heart_hstripe.png; path = Resources/ba_heart_hstripe.png; sourceTree = "<group>"; };
+		6B577A241775B6E0005CA080 /* ba_heart_plain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_heart_plain.png; path = Resources/ba_heart_plain.png; sourceTree = "<group>"; };
+		6B577A251775B6E0005CA080 /* ba_heart_vstripe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_heart_vstripe.png; path = Resources/ba_heart_vstripe.png; sourceTree = "<group>"; };
+		6B577A261775B6E0005CA080 /* BG1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG1.png; path = Resources/BG1.png; sourceTree = "<group>"; };
+		6B577A271775B6E0005CA080 /* BG2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG2.png; path = Resources/BG2.png; sourceTree = "<group>"; };
+		6B577A281775B6E0005CA080 /* BG3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG3.png; path = Resources/BG3.png; sourceTree = "<group>"; };
+		6B577A291775B6E0005CA080 /* BG4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG4.png; path = Resources/BG4.png; sourceTree = "<group>"; };
+		6B577A2A1775B6E0005CA080 /* BG5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG5.png; path = Resources/BG5.png; sourceTree = "<group>"; };
+		6B577A2B1775B6E0005CA080 /* BG6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BG6.png; path = Resources/BG6.png; sourceTree = "<group>"; };
+		6B577A2D1775B6E0005CA080 /* burst2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = burst2.plist; path = Resources/burst2.plist; sourceTree = "<group>"; };
+		6B577A2E1775B6E0005CA080 /* burst3.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = burst3.plist; path = Resources/burst3.plist; sourceTree = "<group>"; };
+		6B577A2F1775B6E0005CA080 /* laputa_flying_castle.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = laputa_flying_castle.jpeg; path = Resources/laputa_flying_castle.jpeg; sourceTree = "<group>"; };
+		6B577A301775B6E0005CA080 /* laputa2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laputa2.png; path = Resources/laputa2.png; sourceTree = "<group>"; };
+		6B577A311775B6E0005CA080 /* laputa3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laputa3.png; path = Resources/laputa3.png; sourceTree = "<group>"; };
 		F512915D1763A56600821E1F /* block_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_5.png; path = Resources/block_5.png; sourceTree = "<group>"; };
 		F51291671763A89000821E1F /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		F51291681763A89000821E1F /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -983,6 +1011,20 @@
 		F6FDC3681746374F00280CD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6B577A231775B6E0005CA080 /* ba_heart_hstripe.png */,
+				6B577A241775B6E0005CA080 /* ba_heart_plain.png */,
+				6B577A251775B6E0005CA080 /* ba_heart_vstripe.png */,
+				6B577A261775B6E0005CA080 /* BG1.png */,
+				6B577A271775B6E0005CA080 /* BG2.png */,
+				6B577A281775B6E0005CA080 /* BG3.png */,
+				6B577A291775B6E0005CA080 /* BG4.png */,
+				6B577A2A1775B6E0005CA080 /* BG5.png */,
+				6B577A2B1775B6E0005CA080 /* BG6.png */,
+				6B577A2D1775B6E0005CA080 /* burst2.plist */,
+				6B577A2E1775B6E0005CA080 /* burst3.plist */,
+				6B577A2F1775B6E0005CA080 /* laputa_flying_castle.jpeg */,
+				6B577A301775B6E0005CA080 /* laputa2.png */,
+				6B577A311775B6E0005CA080 /* laputa3.png */,
 				6B053844176EECCD00AF7473 /* Laputa_BG.jpg */,
 				F598C6DF176DEC1F006BBEE8 /* ba_donut_hstripe.png */,
 				F598C6E0176DEC1F006BBEE8 /* ba_donut_vstripe.png */,
@@ -2204,6 +2246,20 @@
 				F598C6E1176DEC1F006BBEE8 /* ba_donut_hstripe.png in Resources */,
 				F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */,
 				6B053845176EECCD00AF7473 /* Laputa_BG.jpg in Resources */,
+				6B577A321775B6E0005CA080 /* ba_heart_hstripe.png in Resources */,
+				6B577A331775B6E0005CA080 /* ba_heart_plain.png in Resources */,
+				6B577A341775B6E0005CA080 /* ba_heart_vstripe.png in Resources */,
+				6B577A351775B6E0005CA080 /* BG1.png in Resources */,
+				6B577A361775B6E0005CA080 /* BG2.png in Resources */,
+				6B577A371775B6E0005CA080 /* BG3.png in Resources */,
+				6B577A381775B6E0005CA080 /* BG4.png in Resources */,
+				6B577A391775B6E0005CA080 /* BG5.png in Resources */,
+				6B577A3A1775B6E0005CA080 /* BG6.png in Resources */,
+				6B577A3C1775B6E0005CA080 /* burst2.plist in Resources */,
+				6B577A3D1775B6E0005CA080 /* burst3.plist in Resources */,
+				6B577A3E1775B6E0005CA080 /* laputa_flying_castle.jpeg in Resources */,
+				6B577A3F1775B6E0005CA080 /* laputa2.png in Resources */,
+				6B577A401775B6E0005CA080 /* laputa3.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
