@@ -143,8 +143,8 @@ bool Box::check() {
         BalloonType type= new_tile->type;
         Tile2 *tile = this->objectAtX(x, y);
         
-        CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
-        CCLOG("new_tile ref count %d ", new_tile->m_uReference);
+        //CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
+        //CCLOG("new_tile ref count %d ", new_tile->m_uReference);
         float delay = tile->burstDelay;
         if (readyToRemoveTiles->containsObject(tile)){  
             readyToRemoveTiles->removeObject(tile);
@@ -184,18 +184,10 @@ bool Box::check() {
             CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
             CCFiniteTimeAction *action = CCSequence::create(
                                                     CCDelayTime::create(tile->burstDelay),
-                                                    CCScaleTo::create(0.3f, 0.0f),
-                                                    CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                    NULL
-                                                );
+                                                    CCCallFuncND::create(this, callfuncND_selector(Box::playBurst), (void *)tile),
+                                                    NULL);
             tile->sprite->runAction(action);
-            
-            
-            // Add the balloon burst effect
-            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
-            burst->setPosition(tile->pixPosition());
-            burst->setAutoRemoveOnFinish(true);
-            layer->addChild(burst);
+ 
         }
        
     }
@@ -207,7 +199,7 @@ bool Box::check() {
 	readyToRemoveTiles->retain();
     
     CCLOG("Releasing readyToChangeTiles");
-    readyToChangeTiles->removeAllObjects();
+    //readyToChangeTiles->removeAllObjects();
     readyToChangeTiles->release();
     readyToChangeTiles = CCSet::create();
 	readyToChangeTiles->retain();
@@ -222,6 +214,27 @@ bool Box::check() {
     CCLog("-F Box::check()");
     return true;
 }
+
+void Box::playBurst(CCNode* sender, void* data) {
+    Tile2 *tile = static_cast<Tile2 *>(data);
+    CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y);
+    CCFiniteTimeAction *action = CCSequence::create(
+                                                    CCScaleTo::create(0.3f, 0.0f),
+                                                    CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                    NULL
+                                                    );
+    tile->sprite->runAction(action);
+    
+    
+    // Add the balloon burst effect
+    CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
+    burst->setPosition(tile->pixPosition());
+    burst->setAutoRemoveOnFinish(true);
+    layer->addChild(burst);
+}
+
+
+
 
 void Box::repairCallback(){
     CCLOG("+F Box::repairCallback");
@@ -290,7 +303,7 @@ void Box::checkWith(Orientation orient)
                     burstTile(tile,0.0f);
                     CCLOG("Adding change tile %d %d -> %p", new_tile->x, new_tile->y, new_tile);
 					readyToChangeTiles->addObject(new_tile);
-                    CCLOG("New_tile %p -> ref_count = %d", new_tile, new_tile->m_uReference);
+                    //CCLOG("New_tile %p -> ref_count = %d", new_tile, new_tile->m_uReference);
 				}
                 else
                 {
