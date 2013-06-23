@@ -162,6 +162,7 @@ void MatchThree::ccTouchesEnded(CCSet* touches, CCEvent* event){
         tile->sprite->setPosition(tile->pixPosition());
         _box->layer->addChild(tile->sprite);
     }
+    _selectedTile = NULL;
 }
 
 

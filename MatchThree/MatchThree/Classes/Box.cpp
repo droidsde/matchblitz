@@ -136,8 +136,33 @@ bool Box::runEffectSequence() {
         return false;       // nothing to do, no matches in current state
     }
     
+    // Go and remove the tiles which are marked for removal (due to match3+)
+    // also runs small animation on the tile sprite
+    CCSetIterator itr = readyToRemoveTiles->begin();
+    for (; itr != readyToRemoveTiles->end(); itr++) {
+        Tile2 *tile = (Tile2 *) *itr;
+        tile->value = 0;
+        if (tile->sprite) {
+            CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
+            CCFiniteTimeAction *action = CCSequence::create(
+                                                            CCDelayTime::create(tile->burstDelay),
+                                                            CCScaleTo::create(0.3f, 0.0f),
+                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                            NULL
+                                                            );
+            tile->sprite->runAction(action);
+            tile->matchType = Normal;//TODO
+            
+            // Add the balloon burst effect
+            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
+            burst->setPosition(tile->pixPosition());
+            burst->setAutoRemoveOnFinish(true);
+            layer->addChild(burst);
+        }
+    }
+    
     //Change all tiles (e.g. normal to striped balloon);
-    CCSetIterator itr = readyToChangeTiles->begin();
+    itr = readyToChangeTiles->begin();
     for (; itr != readyToChangeTiles->end(); itr++) {
         Tile2 *new_tile = (Tile2 *) *itr;
         int x = new_tile->x;
@@ -162,8 +187,6 @@ bool Box::runEffectSequence() {
             tile->sprite->runAction(action);
         }
         CCSprite *new_sprite = Tile2::getBalloonSprite(value, type);
-        //new_sprite->retain();
-        //new_sprite->autorelease();
         new_sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
         //new_sprite->setOpacity(0);
         tile->value = value;
@@ -177,31 +200,6 @@ bool Box::runEffectSequence() {
         
     }
     
-    // Go and remove the tiles which are marked for removal (due to match3+)
-    // also runs small animation on the tile sprite
-    itr = readyToRemoveTiles->begin();
-    for (; itr != readyToRemoveTiles->end(); itr++) {
-        Tile2 *tile = (Tile2 *) *itr;
-        tile->value = 0;
-        if (tile->sprite) {
-            CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
-            CCFiniteTimeAction *action = CCSequence::create(
-                                                            CCDelayTime::create(tile->burstDelay),
-                                                            CCScaleTo::create(0.3f, 0.0f),
-                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                            NULL
-                                                            );
-            tile->sprite->runAction(action);
-            
-            
-            // Add the balloon burst effect
-            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
-            burst->setPosition(tile->pixPosition());
-            burst->setAutoRemoveOnFinish(true);
-            layer->addChild(burst);
-        }
-        
-    }
     // temp hack to empty the array of tiles which got removed
     CCLOG("Releasing readyToRemoveTiles");
     //readyToRemoveTiles->removeAllObjects();
@@ -221,7 +219,7 @@ bool Box::runEffectSequence() {
                                          CCDelayTime::create(kRepairDelayTime + this->getMaxBurstDelay()),
                                          CCCallFuncN::create(this, callfuncN_selector(Box::repairCallback)), NULL));
     
-    return false;
+    return true;
 }
 
 void Box::repairCallback(){
@@ -280,53 +278,64 @@ void Box::checkWith(Orientation orient)
 	for (int i=0; i<iMax; i++) {
 		int count = 0;
 		int vv = -1;
-		first = NULL;
-		second = NULL;
+		CCArray *matches = CCArray::createWithCapacity(jMax);
+        
 		for (int j=0; j<jMax; j++) {
 			Tile2 *tile = this->objectAtX(((orient == OrientationHori)? i:j), ((orient == OrientationHori)? j :i));
+            
             if (tile->value == 0) {
+                
                 readyToRemoveTiles->addObject(tile);
-            }
-			else if(tile->value == vv)
-            {
-				count++;
-                if (count > 4) {
-					burstTile(tile, 0.0f);
-				}
-				if (count == 4) {
-                    Tile2 *new_tile = Tile2::create();
-                    new_tile->x = tile->x;
-                    new_tile->y = tile->y;
-                    new_tile->value = tile->value;
-                    new_tile->_debug_isOriginal = false;
-                    new_tile->type = (orient == OrientationHori)? StripedHorizontal: StripedVertical ;
-                    burstTile(tile,0.0f);
-                    CCLOG("Adding change tile %d %d -> %p", new_tile->x, new_tile->y, new_tile);
-					readyToChangeTiles->addObject(new_tile);
-                    CCLOG("New_tile %p -> ref_count = %d", new_tile, new_tile->m_uReference);
-				}
-                else
-                {
-					if (count == 3) {
-						burstTile(first,0.0f);
-						burstTile(second,0.0f);
-						burstTile(tile,0.0f);
-						first = NULL;
-						second = NULL;
-					}
-                    else if (count == 2) {
-						second = tile;
-					}else {
-						//
-					}
-                }
+                
+            } else if(tile->value == vv){
+                count++;
+                matches->addObject(tile);
 			} else {
+                // current streak has been broken
+                if(count == 3) {
+                    // Just a normal match3
+                    for(int i=0; i<3; i++) {
+                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
+                        obj->matchType = Normal;
+                        burstTile(obj, 0.0f);
+                    }
+                } else if (count == 4) {
+                    // Striped one
+                    int spawnX = -1;
+                    int spawnY = -1;
+                    int value = -1;
+                    BalloonType matchType = (orient == OrientationHori)? StripedHorizontal : StripedVertical;
+                    for(int i=0; i<4; i++) {
+                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
+                        obj->matchType = matchType;
+                        burstTile(obj, 0.0f);
+                        spawnX = obj->x;
+                        spawnY = obj->y;
+                        value = obj->value;
+                    }
+                    // Lets add that to the spawn array too
+                    Tile2 *new_tile = Tile2::create();
+                    new_tile->x = spawnX;
+                    new_tile->y = spawnY;
+                    new_tile->value = value;
+                    new_tile->_debug_isOriginal = false;
+                    new_tile->type = matchType;
+                    readyToChangeTiles->addObject(new_tile);
+                } else if (count > 4) {
+                    for(int i=0; i<count; i++) {
+                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
+//                        obj->matchType = matchType;
+                        burstTile(obj, 0.0f);
+                    }
+                }
+                
 				count = 1;
-				first = tile;
-				second = NULL;
+                matches->removeAllObjects();
+                matches->addObject(tile);
 				vv = tile->value;
 			}
         }
+        matches->release();
     }
     CCLOG("+F Box::checkWith()");
 }

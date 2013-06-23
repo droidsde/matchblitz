@@ -45,10 +45,9 @@ public:
     CCLayer* layer;
     
     Tile2 *OutBorderTile;
-    Tile2 * first;
-    Tile2 * second;
     CCArray *content;
     CCArray *delayTimeContent;
+    
     CCSet *readyToRemoveTiles;
     CCSet *readyToChangeTiles;
     

@@ -19,7 +19,6 @@ bool Tile2::initWithX (int posX, int posY)
 {
     this->x = posX;
 	this->y = posY;
- //   this->retain();
     return true;
 }
 

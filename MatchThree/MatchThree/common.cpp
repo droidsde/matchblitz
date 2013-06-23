@@ -35,6 +35,7 @@ std::string play_hstripe_filenames[kKindCount] = {
     "ba_square_hstripe.png",
     "ba_star_hstripe.png"
 };
+
 std::string tile_bg_filename = "BG.png";
 //std::string bg_filename = "Blue_Sky_Green_Grass_Wide_1920x1200_1996.jpg";
 std::string bg_filename = "Laputa_BG.jpg";
