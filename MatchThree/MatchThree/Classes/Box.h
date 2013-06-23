@@ -21,12 +21,19 @@
 #include "common.h"
 #include "Tile2.h"
 
+
 USING_NS_CC;
 class Box : public CCObject {
 private:
+    CCArray * effectSequence;
+    void checkWith(Orientation orient);
+    
+    bool checkTilesToClear();
+    void checkCombinations();
+    bool runEffectSequence();
     int repair();
     int repairSingleColumn(int columnIndex);
-    void checkWith(Orientation orient);
+    
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
     CCFiniteTimeAction* createPlayPieceMovement(int moves);
@@ -44,8 +51,8 @@ public:
     CCArray *delayTimeContent;
     CCSet *readyToRemoveTiles;
     CCSet *readyToChangeTiles;
-    bool drawBG(int x, int y);
     
+    bool drawBG(int x, int y);
     bool initWithSize(CCSize size,int factor);
     Tile2 * objectAtX (int posX, int posY);
     

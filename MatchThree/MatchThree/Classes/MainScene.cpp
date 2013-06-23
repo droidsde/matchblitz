@@ -98,9 +98,8 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     }
     // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
-    _selectedTile = tile;
-    
-   }
+    _selectedTile = tile;    
+}
 
 /**
  * Function to handle touch events
@@ -129,9 +128,7 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
     Tile2 *tile = _box->objectAtX(x, y);
     
     if (_selectedTile->nearTile(tile)) {
-        
         // If its the second touch, do the swap!
-        
         _box->lock = true;
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
@@ -164,9 +161,6 @@ void MatchThree::ccTouchesEnded(CCSet* touches, CCEvent* event){
         tile->sprite = Tile2::getBalloonSprite(tile->value, tile->type);
         tile->sprite->setPosition(tile->pixPosition());
         _box->layer->addChild(tile->sprite);
-        
-        
-
     }
 }
 

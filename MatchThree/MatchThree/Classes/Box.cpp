@@ -38,9 +38,6 @@ float Box::getMaxBurstDelay(){
 bool Box::drawBG(int x, int y){
     CCSprite *sprite = CCSprite::create(tile_bg_filename.c_str());
     sprite->setScale(kTileSize/sprite->getContentSize().width);
-    //sprite->retain();
-    //sprite->autorelease();
-    // sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + (kBoxHeight + i) * kTileSize + kTileSize/2));
     sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
     sprite->setOpacity(kTileBGOpacity);
     layer->addChild(sprite,0);
@@ -68,8 +65,6 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 			Tile2 *tile = new Tile2();
             tile->init();
             tile->_debug_isOriginal = true;
-            // tile->retain();
-            // tile->autorelease();
             tile->initWithX(x, y);
             drawBG(x, y);
             
@@ -77,8 +72,6 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
             int value = rand()%kKindCount + 1;
             
             CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
-            //sprite->retain();
-            //sprite->autorelease();
             sprite->setPosition(tile->pixPosition());
             tile->sprite = sprite;
             
@@ -86,10 +79,8 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
             tile->type = Normal;
             layer->addChild(sprite,1);
 
-            //tile->autorelease();
 			rowContent->addObject(tile);
 		}
-        // rowContent->retain();
 		content->addObject(rowContent);
 	}
 	
@@ -123,10 +114,22 @@ Tile2 * Box::objectAtX(int x, int y)
  * tiles
  */
 bool Box::check() {
+    bool ret = false;
     CCLog("+F Box:check()");
-    //this->clearBurstDelay();
-    this->checkWith(OrientationHori);
-    this->checkWith(OrientationVert);
+
+    this->checkTilesToClear();
+    
+    this->checkCombinations();
+    
+    ret = this->runEffectSequence();
+    
+    clearBurstDelay();
+    
+    CCLog("-F Box::check()");
+    return ret;
+}
+
+bool Box::runEffectSequence() {
     
     if (readyToRemoveTiles->count() == 0 && readyToChangeTiles->count() == 0) {
         CCLog("-F Box:check() no tiles to change/remove");
@@ -146,16 +149,16 @@ bool Box::check() {
         CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
         CCLOG("new_tile ref count %d ", new_tile->m_uReference);
         float delay = tile->burstDelay;
-        if (readyToRemoveTiles->containsObject(tile)){  
+        if (readyToRemoveTiles->containsObject(tile)){
             readyToRemoveTiles->removeObject(tile);
         }
         if (tile->sprite) {
             CCFiniteTimeAction *action = CCSequence::create(
-                                                        CCDelayTime::create(delay),
-                                                        CCFadeOut::create(0.3f),
-                                                        CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                        NULL
-                                                        );
+                                                            CCDelayTime::create(delay),
+                                                            CCFadeOut::create(0.3f),
+                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                            NULL
+                                                            );
             tile->sprite->runAction(action);
         }
         CCSprite *new_sprite = Tile2::getBalloonSprite(value, type);
@@ -183,11 +186,11 @@ bool Box::check() {
         if (tile->sprite) {
             CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
             CCFiniteTimeAction *action = CCSequence::create(
-                                                    CCDelayTime::create(tile->burstDelay),
-                                                    CCScaleTo::create(0.3f, 0.0f),
-                                                    CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                    NULL
-                                                );
+                                                            CCDelayTime::create(tile->burstDelay),
+                                                            CCScaleTo::create(0.3f, 0.0f),
+                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                            NULL
+                                                            );
             tile->sprite->runAction(action);
             
             
@@ -197,7 +200,7 @@ bool Box::check() {
             burst->setAutoRemoveOnFinish(true);
             layer->addChild(burst);
         }
-       
+        
     }
     // temp hack to empty the array of tiles which got removed
     CCLOG("Releasing readyToRemoveTiles");
@@ -218,9 +221,7 @@ bool Box::check() {
                                          CCDelayTime::create(kRepairDelayTime + this->getMaxBurstDelay()),
                                          CCCallFuncN::create(this, callfuncN_selector(Box::repairCallback)), NULL));
     
-    clearBurstDelay();
-    CCLog("-F Box::check()");
-    return true;
+    return false;
 }
 
 void Box::repairCallback(){
@@ -253,6 +254,18 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
         }
     }
     CCLOG("-F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
+}
+
+bool Box::checkTilesToClear() {
+    
+    this->checkWith(OrientationHori);
+    this->checkWith(OrientationVert);
+    
+    return false;
+}
+
+void Box::checkCombinations() {
+    
 }
 
 /**
@@ -456,7 +469,7 @@ int Box::repairSingleColumn(int columnIndex)
 
     CCLOG("-F Box::repairSingleColumn(%d)");
     return extension;
-  }
+}
 
 Box::~Box(){
      CCLOGERROR("Deleting BOX");
