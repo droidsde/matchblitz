@@ -33,6 +33,7 @@ private:
     bool runEffectSequence();
     int repair();
     int repairSingleColumn(int columnIndex);
+    void doCombinations(int count, CCArray * matches, Orientation orient);
     
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);

@@ -7,6 +7,7 @@
 //
 
 #include "Box.h"
+#include "TileMatch.h"
 
 using namespace cocos2d;
 
@@ -29,7 +30,8 @@ float Box::getMaxBurstDelay(){
     float maxDelay = 0.0f;
     for (int y=0; y<size.height; y++) {
 		for (int x=0; x < size.width; x++) {
-            maxDelay = MAX(maxDelay,this->objectAtX(x, y)->burstDelay);
+            Tile2 *tmp = this->objectAtX(x, y);
+            maxDelay = MAX(maxDelay,tmp->burstDelay);
         }
     }
     return maxDelay;
@@ -151,7 +153,6 @@ bool Box::runEffectSequence() {
                                                             NULL
                                                             );
             tile->sprite->runAction(action);
-            tile->matchType = Normal;//TODO
             
             // Add the balloon burst effect
             CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
@@ -164,6 +165,7 @@ bool Box::runEffectSequence() {
     //Change all tiles (e.g. normal to striped balloon);
     itr = readyToChangeTiles->begin();
     for (; itr != readyToChangeTiles->end(); itr++) {
+        
         Tile2 *new_tile = (Tile2 *) *itr;
         int x = new_tile->x;
         int y = new_tile->y;
@@ -281,7 +283,7 @@ void Box::checkWith(Orientation orient)
 		CCArray *matches = CCArray::createWithCapacity(jMax);
         
 		for (int j=0; j<jMax; j++) {
-			Tile2 *tile = this->objectAtX(((orient == OrientationHori)? i:j), ((orient == OrientationHori)? j :i));
+			Tile2 *tile = this->objectAtX(((orient == OrientationVert)? i:j), ((orient == OrientationVert)? j :i));
             
             if (tile->value == 0) {
                 
@@ -292,42 +294,7 @@ void Box::checkWith(Orientation orient)
                 matches->addObject(tile);
 			} else {
                 // current streak has been broken
-                if(count == 3) {
-                    // Just a normal match3
-                    for(int i=0; i<3; i++) {
-                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
-                        obj->matchType = Normal;
-                        burstTile(obj, 0.0f);
-                    }
-                } else if (count == 4) {
-                    // Striped one
-                    int spawnX = -1;
-                    int spawnY = -1;
-                    int value = -1;
-                    BalloonType matchType = (orient == OrientationHori)? StripedHorizontal : StripedVertical;
-                    for(int i=0; i<4; i++) {
-                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
-                        obj->matchType = matchType;
-                        burstTile(obj, 0.0f);
-                        spawnX = obj->x;
-                        spawnY = obj->y;
-                        value = obj->value;
-                    }
-                    // Lets add that to the spawn array too
-                    Tile2 *new_tile = Tile2::create();
-                    new_tile->x = spawnX;
-                    new_tile->y = spawnY;
-                    new_tile->value = value;
-                    new_tile->_debug_isOriginal = false;
-                    new_tile->type = matchType;
-                    readyToChangeTiles->addObject(new_tile);
-                } else if (count > 4) {
-                    for(int i=0; i<count; i++) {
-                        Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
-//                        obj->matchType = matchType;
-                        burstTile(obj, 0.0f);
-                    }
-                }
+                this->doCombinations(count, matches, orient);
                 
 				count = 1;
                 matches->removeAllObjects();
@@ -335,9 +302,99 @@ void Box::checkWith(Orientation orient)
 				vv = tile->value;
 			}
         }
+        this->doCombinations(count, matches, orient);
         matches->release();
     }
     CCLOG("+F Box::checkWith()");
+}
+
+void Box::doCombinations(int count, CCArray * matches, Orientation orient) {
+    if(count >= 3) {
+        // Striped one
+        int spawnX = -1;
+        int spawnY = -1;
+        int value = -1;
+        Tile2 * first = NULL;
+        Tile2 * new_tile = NULL;
+        
+        first = (Tile2 *) matches->objectAtIndex(0);
+        spawnX = first->x;
+        spawnY = first->y;
+        value = first->value;
+        
+        if (count == 4) {
+            BalloonType matchType = (orient == OrientationHori)? StripedHorizontal : StripedVertical;
+            
+            // Lets add that to the spawn array too
+            new_tile = Tile2::create();
+            new_tile->x = spawnX;
+            new_tile->y = spawnY;
+            new_tile->value = value;
+            new_tile->_debug_isOriginal = false;
+            new_tile->type = matchType;
+            
+        } else if (count >= 5) {
+            BalloonType matchType = ColorBurst;
+            
+            // Lets add that to the spawn array too
+            new_tile = Tile2::create();
+            new_tile->x = spawnX;
+            new_tile->y = spawnY;
+            new_tile->value = value;
+            new_tile->_debug_isOriginal = false;
+            new_tile->type = matchType;
+        }
+        
+        for(int i=0; i<count; i++) {
+            Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
+            if(orient == OrientationVert) {
+                if(readyToRemoveTiles->containsObject(obj)) {
+                    // check the match type and take decision
+                    // to spawn wrapped one instead, if possible
+                    if(obj->tileToSpawn) {
+                        if(obj->tileToSpawn->type == ColorBurst) {
+                            new_tile->release();
+                            new_tile = NULL;
+                        } else {
+                            if(new_tile != NULL) new_tile->release();
+                            readyToChangeTiles->removeObject(obj->tileToSpawn);
+                            obj->tileToSpawn->release();
+                            obj->tileToSpawn = NULL;
+                            // need to create wrapped one
+                            new_tile = Tile2::create();
+                            new_tile->x = spawnX;
+                            new_tile->y = spawnY;
+                            new_tile->value = value;
+                            new_tile->_debug_isOriginal = false;
+                            new_tile->type = Wrapped;
+                        }
+                    } else {
+                        if(new_tile != NULL) new_tile->release();
+                        // need to create wrapped one
+                        new_tile = Tile2::create();
+                        new_tile->x = spawnX;
+                        new_tile->y = spawnY;
+                        new_tile->value = value;
+                        new_tile->_debug_isOriginal = false;
+                        new_tile->type = Wrapped;
+                    }
+                }
+            }
+            burstTile(obj, 0.0f);
+        }
+        
+        // Only in the second iteration
+        if(orient == OrientationVert) {
+            for(int i=0; i<count; i++) {
+                Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
+                if(new_tile != NULL) {
+                    obj->tileToSpawn = new_tile;
+                }
+            }
+        }
+        
+        if(new_tile) readyToChangeTiles->addObject(new_tile);
+    }
 }
 
 
@@ -350,7 +407,7 @@ void Box::removeSprite(CCNode * sender)
 }
 
 /**
- * callback which gets invoked when all moves are done 
+ * callback which gets invoked when all moves are done
  * in one check() call
  */
 void Box::afterAllMoveDone(CCNode * sender)
@@ -451,30 +508,32 @@ int Box::repairSingleColumn(int columnIndex)
            
            destTile->value = tile->value;
            destTile->sprite = tile->sprite;
+           destTile->tileToSpawn = NULL;
        }
     }
 
     // Creating those extra tiles by randomly generating
     // tile types and running the animation for same
-      for (int i = extension - 1; i >= 0 ; --i) {
-          int value = rand()%kKindCount + 1;
-          //Tile2 *destTile = this->objectAtX(columnIndex, size.height-extension+i);
-          Tile2 *destTile = this->objectAtX(columnIndex, i);
+    for (int i = extension - 1; i >= 0 ; --i) {
+        int value = rand()%kKindCount + 1;
+        //Tile2 *destTile = this->objectAtX(columnIndex, size.height-extension+i);
+        Tile2 *destTile = this->objectAtX(columnIndex, i);
 
-          //destTile->retain();
-          CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
-          //sprite->retain();
-          sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
-          sprite->setOpacity(0);
-          CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
-          
-          layer->addChild(sprite);
-          sprite->runAction(action);
+        //destTile->retain();
+        CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
+        //sprite->retain();
+        sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
+        sprite->setOpacity(0);
+        CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
+        
+        layer->addChild(sprite);
+        sprite->runAction(action);
 
-          destTile->value = value;
-          destTile->type = Normal;
-          destTile->sprite = sprite;
-      }
+        destTile->value = value;
+        destTile->type = Normal;
+        destTile->sprite = sprite;
+        destTile->tileToSpawn = NULL;
+    }
 
     CCLOG("-F Box::repairSingleColumn(%d)");
     return extension;

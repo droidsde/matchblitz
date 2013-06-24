@@ -11,6 +11,7 @@
 
 #import "cocos2d.h"
 #import "common.h"
+#import "TileMatch.h"
 
 enum BalloonType{
     None,
@@ -36,8 +37,7 @@ public:
     bool _debug_isOriginal;
     
 	CCSprite *sprite;
-    BalloonType matchType;
-    
+    Tile2 * tileToSpawn;
     
     bool initWithX(int posX, int posY);
     bool nearTile(Tile2 * othertile);
@@ -50,23 +50,6 @@ public:
     virtual void release(void);
     CREATE_FUNC(Tile2);
     ~Tile2();
-};
-
-USING_NS_CC;
-class TileMatch : public CCObject
-{
-private:
-    
-public:
-    Tile2 * startTile;
-    int length;
-    Orientation direction;
-    
-    bool intersects(TileMatch *obj);
-    
-    virtual bool init();
-    CREATE_FUNC(TileMatch);
-    ~TileMatch();
 };
 
 #endif

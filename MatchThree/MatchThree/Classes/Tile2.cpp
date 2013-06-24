@@ -12,6 +12,7 @@ bool Tile2::init()
 {
     value = 99;
     type = Normal;
+    tileToSpawn = NULL;
     return true;
 }
 
@@ -73,7 +74,8 @@ CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
             sprite->getTexture()->generateMipmap();
             sprite->getTexture()->setTexParameters(&tex_params);
             break;
-            
+          
+        case Wrapped:
         case StripedHorizontal:
             CCAssert(value <= kKindCount && value > 0, "Invalid color");
             sprite = CCSprite::create(play_hstripe_filenames[value - 1].c_str());
@@ -90,8 +92,8 @@ CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
 
 Tile2::~Tile2() {
     CCLOG("DELETING tile at %d, %d  %s -> %p", x, y, (_debug_isOriginal)? "Old":"New", this);
-    CCAssert(!_debug_isOriginal, "Trying to delete original box tile");
-    }
+    //CCAssert(!_debug_isOriginal, "Trying to delete original box tile");
+}
 
 void Tile2::release() {
     
