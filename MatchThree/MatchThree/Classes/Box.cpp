@@ -10,39 +10,15 @@
 
 using namespace cocos2d;
 
+
+Box::~Box(){
+    CCLOGERROR("Deleting BOX");
+}
+
 bool Box::init()
 {
     // do initialization here
     return true;
-}
-
-void Box::clearBurstDelay(){
-    CCLog("F clearBurstDelay()");
-    for (int y=0; y<size.height; y++) {
-		for (int x=0; x < size.width; x++) {
-            this->objectAtX(x, y)->burstDelay = 0.0f;
-        }
-    }
-};
-
-float Box::getMaxBurstDelay(){
-    float maxDelay = 0.0f;
-    for (int y=0; y<size.height; y++) {
-		for (int x=0; x < size.width; x++) {
-            Tile2 *tmp = this->objectAtX(x, y);
-            maxDelay = MAX(maxDelay,tmp->burstDelay);
-        }
-    }
-    return maxDelay;
-};
-
-bool Box::drawBG(int x, int y){
-    CCSprite *sprite = CCSprite::create(tile_bg_filename.c_str());
-    sprite->setScale(kTileSize/sprite->getContentSize().width);
-    sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
-    sprite->setOpacity(kTileBGOpacity);
-    layer->addChild(sprite,0);
-    return true;  // not in use for now
 }
 
 bool Box::initWithSize (CCSize aSize, int aFactor)
@@ -94,6 +70,15 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 	return true;
 }
 
+bool Box::drawBG(int x, int y){
+    CCSprite *sprite = CCSprite::create(tile_bg_filename.c_str());
+    sprite->setScale(kTileSize/sprite->getContentSize().width);
+    sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
+    sprite->setOpacity(kTileBGOpacity);
+    layer->addChild(sprite,0);
+    return true;  // not in use for now
+}
+
 /**
  * Returns the Tile2 object (tile) at any given co-ordinates
  */
@@ -127,109 +112,6 @@ bool Box::check() {
     CCLog("-F Box::check()");
     return ret;
 }
-
-bool Box::runEffectSequence() {
-    
-    if (readyToRemoveTiles->count() == 0 && readyToChangeTiles->count() == 0) {
-        CCLog("-F Box:check() no tiles to change/remove");
-        return false;       // nothing to do, no matches in current state
-    }
-    
-    // Go and remove the tiles which are marked for removal (due to match3+)
-    // also runs small animation on the tile sprite
-    CCSetIterator itr = readyToRemoveTiles->begin();
-    for (; itr != readyToRemoveTiles->end(); itr++) {
-        Tile2 *tile = (Tile2 *) *itr;
-        tile->value = 0;
-        if (tile->sprite) {
-            CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
-            CCFiniteTimeAction *action = CCSequence::create(
-                                                            CCDelayTime::create(tile->burstDelay),
-                                                            CCScaleTo::create(0.3f, 0.0f),
-                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                            NULL
-                                                            );
-            tile->sprite->runAction(action);
-            
-            // Add the balloon burst effect
-            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
-            burst->setPosition(tile->pixPosition());
-            burst->setAutoRemoveOnFinish(true);
-            layer->addChild(burst);
-        }
-    }
-    
-    //Change all tiles (e.g. normal to striped balloon);
-    itr = readyToChangeTiles->begin();
-    for (; itr != readyToChangeTiles->end(); itr++) {
-        
-        Tile2 *new_tile = (Tile2 *) *itr;
-        int x = new_tile->x;
-        int y = new_tile->y;
-        int value = new_tile->value;
-        BalloonType type= new_tile->type;
-        Tile2 *tile = this->objectAtX(x, y);
-        
-        CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
-        CCLOG("new_tile ref count %d ", new_tile->m_uReference);
-        float delay = tile->burstDelay;
-        if (readyToRemoveTiles->containsObject(tile)){
-            readyToRemoveTiles->removeObject(tile);
-        }
-        if (tile->sprite) {
-            CCFiniteTimeAction *action = CCSequence::create(
-                                                            CCDelayTime::create(delay),
-                                                            CCFadeOut::create(0.3f),
-                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                            NULL
-                                                            );
-            tile->sprite->runAction(action);
-        }
-        CCSprite *new_sprite = Tile2::getBalloonSprite(value, type);
-        new_sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
-        //new_sprite->setOpacity(0);
-        tile->value = value;
-        tile->type = type;
-        tile->sprite = new_sprite;
-        layer->addChild(new_sprite);
-        tile->sprite->runAction(CCSequence::create(
-                                                   CCDelayTime::create(delay),
-                                                   CCFadeIn::create(0.3f),
-                                                   NULL));
-        
-    }
-    
-    // temp hack to empty the array of tiles which got removed
-    CCLOG("Releasing readyToRemoveTiles");
-    //readyToRemoveTiles->removeAllObjects();
-    readyToRemoveTiles->release();
-    readyToRemoveTiles = CCSet::create();
-	readyToRemoveTiles->retain();
-    
-    CCLOG("Releasing readyToChangeTiles");
-    readyToChangeTiles->removeAllObjects();
-    readyToChangeTiles->release();
-    readyToChangeTiles = CCSet::create();
-	readyToChangeTiles->retain();
-    
-    // REPAIR the box after matched tiles were deleted
-    CCLOG("Setting repair callback");
-    layer->runAction( CCSequence::create(
-                                         CCDelayTime::create(kRepairDelayTime + this->getMaxBurstDelay()),
-                                         CCCallFuncN::create(this, callfuncN_selector(Box::repairCallback)), NULL));
-    
-    return true;
-}
-
-void Box::repairCallback(){
-    CCLOG("+F Box::repairCallback");
-    int maxCount = this->repair();
-    layer->runAction( CCSequence::create(
-                                         CCDelayTime::create(kMoveTileTime * maxCount + 0.03f),
-                                         CCCallFuncN::create(this, callfuncN_selector(Box::afterAllMoveDone)), NULL));
-    CCLOG("-F Box::repairCallback");
-}
-
 
 void Box::burstTile(Tile2 *tile, float burstDelay) {
     CCLOG("+F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
@@ -414,39 +296,108 @@ bool Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, 
     return wrapped;
 }
 
-
-void Box::removeSprite(CCNode * sender)
-{
-    CCLOG("+F Box::removeSprite()");
-    CCAssert(layer->getChildren()->containsObject(sender), "Child doesn't exist");
-    layer->removeChild( sender, true);
-    CCLOG("-F Box::removeSprite()");
+bool Box::runEffectSequence() {
+    
+    if (readyToRemoveTiles->count() == 0 && readyToChangeTiles->count() == 0) {
+        CCLog("-F Box:check() no tiles to change/remove");
+        return false;       // nothing to do, no matches in current state
+    }
+    
+    // Go and remove the tiles which are marked for removal (due to match3+)
+    // also runs small animation on the tile sprite
+    CCSetIterator itr = readyToRemoveTiles->begin();
+    for (; itr != readyToRemoveTiles->end(); itr++) {
+        Tile2 *tile = (Tile2 *) *itr;
+        tile->value = 0;
+        if (tile->sprite) {
+            CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
+            CCFiniteTimeAction *action = CCSequence::create(
+                                                            CCDelayTime::create(tile->burstDelay),
+                                                            CCScaleTo::create(0.3f, 0.0f),
+                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                            NULL
+                                                            );
+            tile->sprite->runAction(action);
+            
+            // Add the balloon burst effect
+            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
+            burst->setPosition(tile->pixPosition());
+            burst->setAutoRemoveOnFinish(true);
+            layer->addChild(burst);
+        }
+    }
+    
+    //Change all tiles (e.g. normal to striped balloon);
+    itr = readyToChangeTiles->begin();
+    for (; itr != readyToChangeTiles->end(); itr++) {
+        
+        Tile2 *new_tile = (Tile2 *) *itr;
+        int x = new_tile->x;
+        int y = new_tile->y;
+        int value = new_tile->value;
+        BalloonType type= new_tile->type;
+        Tile2 *tile = this->objectAtX(x, y);
+        
+        CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
+        CCLOG("new_tile ref count %d ", new_tile->m_uReference);
+        float delay = tile->burstDelay;
+        if (readyToRemoveTiles->containsObject(tile)){
+            readyToRemoveTiles->removeObject(tile);
+        }
+        if (tile->sprite) {
+            CCFiniteTimeAction *action = CCSequence::create(
+                                                            CCDelayTime::create(delay),
+                                                            CCFadeOut::create(0.3f),
+                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                            NULL
+                                                            );
+            tile->sprite->runAction(action);
+        }
+        CCSprite *new_sprite = Tile2::getBalloonSprite(value, type);
+        new_sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
+        //new_sprite->setOpacity(0);
+        tile->value = value;
+        tile->type = type;
+        tile->sprite = new_sprite;
+        layer->addChild(new_sprite);
+        tile->sprite->runAction(CCSequence::create(
+                                                   CCDelayTime::create(delay),
+                                                   CCFadeIn::create(0.3f),
+                                                   NULL));
+        
+    }
+    
+    // temp hack to empty the array of tiles which got removed
+    CCLOG("Releasing readyToRemoveTiles");
+    //readyToRemoveTiles->removeAllObjects();
+    readyToRemoveTiles->release();
+    readyToRemoveTiles = CCSet::create();
+	readyToRemoveTiles->retain();
+    
+    CCLOG("Releasing readyToChangeTiles");
+    readyToChangeTiles->removeAllObjects();
+    readyToChangeTiles->release();
+    readyToChangeTiles = CCSet::create();
+	readyToChangeTiles->retain();
+    
+    // REPAIR the box after matched tiles were deleted
+    CCLOG("Setting repair callback");
+    layer->runAction( CCSequence::create(
+                                         CCDelayTime::create(kRepairDelayTime + this->getMaxBurstDelay()),
+                                         CCCallFuncN::create(this, callfuncN_selector(Box::repairCallback)), NULL));
+    
+    return true;
 }
 
-/**
- * callback which gets invoked when all moves are done
- * in one check() call
- */
-void Box::afterAllMoveDone(CCNode * sender)
-{
-    CCLOG("+F Box::afterAllMoveDone()");
-    // Check if due to the new tiles, there are more matches
-    // if yes, repeat the process otherwise unlock the box
-   if(this->check())
-   {
-     
-   }
-   else
-   {
-       this->unlock();
-   }
-   CCLOG("-F Box::afterAllMoveDone()");
+void Box::repairCallback(){
+    CCLOG("+F Box::repairCallback");
+    int maxCount = this->repair();
+    layer->runAction( CCSequence::create(
+                                         CCDelayTime::create(kMoveTileTime * maxCount + 0.03f),
+                                         CCCallFuncN::create(this, callfuncN_selector(Box::afterAllMoveDone)), NULL));
+    CCLOG("-F Box::repairCallback");
 }
 
-void Box::unlock()
-{
-   this->lock = false;
-}
 
 CCFiniteTimeAction* Box::createPlayPieceSwiggle(int moves){
     if ( 0 == moves ) {
@@ -556,6 +507,56 @@ int Box::repairSingleColumn(int columnIndex)
     return extension;
 }
 
-Box::~Box(){
-     CCLOGERROR("Deleting BOX");
+
+void Box::clearBurstDelay(){
+    CCLog("F clearBurstDelay()");
+    for (int y=0; y<size.height; y++) {
+		for (int x=0; x < size.width; x++) {
+            this->objectAtX(x, y)->burstDelay = 0.0f;
+        }
+    }
+}
+
+float Box::getMaxBurstDelay(){
+    float maxDelay = 0.0f;
+    for (int y=0; y<size.height; y++) {
+		for (int x=0; x < size.width; x++) {
+            Tile2 *tmp = this->objectAtX(x, y);
+            maxDelay = MAX(maxDelay,tmp->burstDelay);
+        }
+    }
+    return maxDelay;
+}
+
+void Box::removeSprite(CCNode * sender)
+{
+    CCLOG("+F Box::removeSprite()");
+    CCAssert(layer->getChildren()->containsObject(sender), "Child doesn't exist");
+    layer->removeChild( sender, true);
+    CCLOG("-F Box::removeSprite()");
+}
+
+/**
+ * callback which gets invoked when all moves are done
+ * in one check() call
+ */
+void Box::afterAllMoveDone(CCNode * sender)
+{
+    CCLOG("+F Box::afterAllMoveDone()");
+    // Check if due to the new tiles, there are more matches
+    // if yes, repeat the process otherwise unlock the box
+    if(this->check())
+    {
+        
+    }
+    else
+    {
+        this->unlock();
+    }
+    CCLOG("-F Box::afterAllMoveDone()");
+}
+
+void Box::unlock()
+{
+    this->lock = false;
 }
