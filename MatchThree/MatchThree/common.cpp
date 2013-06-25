@@ -36,12 +36,12 @@ std::string play_hstripe_filenames[kKindCount] = {
     "ba_star_hstripe.png"
 };
 std::string play_wrapped_filenames[kKindCount] = {
-    "ba_star_vstripe.png",
-    "ba_star_vstripe.png",
-    "ba_star_vstripe.png",
-    "ba_star_vstripe.png",
-    "ba_star_vstripe.png",
-    "ba_star_vstripe.png"
+    "ba_heart_wrapped.png",
+    "ba_donut_wrapped.png",
+    "ba_oval_wrapped.png",
+    "ba_peanut_wrapped.png",
+    "ba_square_wrapped.png",
+    "ba_star_wrapped.png"
 };
 
 std::string play_color_burst_filename = "ba_star_vstripe.png";

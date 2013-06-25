@@ -64,8 +64,10 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
     // Empty array/set to hold tiles to remove at any point in time
 	readyToRemoveTiles = CCSet::create();
     readyToChangeTiles = CCSet::create();
+    unstableTiles = CCArray::create();
 	readyToRemoveTiles->retain();
     readyToChangeTiles->retain();
+    unstableTiles->retain();
 
 	return true;
 }
@@ -197,6 +199,10 @@ bool Box::runEffectSequence() {
                                                    CCFadeIn::create(0.3f),
                                                    NULL));
         
+        if(tile->type == WrappedHalfBurst)
+            unstableTiles->addObject(tile);
+        
+        new_tile->release();
     }
     
     // temp hack to empty the array of tiles which got removed
@@ -248,13 +254,18 @@ void Box::afterAllMoveDone(CCNode * sender)
     CCLOG("+F Box::afterAllMoveDone()");
     // Check if due to the new tiles, there are more matches
     // if yes, repeat the process otherwise unlock the box
-    if(this->check())
+    if(this->check() == false)
     {
-        
-    }
-    else
-    {
-        this->unlock();
+        // All moves are done and box has come to
+        // temporary stable state, now lets check
+        // for any half burst balloon (if any)
+        if(this->checkForWrappedHalfBurst()) {
+            if(this->check() == false) {
+                this->unlock();
+            }
+        } else {
+            this->unlock();
+        }
     }
     CCLOG("-F Box::afterAllMoveDone()");
 }
@@ -286,7 +297,10 @@ void Box::checkWith(Orientation orient, int order)
 		for (int j=0; j<jMax; j++) {
 			Tile2 *tile = this->objectAtX(((orient == OrientationVert)? i:j), ((orient == OrientationVert)? j :i));
 
-            if(tile->value == vv){
+            if(tile->value == 0) {
+                readyToRemoveTiles->addObject(tile);
+            }
+            else if(tile->value == vv){
                 count++;
                 matches->addObject(tile);
 			} else {
@@ -442,7 +456,10 @@ int Box::repairSingleColumn(int columnIndex)
     // animation for the column so that new tiles can be
     // added on t
     for (int y = size.height - 1; y >=0 ; --y) {
+        bool flag = false;
         Tile2 *tile = this->objectAtX(columnIndex, y);
+        if(unstableTiles->containsObject(tile)) flag = true;
+        
         if(tile->value == 0) {
             extension++;
         } else if (extension == 0) {
@@ -456,6 +473,11 @@ int Box::repairSingleColumn(int columnIndex)
             destTile->value = tile->value;
             destTile->sprite = tile->sprite;
             destTile->tileToSpawn = NULL;
+            destTile->type = tile->type;
+            if(flag) {
+                unstableTiles->removeObject(tile);
+                unstableTiles->addObject(destTile);
+            }
         }
     }
     
@@ -463,12 +485,9 @@ int Box::repairSingleColumn(int columnIndex)
     // tile types and running the animation for same
     for (int i = extension - 1; i >= 0 ; --i) {
         int value = rand()%kKindCount + 1;
-        //Tile2 *destTile = this->objectAtX(columnIndex, size.height-extension+i);
         Tile2 *destTile = this->objectAtX(columnIndex, i);
         
-        //destTile->retain();
         CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
-        //sprite->retain();
         sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
         sprite->setOpacity(0);
         CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
@@ -492,24 +511,74 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
     if (readyToRemoveTiles->containsObject(tile)) {
         return;
     }
+    
     tile->burstDelay = burstDelay;
     readyToRemoveTiles->addObject(tile);
+    
+    // Do the chaining effect of burst action here
+    // For various special combos and power ups, behavior
+    // is controlled by the conditions below
+    
     if (tile->type == StripedHorizontal) {
         CCLOG("Horizontal burst %d,%d\n", tile->x, tile->y);
         for(int i = 0; i < size.width; ++i) {
             burstTile(this->objectAtX(i, tile->y), burstDelay + abs(tile->x - i)*kBurstPropogationTime  );
         }
-        
     } else if (tile->type == StripedVertical) {
         CCLOG("Vertical burst %d,%d\n", tile->x, tile->y);
         for(int i = 0; i < size.height; ++i) {
             burstTile(this->objectAtX(tile->x, i), burstDelay + abs(tile->y - i)*kBurstPropogationTime);
         }
-    } else if (tile->type == Wrapped) {
+    } else if (tile->type == Wrapped || tile->type == WrappedHalfBurst) {
         CCLOG("Wrapped burst %d,%d\n", tile->x, tile->y);
-        //burstTile
+        if(tile->x - 1 >= 0) {
+            if(tile->y - 1 >= 0) {
+                burstTile(this->objectAtX(tile->x-1, tile->y-1), 0.0f);
+            }
+            burstTile(this->objectAtX(tile->x-1, tile->y), 0.0f);
+            if(tile->y + 1 < kBoxHeight) {
+                burstTile(this->objectAtX(tile->x-1, tile->y+1), 0.0f);
+            }
+        }
+        if(tile->x + 1 < kBoxWidth) {
+            if(tile->y - 1 >= 0) {
+                burstTile(this->objectAtX(tile->x+1, tile->y-1), 0.0f);
+            }
+            burstTile(this->objectAtX(tile->x+1, tile->y), 0.0f);
+            if(tile->y + 1 < kBoxHeight) {
+                burstTile(this->objectAtX(tile->x+1, tile->y+1), 0.0f);
+            }
+        }
+        if(tile->y + 1 < kBoxHeight) {
+            burstTile(this->objectAtX(tile->x, tile->y+1), 0.0f);
+        }
+        if(tile->y - 1 >= 0) {
+            burstTile(this->objectAtX(tile->x, tile->y-1 ), 0.0f);
+        }
+        
+        if(tile->type == Wrapped) {
+            // Also, append the half burst one at the original location
+            Tile2 * new_tile = Tile2::create();
+            new_tile->x = tile->x;
+            new_tile->y = tile->y;
+            new_tile->value = tile->value;
+            new_tile->_debug_isOriginal = false;
+            new_tile->type = WrappedHalfBurst;
+            readyToChangeTiles->addObject(new_tile);
+        }
     }
     CCLOG("-F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
+}
+
+bool Box::checkForWrappedHalfBurst() {
+    if(unstableTiles->count() == 0) return false;
+    
+    for (int i=0; i<unstableTiles->count(); i++) {
+        Tile2 *curTile = (Tile2 *) unstableTiles->objectAtIndex(i);
+        burstTile(curTile, kHalfBurstTileDelayTime);
+    }
+    unstableTiles->removeAllObjects();
+    return true;
 }
 
 void Box::playBurst(CCNode* sender, void* data) {

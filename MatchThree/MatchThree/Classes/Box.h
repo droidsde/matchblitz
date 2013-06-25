@@ -34,6 +34,7 @@ private:
     int repairSingleColumn(int columnIndex);
     void doCombinations(int count, CCArray * matches, Orientation orient, int order);
     bool checkForWrappedCombination(Tile2 **object, Tile2 **newTileObj, int spawnX, int spawnY, int value);
+    bool checkForWrappedHalfBurst();
     
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
@@ -51,6 +52,7 @@ public:
     
     CCSet *readyToRemoveTiles;
     CCSet *readyToChangeTiles;
+    CCArray *unstableTiles;
     
     bool drawBG(int x, int y);
     bool initWithSize(CCSize size,int factor);
