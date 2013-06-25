@@ -284,7 +284,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "78"
          endingLineNumber = "78"
-         landmarkName = "Box::initWithSize (CCSize aSize, int aFactor)"
+         landmarkName = "Box::drawBG(int x, int y)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -474,9 +474,7 @@
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "141"
-         endingLineNumber = "141"
-         landmarkName = "Box::runEffectSequence()"
-         landmarkType = "5">
+         endingLineNumber = "141">
       </FileBreakpoint>
       <FileBreakpoint
          shouldBeEnabled = "No"
@@ -488,7 +486,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "166"
          endingLineNumber = "166"
-         landmarkName = "Box::runEffectSequence()"
+         landmarkName = "Box::checkWith(Orientation orient, int order)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -501,7 +499,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "167"
          endingLineNumber = "167"
-         landmarkName = "Box::runEffectSequence()"
+         landmarkName = "Box::checkWith(Orientation orient, int order)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -527,7 +525,7 @@
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "283"
          endingLineNumber = "283"
-         landmarkName = "Box::checkWith(Orientation orient, int order)"
+         landmarkName = "Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, int spawnY, int value)"
          landmarkType = "5">
       </FileBreakpoint>
       <FileBreakpoint
@@ -574,38 +572,12 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "393792624.077237"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "377"
-         endingLineNumber = "377"
-         landmarkName = "Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, int spawnY, int value)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
-         timestampString = "393792624.077237"
-         startingColumnNumber = "9223372036854775807"
-         endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "380"
-         endingLineNumber = "380"
-         landmarkName = "Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, int spawnY, int value)"
-         landmarkType = "5">
-      </FileBreakpoint>
-      <FileBreakpoint
-         shouldBeEnabled = "No"
-         ignoreCount = "0"
-         continueAfterRunningActions = "No"
-         filePath = "MatchThree/Classes/Box.cpp"
          timestampString = "393791766.998426"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
          startingLineNumber = "287"
          endingLineNumber = "287"
-         landmarkName = "Box::checkWith(Orientation orient, int order)"
+         landmarkName = "Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, int spawnY, int value)"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>
