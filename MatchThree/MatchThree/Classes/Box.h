@@ -66,6 +66,7 @@ public:
     void clearBurstDelay();
     float getMaxBurstDelay();
     
+    void playBurst(CCNode* sender, void* data);
     virtual bool init();
     ~Box();
     CREATE_FUNC(Box);
