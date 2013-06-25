@@ -75,10 +75,25 @@ CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
             sprite->getTexture()->setTexParameters(&tex_params);
             break;
           
-        case Wrapped:
         case StripedHorizontal:
             CCAssert(value <= kKindCount && value > 0, "Invalid color");
             sprite = CCSprite::create(play_hstripe_filenames[value - 1].c_str());
+            sprite->setScale(kPieceWidth/sprite->getContentSize().width);
+            sprite->getTexture()->generateMipmap();
+            sprite->getTexture()->setTexParameters(&tex_params);
+            break;
+
+        case WrappedHalfBurst:
+        case Wrapped:
+            CCAssert(value <= kKindCount && value > 0, "Invalid color");
+            sprite = CCSprite::create(play_wrapped_filenames[value - 1].c_str());
+            sprite->setScale(kPieceWidth/sprite->getContentSize().width);
+            sprite->getTexture()->generateMipmap();
+            sprite->getTexture()->setTexParameters(&tex_params);
+            break;
+    
+        case ColorBurst:
+            sprite = CCSprite::create(play_color_burst_filename.c_str());
             sprite->setScale(kPieceWidth/sprite->getContentSize().width);
             sprite->getTexture()->generateMipmap();
             sprite->getTexture()->setTexParameters(&tex_params);

@@ -45,7 +45,7 @@
 		F61EA51C175D196F003C4E82 /* block_4.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA516175D196F003C4E82 /* block_4.png */; };
 		F61EA51D175D196F003C4E82 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA517175D196F003C4E82 /* fps_images.png */; };
 		F61EA51E175D196F003C4E82 /* ingame_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA518175D196F003C4E82 /* ingame_menu.png */; };
-		F6811BBB1778890700824A40 /* TileMatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6811BBA1778890700824A40 /* TileMatch.cpp */; };
+		F6811BBD177979D500824A40 /* MatchThreeDeveloper.mobileprovision in Resources */ = {isa = PBXBuildFile; fileRef = F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */; };
 		F6FDC3581746374F00280CD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3571746374F00280CD8 /* QuartzCore.framework */; };
 		F6FDC35A1746374F00280CD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3591746374F00280CD8 /* OpenGLES.framework */; };
 		F6FDC35C1746374F00280CD8 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC35B1746374F00280CD8 /* OpenAL.framework */; };
@@ -350,8 +350,7 @@
 		F61EA516175D196F003C4E82 /* block_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_4.png; path = Resources/block_4.png; sourceTree = "<group>"; };
 		F61EA517175D196F003C4E82 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
 		F61EA518175D196F003C4E82 /* ingame_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ingame_menu.png; path = Resources/ingame_menu.png; sourceTree = "<group>"; };
-		F6811BB9177888C500824A40 /* TileMatch.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TileMatch.h; sourceTree = "<group>"; };
-		F6811BBA1778890700824A40 /* TileMatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = TileMatch.cpp; sourceTree = "<group>"; };
+		F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchThreeDeveloper.mobileprovision; sourceTree = "<group>"; };
 		F6FDC3541746374F00280CD8 /* MatchThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FDC3571746374F00280CD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F6FDC3591746374F00280CD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -941,6 +940,7 @@
 		F6FDC34B1746374F00280CD8 = {
 			isa = PBXGroup;
 			children = (
+				F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */,
 				F598C6DD176DCE77006BBEE8 /* Default-568h@2x.png */,
 				F6FDC3671746374F00280CD8 /* MatchThree */,
 				F6FDC3561746374F00280CD8 /* Frameworks */,
@@ -2105,8 +2105,6 @@
 				F6FDC6CB1746375400280CD8 /* AppDelegate.cpp */,
 				F6FDC6CD1746375400280CD8 /* MainScene.h */,
 				F6FDC6CE1746375400280CD8 /* MainScene.cpp */,
-				F6811BB9177888C500824A40 /* TileMatch.h */,
-				F6811BBA1778890700824A40 /* TileMatch.cpp */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2209,6 +2207,7 @@
 				F598C6E1176DEC1F006BBEE8 /* ba_donut_hstripe.png in Resources */,
 				F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */,
 				6B053845176EECCD00AF7473 /* Laputa_BG.jpg in Resources */,
+				F6811BBD177979D500824A40 /* MatchThreeDeveloper.mobileprovision in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2458,7 +2457,6 @@
 				F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */,
 				F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */,
 				F51291691763A89000821E1F /* common.cpp in Sources */,
-				F6811BBB1778890700824A40 /* TileMatch.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2469,8 +2467,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2493,8 +2491,8 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
+				PROVISIONING_PROFILE = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2504,8 +2502,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
@@ -2526,8 +2524,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D74A7E64-DB8B-4045-A0C0-EF5B42D448B9";
+				PROVISIONING_PROFILE = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

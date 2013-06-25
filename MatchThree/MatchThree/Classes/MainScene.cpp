@@ -10,6 +10,7 @@ using namespace CocosDenshion;
  */
 CCScene* MatchThree::scene()
 {
+    //srand(time(0));
     CCScene *scene = CCScene::create();
     MatchThree *layer = MatchThree::create();
     // layer->retain();

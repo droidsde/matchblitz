@@ -25,15 +25,15 @@
 USING_NS_CC;
 class Box : public CCObject {
 private:
-    CCArray * effectSequence;
-    void checkWith(Orientation orient);
+    void checkWith(Orientation orient, int order);
     
     bool checkTilesToClear();
     void checkCombinations();
     bool runEffectSequence();
     int repair();
     int repairSingleColumn(int columnIndex);
-    void doCombinations(int count, CCArray * matches, Orientation orient);
+    void doCombinations(int count, CCArray * matches, Orientation orient, int order);
+    bool checkForWrappedCombination(Tile2 **object, Tile2 **newTileObj, int spawnX, int spawnY, int value);
     
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);

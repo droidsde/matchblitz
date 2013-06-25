@@ -7,7 +7,6 @@
 //
 
 #include "Box.h"
-#include "TileMatch.h"
 
 using namespace cocos2d;
 
@@ -119,9 +118,7 @@ bool Box::check() {
     bool ret = false;
     CCLog("+F Box:check()");
 
-    this->checkTilesToClear();
-    
-    this->checkCombinations();
+    ret = this->checkTilesToClear();
     
     ret = this->runEffectSequence();
     
@@ -252,27 +249,27 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
         for(int i = 0; i < size.height; ++i) {
             burstTile(this->objectAtX(tile->x, i), burstDelay + abs(tile->y - i)*kBurstPropogationTime);
         }
+    } else if (tile->type == Wrapped) {
+        CCLOG("Wrapped burst %d,%d\n", tile->x, tile->y);
+        //burstTile
     }
     CCLOG("-F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
 }
 
 bool Box::checkTilesToClear() {
+    int callingOrder = 0;
     
-    this->checkWith(OrientationHori);
-    this->checkWith(OrientationVert);
+    this->checkWith(OrientationHori, ++callingOrder);
+    this->checkWith(OrientationVert, ++callingOrder);
     
     return false;
-}
-
-void Box::checkCombinations() {
-    
 }
 
 /**
  * Checks the box for potential matches
  * either horizontally or vertically
  */
-void Box::checkWith(Orientation orient)
+void Box::checkWith(Orientation orient, int order)
 {
     CCLOG("+F Box::checkWith()");
 	int iMax = (orient == OrientationHori) ? size.width: size.height;
@@ -294,7 +291,7 @@ void Box::checkWith(Orientation orient)
                 matches->addObject(tile);
 			} else {
                 // current streak has been broken
-                this->doCombinations(count, matches, orient);
+                this->doCombinations(count, matches, orient, order);
                 
 				count = 1;
                 matches->removeAllObjects();
@@ -302,13 +299,13 @@ void Box::checkWith(Orientation orient)
 				vv = tile->value;
 			}
         }
-        this->doCombinations(count, matches, orient);
+        this->doCombinations(count, matches, orient, order);
         matches->release();
     }
     CCLOG("+F Box::checkWith()");
 }
 
-void Box::doCombinations(int count, CCArray * matches, Orientation orient) {
+void Box::doCombinations(int count, CCArray * matches, Orientation orient, int order) {
     if(count >= 3) {
         // Striped one
         int spawnX = -1;
@@ -336,6 +333,9 @@ void Box::doCombinations(int count, CCArray * matches, Orientation orient) {
         } else if (count >= 5) {
             BalloonType matchType = ColorBurst;
             
+            spawnX = (orient == OrientationHori)? spawnX+2 : spawnX;
+            spawnY = (orient == OrientationVert)? spawnY+2 : spawnY;
+            
             // Lets add that to the spawn array too
             new_tile = Tile2::create();
             new_tile->x = spawnX;
@@ -347,54 +347,71 @@ void Box::doCombinations(int count, CCArray * matches, Orientation orient) {
         
         for(int i=0; i<count; i++) {
             Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
-            if(orient == OrientationVert) {
-                if(readyToRemoveTiles->containsObject(obj)) {
-                    // check the match type and take decision
-                    // to spawn wrapped one instead, if possible
-                    if(obj->tileToSpawn) {
-                        if(obj->tileToSpawn->type == ColorBurst) {
-                            new_tile->release();
-                            new_tile = NULL;
-                        } else {
-                            if(new_tile != NULL) new_tile->release();
-                            readyToChangeTiles->removeObject(obj->tileToSpawn);
-                            obj->tileToSpawn->release();
-                            obj->tileToSpawn = NULL;
-                            // need to create wrapped one
-                            new_tile = Tile2::create();
-                            new_tile->x = spawnX;
-                            new_tile->y = spawnY;
-                            new_tile->value = value;
-                            new_tile->_debug_isOriginal = false;
-                            new_tile->type = Wrapped;
-                        }
-                    } else {
-                        if(new_tile != NULL) new_tile->release();
-                        // need to create wrapped one
-                        new_tile = Tile2::create();
-                        new_tile->x = spawnX;
-                        new_tile->y = spawnY;
-                        new_tile->value = value;
-                        new_tile->_debug_isOriginal = false;
-                        new_tile->type = Wrapped;
-                    }
-                }
+            
+            // if this is the second order of match3 check
+            // also, verify if wrapped combination (T/L-shape)
+            // is possible and take action a/c
+            if(order > 1) {
+                this->checkForWrappedCombination(&obj, &new_tile, spawnX, spawnY, value);
             }
             burstTile(obj, 0.0f);
         }
         
-        // Only in the second iteration
-        if(orient == OrientationVert) {
+        // Make sure that we update the `tileToSpawn` pointer
+        // associated with tiles so that next loop can use that
+        // to figure out any bigger matches
+        if(new_tile != NULL) {
             for(int i=0; i<count; i++) {
                 Tile2 *obj = (Tile2 *)matches->objectAtIndex(i);
-                if(new_tile != NULL) {
-                    obj->tileToSpawn = new_tile;
-                }
+                obj->tileToSpawn = new_tile;
             }
         }
         
         if(new_tile) readyToChangeTiles->addObject(new_tile);
     }
+}
+
+bool Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, int spawnY, int value) {
+    bool wrapped = false;
+    
+    if(readyToRemoveTiles->containsObject(*obj)) {
+        // check the match type and take decision
+        // to spawn wrapped one instead, if possible
+        if((*obj)->tileToSpawn) {
+            if((*obj)->tileToSpawn->type == ColorBurst) {
+                (*new_tile)->release();
+                (*new_tile) = NULL;
+            } else {
+                if((*new_tile) != NULL) (*new_tile)->release();
+                if(readyToChangeTiles->containsObject((*obj)->tileToSpawn)) {
+                    readyToChangeTiles->removeObject((*obj)->tileToSpawn);
+                }
+                (*obj)->tileToSpawn->release();
+                (*obj)->tileToSpawn = NULL;
+                // need to create wrapped one
+                (*new_tile) = Tile2::create();
+                (*new_tile)->x = spawnX;
+                (*new_tile)->y = spawnY;
+                (*new_tile)->value = value;
+                (*new_tile)->_debug_isOriginal = false;
+                (*new_tile)->type = Wrapped;
+                
+                wrapped = true;
+            }
+        } else {
+            if((*new_tile) != NULL) (*new_tile)->release();
+            // need to create wrapped one
+            (*new_tile) = Tile2::create();
+            (*new_tile)->x = spawnX;
+            (*new_tile)->y = spawnY;
+            (*new_tile)->value = value;
+            (*new_tile)->_debug_isOriginal = false;
+            (*new_tile)->type = Wrapped;
+            
+            wrapped = true;
+        }
+    }
+    return wrapped;
 }
 
 
