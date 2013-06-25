@@ -17,6 +17,8 @@
 #define kBoxHeight 9
 #define kStartX 310
 #define kStartY 25
+#define kStartXAlternate 25
+#define kStartYAlternate 25
 #define kMaxLevelNo 10
 #define kMaxRecordCount 5
 #define kKindCount 6

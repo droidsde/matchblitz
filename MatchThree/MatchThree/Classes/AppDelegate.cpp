@@ -27,13 +27,32 @@ AppDelegate::~AppDelegate()
 
 bool AppDelegate::applicationDidFinishLaunching()
 {
+    int designSizeWidth = 1024;
+    int designSizeHeight = 768;
+    
+    _global = Globals::create();
+    _global->retain();
+    _global->init();
+    
     // initialize director
     CCDirector *pDirector = CCDirector::sharedDirector();
     pDirector->setOpenGLView(CCEGLView::sharedOpenGLView());
     
     CCEGLView* pEGLView = CCEGLView::sharedOpenGLView();
     CCSize screenSize = pEGLView->getFrameSize();
-    CCSize designSize = CCSize(1024,768);
+    if(screenSize.width > screenSize.height) {
+        designSizeWidth = 1024;
+        designSizeHeight = 768;
+        _global->setStartX(kStartX);
+        _global->setStartY(kStartY);
+    } else {
+        designSizeWidth = 768;
+        designSizeHeight = 1024;
+        _global->setStartX(kStartXAlternate);
+        _global->setStartY(kStartYAlternate);
+    }
+    
+    CCSize designSize = CCSize(designSizeWidth, designSizeHeight);
     CCEGLView::sharedOpenGLView()->setDesignResolutionSize(designSize.width, designSize.height, kResolutionExactFit);
 
     // turn on display FPS

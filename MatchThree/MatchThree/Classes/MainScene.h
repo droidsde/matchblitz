@@ -11,6 +11,7 @@ class MatchThree : public cocos2d::CCLayerColor
 private:
 	cocos2d::CCSpriteBatchNode * _batchNode;
     
+    CCLayer * gameBoardLayer;
     Box * _box;
     Tile2 * _selectedTile;
     Tile2 * _firstOne;

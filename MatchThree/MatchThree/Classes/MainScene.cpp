@@ -15,7 +15,7 @@ CCScene* MatchThree::scene()
     MatchThree *layer = MatchThree::create();
     // layer->retain();
     CCAssert(layer, "No layer created");
-    scene->addChild(layer);                     // Adding layer to the main scene
+    scene->addChild(layer, 0, 1000);                     // Adding layer to the main scene
     return scene;
 }
 
@@ -38,7 +38,12 @@ bool MatchThree::init()
     bg->setPosition(ccp(size.width/2, size.height/2));
     bg->setScaleX(size.width/bg->getContentSize().width);
     bg->setScaleY(size.height/bg->getContentSize().height);
-    this->addChild(bg, 0);
+    this->addChild(bg, 1, 1001);
+    
+    gameBoardLayer = CCLayer::create();
+    gameBoardLayer->retain();
+    gameBoardLayer->setPosition(ccp(_global->getStartX(), _global->getStartY()));
+    this->addChild(gameBoardLayer, 2, 1002);
 
     // Creating the Box (n x n) grid
     _box = Box::create();
@@ -46,7 +51,7 @@ bool MatchThree::init()
         return false;
     }
     _box->retain();
-    _box->layer = this;
+    _box->layer = gameBoardLayer;
     _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
         _box->lock = true;
     //this->setColor(ccc3(200,200,255));
@@ -83,12 +88,15 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     this->_debugChangeToVStriped = false;
     this->_debugCycleColor = false;
     
-    int x = (location.x -kStartX) / kTileSize;
-    int y = (location.y -kStartY) / kTileSize;
+    int globalStartX = _global->getStartX();
+    int globalStartY = _global->getStartY();
     
-    if (location.x - kStartX < 0){
+    int x = (location.x - globalStartX) / kTileSize;
+    int y = (location.y - globalStartY) / kTileSize;
+    
+    if (location.x - globalStartX < 0){
         this->_debugChangeToHStriped = true;
-    } else if (location.y - kStartY < 0) {
+    } else if (location.y - globalStartY < 0) {
          this->_debugChangeToVStriped = true;
     } else if (x>=kBoxWidth) {
         this->_debugCycleColor = true;
@@ -115,8 +123,11 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
     CCPoint location = touch->getLocationInView();
     location = CCDirector::sharedDirector()->convertToGL(location);
     
-    int x = (location.x -kStartX) / kTileSize;
-    int y = (location.y -kStartY) / kTileSize;
+    int globalStartX = _global->getStartX();
+    int globalStartY = _global->getStartY();
+    
+    int x = (location.x -globalStartX) / kTileSize;
+    int y = (location.y -globalStartY) / kTileSize;
     if (x < 0 || y < 0 || x >= kBoxWidth || y >= kBoxHeight) {
         return;
     }
@@ -143,8 +154,11 @@ void MatchThree::ccTouchesEnded(CCSet* touches, CCEvent* event){
         CCPoint location = touch->getLocationInView();
         location = CCDirector::sharedDirector()->convertToGL(location);
         
-        int x = (location.x -kStartX) / kTileSize;
-        int y = (location.y -kStartY) / kTileSize;
+        int globalStartX = _global->getStartX();
+        int globalStartY = _global->getStartY();
+        
+        int x = (location.x -globalStartX) / kTileSize;
+        int y = (location.y -globalStartY) / kTileSize;
         if (x < 0 || y < 0 || x >= kBoxWidth || y >= kBoxHeight) {
             return;
         }

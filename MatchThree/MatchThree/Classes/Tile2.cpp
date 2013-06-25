@@ -48,7 +48,7 @@ void Tile2::trade (Tile2 * otherTile)
 
 CCPoint Tile2::pixPosition()
 {
-	return ccp(kStartX + x * kTileSize +kTileSize/2.0f,kStartY + y * kTileSize +kTileSize/2.0f);
+	return ccp(x * kTileSize +kTileSize/2.0f, y * kTileSize +kTileSize/2.0f);
 }
 
 bool Tile2::operator==(const Tile2 &other) const {

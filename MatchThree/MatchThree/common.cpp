@@ -8,6 +8,8 @@
 
 #include "common.h"
 
+Globals * _global;
+
 //std::string play_filenames[kKindCount] = {"heart.png","leaf.png","round.png","star.png"};
 //std::string play_filenames[kKindCount] = {"block_1.png","block_2.png","block_3.png","block_4.png"};
 
@@ -51,3 +53,27 @@ std::string tile_bg_filename = "BG5.png";
 //std::string bg_filename = "Blue_Sky_Green_Grass_Wide_1920x1200_1996.jpg";
 std::string bg_filename = "laputa2.png";
 std::string burst_effect_filename = "burst2.plist";
+
+
+bool Globals::init()
+{
+    _startX = kStartX;
+    _startY = kStartY;
+    return true;
+}
+
+int Globals::getStartX() {
+    return _startX;
+}
+
+int Globals::getStartY() {
+    return _startY;
+}
+
+void Globals::setStartX(int x) {
+    _startX = x;
+}
+
+void Globals::setStartY(int y) {
+    _startY = y;
+}

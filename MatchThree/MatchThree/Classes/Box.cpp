@@ -75,7 +75,7 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 bool Box::drawBG(int x, int y){
     CCSprite *sprite = CCSprite::create(tile_bg_filename.c_str());
     sprite->setScale(kTileSize/sprite->getContentSize().width);
-    sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
+    sprite->setPosition(ccp(x * kTileSize + kTileSize/2, y * kTileSize + kTileSize/2));
     sprite->setOpacity(kTileBGOpacity);
     layer->addChild(sprite,0);
     return true;  // not in use for now
@@ -188,7 +188,7 @@ bool Box::runEffectSequence() {
             tile->sprite->runAction(action);
         }
         CCSprite *new_sprite = Tile2::getBalloonSprite(value, type);
-        new_sprite->setPosition(ccp(kStartX + x * kTileSize + kTileSize/2, kStartY + y * kTileSize + kTileSize/2));
+        new_sprite->setPosition(ccp(x * kTileSize + kTileSize/2, y * kTileSize + kTileSize/2));
         //new_sprite->setOpacity(0);
         tile->value = value;
         tile->type = type;
@@ -488,7 +488,7 @@ int Box::repairSingleColumn(int columnIndex)
         Tile2 *destTile = this->objectAtX(columnIndex, i);
         
         CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
-        sprite->setPosition(ccp(kStartX + columnIndex * kTileSize + kTileSize/2, kStartY + kTileSize/2));
+        sprite->setPosition(ccp(columnIndex * kTileSize + kTileSize/2, kTileSize/2));
         sprite->setOpacity(0);
         CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
         
