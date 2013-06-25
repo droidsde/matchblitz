@@ -13,14 +13,15 @@
 #import "common.h"
 
 enum BalloonType{
+    None,
 	Normal,
     StripedVertical,
     StripedHorizontal,
     Wrapped,
+    WrappedHalfBurst,
     ColorBurst
 };
 typedef enum BalloonType BalloonType;
-
 
 USING_NS_CC;
 class Tile2 : public CCObject
@@ -35,16 +36,17 @@ public:
     bool _debug_isOriginal;
     
 	CCSprite *sprite;
+    Tile2 * tileToSpawn;
     
-    virtual bool init();
-    virtual void release(void);
     bool initWithX(int posX, int posY);
-    
     bool nearTile(Tile2 * othertile);
     void trade(Tile2 * otherTile);
     CCPoint pixPosition();
     static CCSprite* getBalloonSprite(int value, BalloonType type);
     bool operator==(const Tile2 &other) const;
+
+    virtual bool init();
+    virtual void release(void);
     CREATE_FUNC(Tile2);
     ~Tile2();
 };

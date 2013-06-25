@@ -17,5 +17,7 @@ extern std::string bg_filename;
 extern std::string burst_effect_filename;
 extern std::string play_vstripe_filenames[];
 extern std::string play_hstripe_filenames[];
+extern std::string play_wrapped_filenames[];
+extern std::string play_color_burst_filename;
 
 #endif /* defined(__MatchThree__common__) */

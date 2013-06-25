@@ -21,12 +21,21 @@
 #include "common.h"
 #include "Tile2.h"
 
+
 USING_NS_CC;
 class Box : public CCObject {
 private:
+    void checkWith(Orientation orient, int order);
+    
+    bool checkTilesToClear();
+    void checkCombinations();
+    bool runEffectSequence();
     int repair();
     int repairSingleColumn(int columnIndex);
-    void checkWith(Orientation orient);
+    void doCombinations(int count, CCArray * matches, Orientation orient, int order);
+    bool checkForWrappedCombination(Tile2 **object, Tile2 **newTileObj, int spawnX, int spawnY, int value);
+    bool checkForWrappedHalfBurst();
+    
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
     CCFiniteTimeAction* createPlayPieceMovement(int moves);
@@ -38,14 +47,14 @@ public:
     CCLayer* layer;
     
     Tile2 *OutBorderTile;
-    Tile2 * first;
-    Tile2 * second;
     CCArray *content;
     CCArray *delayTimeContent;
+    
     CCSet *readyToRemoveTiles;
     CCSet *readyToChangeTiles;
-    bool drawBG(int x, int y);
+    CCArray *unstableTiles;
     
+    bool drawBG(int x, int y);
     bool initWithSize(CCSize size,int factor);
     Tile2 * objectAtX (int posX, int posY);
     

@@ -53,12 +53,20 @@
 		F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */ = {isa = PBXBuildFile; fileRef = F598C6E0176DEC1F006BBEE8 /* ba_donut_vstripe.png */; };
 		F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5A175E6B8D0064D46F /* Box.cpp */; };
 		F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F61B4A5D175E6B8D0064D46F /* Tile2.cpp */; };
+		F61C569C1779EC7F009DB0B5 /* ba_diamond_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C56951779EC7F009DB0B5 /* ba_diamond_wrapped.png */; };
+		F61C569D1779EC7F009DB0B5 /* ba_donut_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C56961779EC7F009DB0B5 /* ba_donut_wrapped.png */; };
+		F61C569E1779EC7F009DB0B5 /* ba_heart_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C56971779EC7F009DB0B5 /* ba_heart_wrapped.png */; };
+		F61C569F1779EC7F009DB0B5 /* ba_oval_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C56981779EC7F009DB0B5 /* ba_oval_wrapped.png */; };
+		F61C56A01779EC7F009DB0B5 /* ba_peanut_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C56991779EC7F009DB0B5 /* ba_peanut_wrapped.png */; };
+		F61C56A11779EC7F009DB0B5 /* ba_square_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C569A1779EC7F009DB0B5 /* ba_square_wrapped.png */; };
+		F61C56A21779EC7F009DB0B5 /* ba_star_wrapped.png in Resources */ = {isa = PBXBuildFile; fileRef = F61C569B1779EC7F009DB0B5 /* ba_star_wrapped.png */; };
 		F61EA519175D196F003C4E82 /* block_1.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA513175D196E003C4E82 /* block_1.png */; };
 		F61EA51A175D196F003C4E82 /* block_2.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA514175D196E003C4E82 /* block_2.png */; };
 		F61EA51B175D196F003C4E82 /* block_3.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA515175D196F003C4E82 /* block_3.png */; };
 		F61EA51C175D196F003C4E82 /* block_4.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA516175D196F003C4E82 /* block_4.png */; };
 		F61EA51D175D196F003C4E82 /* fps_images.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA517175D196F003C4E82 /* fps_images.png */; };
 		F61EA51E175D196F003C4E82 /* ingame_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA518175D196F003C4E82 /* ingame_menu.png */; };
+		F6811BBD177979D500824A40 /* MatchThreeDeveloper.mobileprovision in Resources */ = {isa = PBXBuildFile; fileRef = F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */; };
 		F6FDC3581746374F00280CD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3571746374F00280CD8 /* QuartzCore.framework */; };
 		F6FDC35A1746374F00280CD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3591746374F00280CD8 /* OpenGLES.framework */; };
 		F6FDC35C1746374F00280CD8 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC35B1746374F00280CD8 /* OpenAL.framework */; };
@@ -371,12 +379,20 @@
 		F61B4A5C175E6B8D0064D46F /* constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = constants.h; path = Classes/constants.h; sourceTree = "<group>"; };
 		F61B4A5D175E6B8D0064D46F /* Tile2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Tile2.cpp; path = Classes/Tile2.cpp; sourceTree = "<group>"; };
 		F61B4A5E175E6B8D0064D46F /* Tile2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Tile2.h; path = Classes/Tile2.h; sourceTree = "<group>"; };
+		F61C56951779EC7F009DB0B5 /* ba_diamond_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_diamond_wrapped.png; path = Resources/ba_diamond_wrapped.png; sourceTree = "<group>"; };
+		F61C56961779EC7F009DB0B5 /* ba_donut_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_donut_wrapped.png; path = Resources/ba_donut_wrapped.png; sourceTree = "<group>"; };
+		F61C56971779EC7F009DB0B5 /* ba_heart_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_heart_wrapped.png; path = Resources/ba_heart_wrapped.png; sourceTree = "<group>"; };
+		F61C56981779EC7F009DB0B5 /* ba_oval_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_oval_wrapped.png; path = Resources/ba_oval_wrapped.png; sourceTree = "<group>"; };
+		F61C56991779EC7F009DB0B5 /* ba_peanut_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_peanut_wrapped.png; path = Resources/ba_peanut_wrapped.png; sourceTree = "<group>"; };
+		F61C569A1779EC7F009DB0B5 /* ba_square_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_square_wrapped.png; path = Resources/ba_square_wrapped.png; sourceTree = "<group>"; };
+		F61C569B1779EC7F009DB0B5 /* ba_star_wrapped.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ba_star_wrapped.png; path = Resources/ba_star_wrapped.png; sourceTree = "<group>"; };
 		F61EA513175D196E003C4E82 /* block_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_1.png; path = Resources/block_1.png; sourceTree = "<group>"; };
 		F61EA514175D196E003C4E82 /* block_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_2.png; path = Resources/block_2.png; sourceTree = "<group>"; };
 		F61EA515175D196F003C4E82 /* block_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_3.png; path = Resources/block_3.png; sourceTree = "<group>"; };
 		F61EA516175D196F003C4E82 /* block_4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_4.png; path = Resources/block_4.png; sourceTree = "<group>"; };
 		F61EA517175D196F003C4E82 /* fps_images.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = fps_images.png; path = Resources/fps_images.png; sourceTree = "<group>"; };
 		F61EA518175D196F003C4E82 /* ingame_menu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ingame_menu.png; path = Resources/ingame_menu.png; sourceTree = "<group>"; };
+		F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchThreeDeveloper.mobileprovision; sourceTree = "<group>"; };
 		F6FDC3541746374F00280CD8 /* MatchThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FDC3571746374F00280CD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F6FDC3591746374F00280CD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -966,6 +982,7 @@
 		F6FDC34B1746374F00280CD8 = {
 			isa = PBXGroup;
 			children = (
+				F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */,
 				F598C6DD176DCE77006BBEE8 /* Default-568h@2x.png */,
 				F6FDC3671746374F00280CD8 /* MatchThree */,
 				F6FDC3561746374F00280CD8 /* Frameworks */,
@@ -1011,6 +1028,13 @@
 		F6FDC3681746374F00280CD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F61C56951779EC7F009DB0B5 /* ba_diamond_wrapped.png */,
+				F61C56961779EC7F009DB0B5 /* ba_donut_wrapped.png */,
+				F61C56971779EC7F009DB0B5 /* ba_heart_wrapped.png */,
+				F61C56981779EC7F009DB0B5 /* ba_oval_wrapped.png */,
+				F61C56991779EC7F009DB0B5 /* ba_peanut_wrapped.png */,
+				F61C569A1779EC7F009DB0B5 /* ba_square_wrapped.png */,
+				F61C569B1779EC7F009DB0B5 /* ba_star_wrapped.png */,
 				6B577A231775B6E0005CA080 /* ba_heart_hstripe.png */,
 				6B577A241775B6E0005CA080 /* ba_heart_plain.png */,
 				6B577A251775B6E0005CA080 /* ba_heart_vstripe.png */,
@@ -2246,6 +2270,7 @@
 				F598C6E1176DEC1F006BBEE8 /* ba_donut_hstripe.png in Resources */,
 				F598C6E2176DEC1F006BBEE8 /* ba_donut_vstripe.png in Resources */,
 				6B053845176EECCD00AF7473 /* Laputa_BG.jpg in Resources */,
+				F6811BBD177979D500824A40 /* MatchThreeDeveloper.mobileprovision in Resources */,
 				6B577A321775B6E0005CA080 /* ba_heart_hstripe.png in Resources */,
 				6B577A331775B6E0005CA080 /* ba_heart_plain.png in Resources */,
 				6B577A341775B6E0005CA080 /* ba_heart_vstripe.png in Resources */,
@@ -2260,6 +2285,13 @@
 				6B577A3E1775B6E0005CA080 /* laputa_flying_castle.jpeg in Resources */,
 				6B577A3F1775B6E0005CA080 /* laputa2.png in Resources */,
 				6B577A401775B6E0005CA080 /* laputa3.png in Resources */,
+				F61C569C1779EC7F009DB0B5 /* ba_diamond_wrapped.png in Resources */,
+				F61C569D1779EC7F009DB0B5 /* ba_donut_wrapped.png in Resources */,
+				F61C569E1779EC7F009DB0B5 /* ba_heart_wrapped.png in Resources */,
+				F61C569F1779EC7F009DB0B5 /* ba_oval_wrapped.png in Resources */,
+				F61C56A01779EC7F009DB0B5 /* ba_peanut_wrapped.png in Resources */,
+				F61C56A11779EC7F009DB0B5 /* ba_square_wrapped.png in Resources */,
+				F61C56A21779EC7F009DB0B5 /* ba_star_wrapped.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2519,8 +2551,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -2543,8 +2575,8 @@
 					"\"$(PROJECT_NAME)/libs/cocos2dx/platform/ios\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
-				PROVISIONING_PROFILE = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
+				PROVISIONING_PROFILE = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -2554,8 +2586,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Oliver Jones (WFU32U5VRZ)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Oliver Jones (YK82C8GZMU)";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					NDEBUG,
@@ -2576,8 +2608,8 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "A3DFBFC8-6718-4A6A-9422-FBBDB06A237C";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D74A7E64-DB8B-4045-A0C0-EF5B42D448B9";
+				PROVISIONING_PROFILE = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "B71E8475-D1B8-4B74-AE62-86B10C923E35";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
