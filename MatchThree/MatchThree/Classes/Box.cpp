@@ -145,6 +145,7 @@ bool Box::runEffectSequence() {
         tile->value = 0;
         if (tile->sprite) {
             CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
+            tile->sprite->stopAllActions();
             CCFiniteTimeAction *action = CCSequence::create(
                                                             CCDelayTime::create(tile->burstDelay),
                                                             CCScaleTo::create(0.3f, 0.0f),
@@ -199,8 +200,16 @@ bool Box::runEffectSequence() {
                                                    CCFadeIn::create(0.3f),
                                                    NULL));
         
-        if(tile->type == WrappedHalfBurst)
+        if(tile->type == WrappedHalfBurst) {
             unstableTiles->addObject(tile);
+            
+            // Also start the glowing animation on it
+            CCSequence *unstableStateAction = CCSequence::create(
+                                                                 CCScaleBy::create(0.3f, 0.8f),
+                                                                 CCScaleBy::create(0.3f, 1.25f),
+                                                                 NULL);
+            tile->sprite->runAction(CCRepeatForever::create(unstableStateAction));
+        }
         
         new_tile->release();
     }
