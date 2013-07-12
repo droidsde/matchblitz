@@ -81,11 +81,10 @@
     cocos2d::CCNode * node = director->getRunningScene()->getChildByTag(1000);
     cocos2d::CCSprite * bg = (cocos2d::CCSprite*) node->getChildByTag(1001);
     bg->setPosition(ccp(designSize.width/2, designSize.height/2));
-    bg->setScaleX(designSize.width/bg->getContentSize().width);
-    bg->setScaleY(designSize.height/bg->getContentSize().height);
+    bg->runAction(CCScaleTo::create(0.1f, designSize.width/bg->getContentSize().width, designSize.height/bg->getContentSize().height));
     
     cocos2d::CCLayer * gameLayer = (cocos2d::CCLayer*) node->getChildByTag(1002);
-    gameLayer->setPosition(ccp(_global->getStartX(), _global->getStartY()));
+    gameLayer->runAction(CCMoveTo::create(0.3f, ccp(_global->getStartX(), _global->getStartY())));
 }
 
 - (void)didReceiveMemoryWarning {
