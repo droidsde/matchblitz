@@ -53,6 +53,7 @@ std::string tile_bg_filename = "BG5.png";
 //std::string bg_filename = "Blue_Sky_Green_Grass_Wide_1920x1200_1996.jpg";
 std::string bg_filename = "laputa2.png";
 std::string burst_effect_filename = "burst2.plist";
+std::string burst_smoke_effect_filename = "burst-smoke.plist";
 
 
 bool Globals::init()

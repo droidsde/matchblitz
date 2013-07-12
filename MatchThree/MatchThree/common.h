@@ -15,7 +15,10 @@
 extern std::string play_filenames[];
 extern std::string tile_bg_filename;
 extern std::string bg_filename;
+
 extern std::string burst_effect_filename;
+extern std::string burst_smoke_effect_filename;
+
 extern std::string play_vstripe_filenames[];
 extern std::string play_hstripe_filenames[];
 extern std::string play_wrapped_filenames[];

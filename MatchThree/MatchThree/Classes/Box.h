@@ -25,24 +25,32 @@
 USING_NS_CC;
 class Box : public CCObject {
 private:
-    void checkWith(Orientation orient, int order);
+    bool _lock;
+    Tile2 * _swappedTileA;
+    Tile2 * _swappedTileB;
     
+    void checkWith(Orientation orient, int order);
     bool checkTilesToClear();
     void checkCombinations();
     bool runEffectSequence();
+    
     int repair();
     int repairSingleColumn(int columnIndex);
+    
     void doCombinations(int count, CCArray * matches, Orientation orient, int order);
     bool checkForWrappedCombination(Tile2 **object, Tile2 **newTileObj, int spawnX, int spawnY, int value);
     bool checkForWrappedHalfBurst();
+    bool checkForSpecialSwaps();
     
+    bool drawBG(int x, int y);
     CCFiniteTimeAction* createPlayPieceAction(int index, int total);
     CCFiniteTimeAction* createPlayPieceSwiggle(int moves);
     CCFiniteTimeAction* createPlayPieceMovement(int moves);
     void burstTile(Tile2 *tile, float burstDelay);
+    void vanishTile(Tile2 *tile);
+    void playBurst(CCNode* sender, void* data);
     
 public:
-    bool lock;
     CCSize size;
     CCLayer* layer;
     
@@ -54,21 +62,24 @@ public:
     CCSet *readyToChangeTiles;
     CCArray *unstableTiles;
     
-    bool drawBG(int x, int y);
     bool initWithSize(CCSize size,int factor);
     Tile2 * objectAtX (int posX, int posY);
     
-    bool check();
+    bool isLocked();
+    void lock();
     void unlock();
-    void removeSprite (CCNode * sender);
+    
+    bool check();
     void afterAllMoveDone(CCNode * sender);
     void repairCallback();
-    bool haveMore();
-    void initLayer(CCLayer * l);
+    
+    void registerSwappedTiles(Tile2 * first, Tile2 * second);
+    void deregisterSwappedTiles();
+    
+    void removeSprite (CCNode * sender);
     void clearBurstDelay();
     float getMaxBurstDelay();
     
-    void playBurst(CCNode* sender, void* data);
     virtual bool init();
     ~Box();
     CREATE_FUNC(Box);

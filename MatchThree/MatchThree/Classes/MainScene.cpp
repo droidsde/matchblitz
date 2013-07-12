@@ -53,7 +53,8 @@ bool MatchThree::init()
     _box->retain();
     _box->layer = gameBoardLayer;
     _box->initWithSize(CCSizeMake(kBoxWidth,kBoxHeight), 6);    // Initialize the grid with tiles
-        _box->lock = true;
+    _box->lock();
+    
     //this->setColor(ccc3(200,200,255));
     this->setTouchEnabled(true);
     
@@ -76,7 +77,7 @@ void MatchThree::onEnterTransitionDidFinish ()
  */
 void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
 {
-    if (_box->lock) {
+    if (_box->isLocked()) {
        return;
     }
     
@@ -115,7 +116,7 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
  */
 void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
 {
-    if (_box->lock || !_selectedTile) {
+    if (_box->isLocked() || !_selectedTile) {
         return;
     }
     
@@ -141,7 +142,7 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
     
     if (_selectedTile->nearTile(tile)) {
         // If its the second touch, do the swap!
-        _box->lock = true;
+        _box->lock();
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
         _selectedTile = NULL;
     } 
@@ -207,7 +208,8 @@ void MatchThree::backCheck(CCNode * sender, Tile2 * data)
         return;
     }
     _firstOne = NULL;
-    _box->lock = false;
+    _box->deregisterSwappedTiles();
+    _box->unlock();
 }
 
 void MatchThree::check(CCNode * sender, Tile2 * data)
@@ -216,10 +218,13 @@ void MatchThree::check(CCNode * sender, Tile2 * data)
         _firstOne = data;
         return;
     }
+    
+    _box->registerSwappedTiles(_firstOne, data);
+    
     bool result = _box->check();
     if (result)
     {
-        _box->lock = false;
+        _box->unlock();
     }
     else
     {
@@ -231,21 +236,6 @@ void MatchThree::check(CCNode * sender, Tile2 * data)
     
     _firstOne = NULL;
 }
-
-
-void MatchThree::afterTurn(CCSprite * node)
-{
-   if (_selectedTile && node == _selectedTile->sprite) {
-        CCSprite *sprite = (CCSprite *)node;
-        CCFiniteTimeAction *someAction = CCSequence::create(
-                            CCScaleBy::create(kMoveTileTime, 0.5f),
-                            CCScaleBy::create(kMoveTileTime, 2.0f),
-                            CCCallFuncN::create(this, callfuncN_selector(MatchThree::afterTurn)), NULL);
-        
-        sprite->runAction(someAction);
-    }
-}
-
 
 void MatchThree::menuCloseCallback(CCObject* pSender)
 {

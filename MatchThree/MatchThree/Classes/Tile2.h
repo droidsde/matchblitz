@@ -42,7 +42,9 @@ public:
     bool nearTile(Tile2 * othertile);
     void trade(Tile2 * otherTile);
     CCPoint pixPosition();
+    
     static CCSprite* getBalloonSprite(int value, BalloonType type);
+    static BalloonType getOpposite(BalloonType type);
     bool operator==(const Tile2 &other) const;
 
     virtual bool init();

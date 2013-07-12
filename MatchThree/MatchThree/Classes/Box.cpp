@@ -24,6 +24,9 @@ bool Box::init()
 bool Box::initWithSize (CCSize aSize, int aFactor)
 {
     size = aSize;
+    _swappedTileA = NULL;
+    _swappedTileB = NULL;
+    
     OutBorderTile = Tile2::create();
     if (!OutBorderTile) {
         return false;
@@ -123,10 +126,13 @@ bool Box::check() {
 
 bool Box::checkTilesToClear() {
     int callingOrder = 0;
-
-    this->checkWith(OrientationHori, ++callingOrder);
-    this->checkWith(OrientationVert, ++callingOrder);
-
+    
+    if(this->checkForSpecialSwaps() == false) {
+        
+        this->checkWith(OrientationHori, ++callingOrder);
+        this->checkWith(OrientationVert, ++callingOrder);
+    }
+    
     return false;
 }
 
@@ -279,9 +285,33 @@ void Box::afterAllMoveDone(CCNode * sender)
     CCLOG("-F Box::afterAllMoveDone()");
 }
 
+bool Box::isLocked()
+{
+    return this->_lock;
+}
+
+void Box::lock()
+{
+    this->_lock = true;
+}
+
 void Box::unlock()
 {
-    this->lock = false;
+    this->_lock = false;
+}
+
+void Box::registerSwappedTiles(Tile2 * first, Tile2 * second)
+{
+    if(first == NULL || second == NULL) return;
+    
+    _swappedTileA = first;
+    _swappedTileB = second;
+}
+
+void Box::deregisterSwappedTiles()
+{
+    _swappedTileA = NULL;
+    _swappedTileB = NULL;
 }
 
 /****************************************************
@@ -399,6 +429,9 @@ bool Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, 
     bool wrapped = false;
 
     if(readyToRemoveTiles->containsObject(*obj)) {
+        spawnX = (*obj)->x;
+        spawnY = (*obj)->y;
+        
         // check the match type and take decision
         // to spawn wrapped one instead, if possible
         if((*obj)->tileToSpawn) {
@@ -590,6 +623,77 @@ bool Box::checkForWrappedHalfBurst() {
     return true;
 }
 
+bool Box::checkForSpecialSwaps()
+{
+    if(_swappedTileA == NULL || _swappedTileB == NULL) return false;
+    
+    if(_swappedTileB->type == StripedVertical || _swappedTileB->type == StripedHorizontal) {
+        Tile2 *tmp = _swappedTileB;
+        _swappedTileB = _swappedTileA;
+        _swappedTileA = tmp;
+    }
+    
+    if(_swappedTileA->type == StripedHorizontal || _swappedTileA->type == StripedVertical) {
+        
+        if(_swappedTileB->type == StripedHorizontal || _swappedTileB->type == StripedVertical) {
+            // Striped ones are being swapped by the user
+            // one row and column needs to go, decide which ones.
+            burstTile(_swappedTileA, 0.0f);
+            _swappedTileB->type = Tile2::getOpposite(_swappedTileA->type);
+            burstTile(_swappedTileB, 0.0f);
+            return true;
+        }
+        
+        if(_swappedTileB->type == Wrapped) {
+            // Striped is being swapped with a wrapped one
+            // 3 rows and columns need to go, decide which ones.
+            
+            // run the zoom animation
+            // Also start the glowing animation on it
+            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y-1));
+            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y));
+            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y+1));
+            vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y-1));
+            //vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y));
+            vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y+1));
+            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y-1));
+            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y));
+            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y+1));
+
+            CCSequence *unstableStateAction = CCSequence::create(
+                                                                 CCScaleBy::create(0.5f, 1.25f),
+                                                                 NULL);
+            _swappedTileA->sprite->runAction(unstableStateAction);
+            
+            // burstTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y), 0.0f);
+            return true;
+        }
+        
+        if(_swappedTileB->type == ColorBurst) {
+            // Striped one is being swapped with color bomb
+            // need to convert tiles to striped and execute the burst one by one
+            // also, pause everything else and handle this first
+            
+            return true;
+        }
+        
+    }
+    
+    if (_swappedTileA->type == Wrapped && _swappedTileB->type == Wrapped) {
+        
+    }
+    
+    if (_swappedTileA->type == ColorBurst && _swappedTileB->type == Wrapped) {
+        
+    }
+    
+    if (_swappedTileB->type == ColorBurst && _swappedTileA->type == Wrapped) {
+        
+    }
+    
+    return false;
+}
+
 void Box::playBurst(CCNode* sender, void* data) {
     Tile2 *tile = static_cast<Tile2 *>(data);
     CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y);
@@ -612,7 +716,7 @@ CCFiniteTimeAction* Box::createPlayPieceSwiggle(int moves){
     if ( 0 == moves ) {
         return CCDelayTime::create(0.0);
     } else if ( moves <= 4) {
-        int angle = 10 + moves * 5;
+        int angle = (rand()%10) + moves * 5;
         if (rand() % 2 == 0) {
             angle *= -1;
         }
@@ -664,3 +768,14 @@ float Box::getMaxBurstDelay(){
     return maxDelay;
 }
 
+void Box::vanishTile(Tile2 * tile) {
+    if (tile->sprite) {
+        tile->sprite->stopAllActions();
+        CCFiniteTimeAction *action = CCSequence::create(
+                                                        CCScaleTo::create(0.3f, 0.0f),
+                                                        CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                                        NULL
+                                                        );
+        tile->sprite->runAction(action);
+    }
+}

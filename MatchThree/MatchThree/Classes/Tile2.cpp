@@ -55,6 +55,17 @@ bool Tile2::operator==(const Tile2 &other) const {
     return ((other.x == x) && (other.y ==y));
 }
 
+BalloonType Tile2::getOpposite(BalloonType type) {
+    switch (type) {
+        case StripedHorizontal:
+            return StripedVertical;
+        case StripedVertical:
+            return StripedHorizontal;
+        default:
+            return type;
+    }
+}
+
 CCSprite* Tile2::getBalloonSprite(int value, BalloonType type) {
     CCSprite *sprite = NULL;
     ccTexParams tex_params = { GL_LINEAR_MIPMAP_LINEAR, GL_LINEAR, GL_LINEAR_MIPMAP_LINEAR, GL_CLAMP_TO_EDGE };
