@@ -26,7 +26,7 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
     size = aSize;
     _swappedTileA = NULL;
     _swappedTileB = NULL;
-
+    
     OutBorderTile = Tile2::create();
     if (!OutBorderTile) {
         return false;
@@ -172,6 +172,9 @@ bool Box::runEffectSequence() {
             burst->setPosition(tile->pixPosition());
             burst->setAutoRemoveOnFinish(true);
             layer->addChild(burst);
+            
+            // Play pop sound on burst
+            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("fingerplop4.wav");
         }
     }
 
@@ -785,6 +788,7 @@ void Box::playBurst(CCNode* sender, void* data) {
     burst->setPosition(tile->pixPosition());
     burst->setAutoRemoveOnFinish(true);
     layer->addChild(burst);
+    
 }
 
 CCFiniteTimeAction* Box::createPlayPieceSwiggle(int moves){

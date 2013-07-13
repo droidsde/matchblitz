@@ -20,6 +20,7 @@
 #include "cocos2d.h"
 #include "common.h"
 #include "Tile2.h"
+#include "SimpleAudioEngine.h"
 
 
 USING_NS_CC;

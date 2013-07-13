@@ -22,6 +22,10 @@
 		6B577A3E1775B6E0005CA080 /* laputa_flying_castle.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A2F1775B6E0005CA080 /* laputa_flying_castle.jpeg */; };
 		6B577A3F1775B6E0005CA080 /* laputa2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A301775B6E0005CA080 /* laputa2.png */; };
 		6B577A401775B6E0005CA080 /* laputa3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6B577A311775B6E0005CA080 /* laputa3.png */; };
+		6BD626EB17916E6000A5E72C /* balloon_bounce.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6BD626E717916E6000A5E72C /* balloon_bounce.mp3 */; };
+		6BD626EC17916E6000A5E72C /* fingerplop4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BD626E817916E6000A5E72C /* fingerplop4.wav */; };
+		6BD626ED17916E6000A5E72C /* Reggae7_84.wav in Resources */ = {isa = PBXBuildFile; fileRef = 6BD626E917916E6000A5E72C /* Reggae7_84.wav */; };
+		6BD626EE17916E6000A5E72C /* swipe3.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 6BD626EA17916E6000A5E72C /* swipe3.mp3 */; };
 		F512915E1763A56600821E1F /* block_5.png in Resources */ = {isa = PBXBuildFile; fileRef = F512915D1763A56600821E1F /* block_5.png */; };
 		F51291691763A89000821E1F /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F51291671763A89000821E1F /* common.cpp */; };
 		F512916E1763ABD500821E1F /* heart.png in Resources */ = {isa = PBXBuildFile; fileRef = F512916A1763ABD500821E1F /* heart.png */; };
@@ -344,6 +348,10 @@
 		6B577A2F1775B6E0005CA080 /* laputa_flying_castle.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = laputa_flying_castle.jpeg; path = Resources/laputa_flying_castle.jpeg; sourceTree = "<group>"; };
 		6B577A301775B6E0005CA080 /* laputa2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laputa2.png; path = Resources/laputa2.png; sourceTree = "<group>"; };
 		6B577A311775B6E0005CA080 /* laputa3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = laputa3.png; path = Resources/laputa3.png; sourceTree = "<group>"; };
+		6BD626E717916E6000A5E72C /* balloon_bounce.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = balloon_bounce.mp3; path = Resources/sound/balloon_bounce.mp3; sourceTree = "<group>"; };
+		6BD626E817916E6000A5E72C /* fingerplop4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = fingerplop4.wav; path = Resources/sound/fingerplop4.wav; sourceTree = "<group>"; };
+		6BD626E917916E6000A5E72C /* Reggae7_84.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Reggae7_84.wav; path = Resources/sound/Reggae7_84.wav; sourceTree = "<group>"; };
+		6BD626EA17916E6000A5E72C /* swipe3.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = swipe3.mp3; path = Resources/sound/swipe3.mp3; sourceTree = "<group>"; };
 		F512915D1763A56600821E1F /* block_5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_5.png; path = Resources/block_5.png; sourceTree = "<group>"; };
 		F51291671763A89000821E1F /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = common.cpp; sourceTree = "<group>"; };
 		F51291681763A89000821E1F /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
@@ -1028,6 +1036,10 @@
 		F6FDC3681746374F00280CD8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6BD626E717916E6000A5E72C /* balloon_bounce.mp3 */,
+				6BD626E817916E6000A5E72C /* fingerplop4.wav */,
+				6BD626E917916E6000A5E72C /* Reggae7_84.wav */,
+				6BD626EA17916E6000A5E72C /* swipe3.mp3 */,
 				F61C56951779EC7F009DB0B5 /* ba_diamond_wrapped.png */,
 				F61C56961779EC7F009DB0B5 /* ba_donut_wrapped.png */,
 				F61C56971779EC7F009DB0B5 /* ba_heart_wrapped.png */,
@@ -2292,6 +2304,10 @@
 				F61C56A01779EC7F009DB0B5 /* ba_peanut_wrapped.png in Resources */,
 				F61C56A11779EC7F009DB0B5 /* ba_square_wrapped.png in Resources */,
 				F61C56A21779EC7F009DB0B5 /* ba_star_wrapped.png in Resources */,
+				6BD626EB17916E6000A5E72C /* balloon_bounce.mp3 in Resources */,
+				6BD626EC17916E6000A5E72C /* fingerplop4.wav in Resources */,
+				6BD626ED17916E6000A5E72C /* Reggae7_84.wav in Resources */,
+				6BD626EE17916E6000A5E72C /* swipe3.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -58,6 +58,11 @@ bool MatchThree::init()
     //this->setColor(ccc3(200,200,255));
     this->setTouchEnabled(true);
     
+    //background music
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->playBackgroundMusic("Reggae7_84.wav", true);
+    CocosDenshion::SimpleAudioEngine::sharedEngine()->setBackgroundMusicVolume(0.2f);
+
+    
     return true;
 }
 
@@ -144,6 +149,8 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
         // If its the second touch, do the swap!
         _box->lock();
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
+        // Play swipe sound
+        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("swipe3.mp3");
         _selectedTile = NULL;
     } 
 }
