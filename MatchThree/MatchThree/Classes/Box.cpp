@@ -26,7 +26,7 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
     size = aSize;
     _swappedTileA = NULL;
     _swappedTileB = NULL;
-    
+
     OutBorderTile = Tile2::create();
     if (!OutBorderTile) {
         return false;
@@ -68,9 +68,11 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 	readyToRemoveTiles = CCSet::create();
     readyToChangeTiles = CCSet::create();
     unstableTiles = CCArray::create();
+    vanishedTiles = CCSet::create();
 	readyToRemoveTiles->retain();
     readyToChangeTiles->retain();
     unstableTiles->retain();
+    vanishedTiles->retain();
 
 	return true;
 }
@@ -126,32 +128,37 @@ bool Box::check() {
 
 bool Box::checkTilesToClear() {
     int callingOrder = 0;
-    
+
     if(this->checkForSpecialSwaps() == false) {
-        
+
         this->checkWith(OrientationHori, ++callingOrder);
         this->checkWith(OrientationVert, ++callingOrder);
     }
-    
+
     return false;
 }
 
 bool Box::runEffectSequence() {
-    
+
     if (readyToRemoveTiles->count() == 0 && readyToChangeTiles->count() == 0) {
         CCLog("-F Box:check() no tiles to change/remove");
         return false;       // nothing to do, no matches in current state
     }
-    
+
     // Go and remove the tiles which are marked for removal (due to match3+)
     // also runs small animation on the tile sprite
     CCSetIterator itr = readyToRemoveTiles->begin();
     for (; itr != readyToRemoveTiles->end(); itr++) {
         Tile2 *tile = (Tile2 *) *itr;
         tile->value = 0;
+        
+        if (vanishedTiles->containsObject(tile)) {
+            continue;
+        }
+        
         if (tile->sprite) {
             CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
-            tile->sprite->stopAllActions();
+            //tile->sprite->stopAllActions();
             CCFiniteTimeAction *action = CCSequence::create(
                                                             CCDelayTime::create(tile->burstDelay),
                                                             CCScaleTo::create(0.3f, 0.0f),
@@ -159,7 +166,7 @@ bool Box::runEffectSequence() {
                                                             NULL
                                                             );
             tile->sprite->runAction(action);
-            
+
             // Add the balloon burst effect
             CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
             burst->setPosition(tile->pixPosition());
@@ -167,18 +174,18 @@ bool Box::runEffectSequence() {
             layer->addChild(burst);
         }
     }
-    
+
     //Change all tiles (e.g. normal to striped balloon);
     itr = readyToChangeTiles->begin();
     for (; itr != readyToChangeTiles->end(); itr++) {
-        
+
         Tile2 *new_tile = (Tile2 *) *itr;
         int x = new_tile->x;
         int y = new_tile->y;
         int value = new_tile->value;
         BalloonType type= new_tile->type;
         Tile2 *tile = this->objectAtX(x, y);
-        
+
         //CCLOG("Replacing tile at %d,%d | new_tile->%p org_tile->%p", x, y, new_tile, tile);
         //CCLOG("new_tile ref count %d ", new_tile->m_uReference);
         float delay = tile->burstDelay;
@@ -205,10 +212,10 @@ bool Box::runEffectSequence() {
                                                    CCDelayTime::create(delay),
                                                    CCFadeIn::create(0.3f),
                                                    NULL));
-        
+
         if(tile->type == WrappedHalfBurst) {
             unstableTiles->addObject(tile);
-            
+
             // Also start the glowing animation on it
             CCSequence *unstableStateAction = CCSequence::create(
                                                                  CCScaleBy::create(0.3f, 0.8f),
@@ -216,29 +223,34 @@ bool Box::runEffectSequence() {
                                                                  NULL);
             tile->sprite->runAction(CCRepeatForever::create(unstableStateAction));
         }
-        
+
         new_tile->release();
     }
-    
+
     // temp hack to empty the array of tiles which got removed
     CCLOG("Releasing readyToRemoveTiles");
     //readyToRemoveTiles->removeAllObjects();
     readyToRemoveTiles->release();
     readyToRemoveTiles = CCSet::create();
 	readyToRemoveTiles->retain();
-    
+
     CCLOG("Releasing readyToChangeTiles");
     //readyToChangeTiles->removeAllObjects();
     readyToChangeTiles->release();
     readyToChangeTiles = CCSet::create();
 	readyToChangeTiles->retain();
     
+    CCLOG("Releasing vanishedtiles");
+    vanishedTiles->release();
+    vanishedTiles = CCSet::create();
+    vanishedTiles->retain();
+
     // REPAIR the box after matched tiles were deleted
     CCLOG("Setting repair callback");
     layer->runAction( CCSequence::create(
                                          CCDelayTime::create(kRepairDelayTime + this->getMaxBurstDelay()),
                                          CCCallFuncN::create(this, callfuncN_selector(Box::repairCallback)), NULL));
-    
+
     return true;
 }
 
@@ -274,7 +286,7 @@ void Box::afterAllMoveDone(CCNode * sender)
         // All moves are done and box has come to
         // temporary stable state, now lets check
         // for any half burst balloon (if any)
-        if(this->checkForWrappedHalfBurst()) {
+        if(this->checkForUnstableTiles()) {
             if(this->check() == false) {
                 this->unlock();
             }
@@ -303,7 +315,7 @@ void Box::unlock()
 void Box::registerSwappedTiles(Tile2 * first, Tile2 * second)
 {
     if(first == NULL || second == NULL) return;
-    
+
     _swappedTileA = first;
     _swappedTileB = second;
 }
@@ -431,7 +443,7 @@ bool Box::checkForWrappedCombination(Tile2 **obj, Tile2 **new_tile, int spawnX, 
     if(readyToRemoveTiles->containsObject(*obj)) {
         spawnX = (*obj)->x;
         spawnY = (*obj)->y;
-        
+
         // check the match type and take decision
         // to spawn wrapped one instead, if possible
         if((*obj)->tileToSpawn) {
@@ -493,7 +505,7 @@ int Box::repairSingleColumn(int columnIndex)
 {
     CCLOG("+F Box::repairSingleColumn(%d)", columnIndex);
     int extension = 0;
-    
+
     // If there were deleted tiles then running the drop
     // animation for the column so that new tiles can be
     // added on t
@@ -501,17 +513,17 @@ int Box::repairSingleColumn(int columnIndex)
         bool flag = false;
         Tile2 *tile = this->objectAtX(columnIndex, y);
         if(unstableTiles->containsObject(tile)) flag = true;
-        
+
         if(tile->value == 0) {
             extension++;
         } else if (extension == 0) {
-            
+
         } else {
             Tile2 *destTile = this->objectAtX(columnIndex, y+extension);
-            
+
             CCFiniteTimeAction *action = this->createPlayPieceMovement(extension);
             tile->sprite->runAction(action);
-            
+
             destTile->value = tile->value;
             destTile->sprite = tile->sprite;
             destTile->tileToSpawn = NULL;
@@ -522,45 +534,59 @@ int Box::repairSingleColumn(int columnIndex)
             }
         }
     }
-    
+
     // Creating those extra tiles by randomly generating
     // tile types and running the animation for same
     for (int i = extension - 1; i >= 0 ; --i) {
         int value = rand()%kKindCount + 1;
         Tile2 *destTile = this->objectAtX(columnIndex, i);
-        
+
         CCSprite *sprite = Tile2::getBalloonSprite(value, Normal);
         sprite->setPosition(ccp(columnIndex * kTileSize + kTileSize/2, kTileSize/2));
         sprite->setOpacity(0);
         CCFiniteTimeAction *action = this->createPlayPieceAction(i, extension);
-        
+
         layer->addChild(sprite);
         sprite->runAction(action);
-        
+
         destTile->value = value;
         destTile->type = Normal;
         destTile->sprite = sprite;
         destTile->tileToSpawn = NULL;
     }
-    
+
     CCLOG("-F Box::repairSingleColumn(%d)");
     return extension;
 }
 
 
 void Box::burstTile(Tile2 *tile, float burstDelay) {
+    if(tile && tile->x == OutBorderTile->x && tile->y == OutBorderTile->y) {
+		return;
+	}
     CCLOG("+F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
-    if (readyToRemoveTiles->containsObject(tile)) {
+
+	if (readyToRemoveTiles->containsObject(tile)) {
         return;
     }
     
+    // Making sure that the current bursting tile is being
+    // removed from unstable list as well so that it doesnt
+    // burst in the next iterations.
+    //
+    if(unstableTiles->containsObject(tile)) {
+        unstableTiles->removeObject(tile);
+    }
+
     tile->burstDelay = burstDelay;
     readyToRemoveTiles->addObject(tile);
     
+    if(vanishedTiles->containsObject(tile)) return;
+
     // Do the chaining effect of burst action here
     // For various special combos and power ups, behavior
     // is controlled by the conditions below
-    
+
     if (tile->type == StripedHorizontal) {
         CCLOG("Horizontal burst %d,%d\n", tile->x, tile->y);
         for(int i = 0; i < size.width; ++i) {
@@ -597,7 +623,7 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
         if(tile->y - 1 >= 0) {
             burstTile(this->objectAtX(tile->x, tile->y-1 ), 0.0f);
         }
-        
+
         if(tile->type == Wrapped) {
             // Also, append the half burst one at the original location
             Tile2 * new_tile = Tile2::create();
@@ -612,29 +638,34 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
     CCLOG("-F Box::burstTile tile %d,%d with delay %f", tile->x, tile->y, burstDelay);
 }
 
-bool Box::checkForWrappedHalfBurst() {
+bool Box::checkForUnstableTiles() {
     if(unstableTiles->count() == 0) return false;
+
+    Tile2 *curTile = (Tile2 *) unstableTiles->objectAtIndex(0);
+    burstTile(curTile, kHalfBurstTileDelayTime);
+    unstableTiles->removeObject(curTile);
     
-    for (int i=0; i<unstableTiles->count(); i++) {
-        Tile2 *curTile = (Tile2 *) unstableTiles->objectAtIndex(i);
-        burstTile(curTile, kHalfBurstTileDelayTime);
-    }
-    unstableTiles->removeAllObjects();
-    return true;
+return true;
 }
 
 bool Box::checkForSpecialSwaps()
 {
     if(_swappedTileA == NULL || _swappedTileB == NULL) return false;
-    
+
+	// Make sure that the swappedTileA is always Striped Balloon if possible
+	// because that will be used to decide the position of animation/effects
+	// that will be run due to special combo match.
     if(_swappedTileB->type == StripedVertical || _swappedTileB->type == StripedHorizontal) {
         Tile2 *tmp = _swappedTileB;
         _swappedTileB = _swappedTileA;
         _swappedTileA = tmp;
     }
-    
+
     if(_swappedTileA->type == StripedHorizontal || _swappedTileA->type == StripedVertical) {
-        
+
+        /**
+         * STRIPED + STRIPED
+         */
         if(_swappedTileB->type == StripedHorizontal || _swappedTileB->type == StripedVertical) {
             // Striped ones are being swapped by the user
             // one row and column needs to go, decide which ones.
@@ -643,52 +674,96 @@ bool Box::checkForSpecialSwaps()
             burstTile(_swappedTileB, 0.0f);
             return true;
         }
-        
+
+        /**
+         * STRIPED + WRAPPED
+         */
         if(_swappedTileB->type == Wrapped) {
             // Striped is being swapped with a wrapped one
             // 3 rows and columns need to go, decide which ones.
-            
+
             // run the zoom animation
             // Also start the glowing animation on it
-            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y-1));
-            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y));
-            vanishTile(this->objectAtX(_swappedTileB->x-1, _swappedTileB->y+1));
-            vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y-1));
-            //vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y));
-            vanishTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y+1));
-            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y-1));
-            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y));
-            vanishTile(this->objectAtX(_swappedTileB->x+1, _swappedTileB->y+1));
-
-            CCSequence *unstableStateAction = CCSequence::create(
-                                                                 CCScaleBy::create(0.5f, 1.25f),
-                                                                 NULL);
-            _swappedTileA->sprite->runAction(unstableStateAction);
+            for(int i=_swappedTileA->x-1; i<=_swappedTileA->x+1; i++) {
+				for(int j=_swappedTileA->y-1; j<=_swappedTileA->y+1; j++) {
+                    Tile2 *tmp = this->objectAtX(i, j);
+                    if(tmp != _swappedTileA) {
+                        vanishTile(tmp);
+                    } else {
+                        CCSequence *unstableStateAction = CCSequence::create(
+                                                                             CCScaleBy::create(0.5f, 2.0f),
+                                                                             NULL);
+                        tmp->sprite->runAction(unstableStateAction);
+                    }
+                }
+            }
+			// Vanishing of a 3x3 matrix done
             
-            // burstTile(this->objectAtX(_swappedTileB->x, _swappedTileB->y), 0.0f);
+            // Size modification of stripy also done
+			for(int i=_swappedTileA->x-1; i<=_swappedTileA->x+1; i++) {
+				for(int j=0; j<size.height; j++) {                    
+                    Tile2 *tmp = this->objectAtX(i, j);
+					if(tmp != _swappedTileA) burstTile(tmp, kWrappedStripedBurstAnimationDelay+abs(_swappedTileA->y - j)*kBurstPropogationTime);
+				}
+			}
+            for(int j=_swappedTileA->y-1; j<=_swappedTileA->y+1; j++) {
+				for(int i=0; i<size.width; i++) {
+                    Tile2 *tmp = this->objectAtX(i, j);
+                    if(tmp != _swappedTileA) burstTile(tmp, kWrappedStripedBurstAnimationDelay+abs(_swappedTileA->x - i)*kBurstPropogationTime);
+				}
+			}
+            burstTile(_swappedTileA, kWrappedStripedBurstAnimationDelay);
+            
             return true;
         }
-        
+
+        /**
+         * STRIPED + COLOR BOMB
+         */
         if(_swappedTileB->type == ColorBurst) {
             // Striped one is being swapped with color bomb
             // need to convert tiles to striped and execute the burst one by one
             // also, pause everything else and handle this first
-            
+            for(int i = 0; i<size.width; i++) {
+                for(int j = 0; j<size.height; j++) {
+                    Tile2 *curTile = this->objectAtX(i, j);
+                    if(curTile) {
+                        if(curTile->value == _swappedTileA->value) {
+                            curTile->type = (rand()%2 == 0) ? StripedHorizontal:StripedVertical;
+                            unstableTiles->addObject(curTile);
+                        }
+                    }
+                }
+            }
+            burstTile(_swappedTileB, 0.0f);
+            burstTile(_swappedTileA, 0.0f);
             return true;
         }
-        
+
     }
-    
+
+    /**
+     * WRAPPED + WRAPPED
+     */
     if (_swappedTileA->type == Wrapped && _swappedTileB->type == Wrapped) {
-        
+
+        return true;
     }
-    
-    if (_swappedTileA->type == ColorBurst && _swappedTileB->type == Wrapped) {
-        
+
+    /**
+     * WRAPPED + COLOR BOMB
+     */
+    if ((_swappedTileA->type == ColorBurst && _swappedTileB->type == Wrapped) ||
+        (_swappedTileB->type == ColorBurst && _swappedTileA->type == Wrapped))  {
+
     }
-    
-    if (_swappedTileB->type == ColorBurst && _swappedTileA->type == Wrapped) {
+
+    /**
+     * COLOR BOMB + COLOR BOMB
+     */
+    if (_swappedTileA->type == ColorBurst && _swappedTileB->type == ColorBurst) {
         
+        return true;
     }
     
     return false;
@@ -769,7 +844,11 @@ float Box::getMaxBurstDelay(){
 }
 
 void Box::vanishTile(Tile2 * tile) {
-    if (tile->sprite) {
+    if (tile && tile->sprite) {
+
+        if(!vanishedTiles->containsObject(tile)) {
+            vanishedTiles->addObject(tile);
+        }
         tile->sprite->stopAllActions();
         CCFiniteTimeAction *action = CCSequence::create(
                                                         CCScaleTo::create(0.3f, 0.0f),

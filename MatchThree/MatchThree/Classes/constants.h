@@ -27,6 +27,7 @@
 #define kRepairDelayTime 0.3f
 #define kBurstPropogationTime 0.08f // Time it takes for burst to travel;
 #define kHalfBurstTileDelayTime 0.1f
+#define kWrappedStripedBurstAnimationDelay 0.5f
 
 enum Orientation{
 	OrientationHori,

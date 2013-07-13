@@ -39,7 +39,7 @@ private:
     
     void doCombinations(int count, CCArray * matches, Orientation orient, int order);
     bool checkForWrappedCombination(Tile2 **object, Tile2 **newTileObj, int spawnX, int spawnY, int value);
-    bool checkForWrappedHalfBurst();
+    bool checkForUnstableTiles();
     bool checkForSpecialSwaps();
     
     bool drawBG(int x, int y);
@@ -59,6 +59,7 @@ public:
     CCArray *delayTimeContent;
     
     CCSet *readyToRemoveTiles;
+    CCSet *vanishedTiles;
     CCSet *readyToChangeTiles;
     CCArray *unstableTiles;
     
