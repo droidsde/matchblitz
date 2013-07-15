@@ -341,8 +341,8 @@ void Box::deregisterSwappedTiles()
 void Box::checkWith(Orientation orient, int order)
 {
     CCLOG("+F Box::checkWith()");
-	int iMax = (orient == OrientationHori) ? size.width: size.height;
-	int jMax = (orient == OrientationHori) ? size.height: size.width;
+	int iMax = (orient == OrientationHori) ? size.height: size.width;
+	int jMax = (orient == OrientationHori) ? size.width: size.height;
 	for (int i=0; i<iMax; i++) {
 		int count = 0;
 		int vv = -1;
@@ -350,7 +350,7 @@ void Box::checkWith(Orientation orient, int order)
 
 		for (int j=0; j<jMax; j++) {
 			Tile2 *tile = this->objectAtX(((orient == OrientationVert)? i:j), ((orient == OrientationVert)? j :i));
-
+            
             if(tile->value == 0) {
                 readyToRemoveTiles->addObject(tile);
             }
@@ -389,7 +389,7 @@ void Box::doCombinations(int count, CCArray * matches, Orientation orient, int o
         value = first->value;
 
         if (count == 4) {
-            BalloonType matchType = (orient == OrientationHori)? StripedHorizontal : StripedVertical;
+            BalloonType matchType = (orient == OrientationVert)? StripedHorizontal : StripedVertical;
 
             // Lets add that to the spawn array too
             new_tile = Tile2::create();
@@ -733,6 +733,9 @@ bool Box::checkForSpecialSwaps()
                     if(curTile) {
                         if(curTile->value == _swappedTileA->value) {
                             curTile->type = (rand()%2 == 0) ? StripedHorizontal:StripedVertical;
+                            curTile->sprite->setVisible(false);
+                            curTile->sprite = Tile2::getBalloonSprite(curTile->value, curTile->type);
+                            curTile->sprite->setPosition(curTile->pixPosition());
                             unstableTiles->addObject(curTile);
                         }
                     }
