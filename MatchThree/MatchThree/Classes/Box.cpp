@@ -698,7 +698,18 @@ bool Box::checkForSpecialSwaps()
             // one row and column needs to go, decide which ones.
             burstTile(_swappedTileA, 0.0f);
             _swappedTileB->type = Tile2::getOpposite(_swappedTileA->type);
-            burstTile(_swappedTileB, 0.0f);
+            //burstTile(_swappedTileB, 0.0f);
+            if (_swappedTileB->type == StripedHorizontal) {
+                CCLOG("Horizontal burst %d,%d\n", _swappedTileB->x, _swappedTileB->y);
+                for(int i = 0; i < size.width; ++i) {
+                    burstTile(this->objectAtX(i, _swappedTileB->y), abs(_swappedTileB->x - i)*kBurstPropogationTime  );
+                }
+            } else if (_swappedTileB->type == StripedVertical) {
+                CCLOG("Vertical burst %d,%d\n", _swappedTileB->x, _swappedTileB->y);
+                for(int i = 0; i < size.height; ++i) {
+                    burstTile(this->objectAtX(_swappedTileB->x, i), abs(_swappedTileB->y - i)*kBurstPropogationTime);
+                }
+            }
             return true;
         }
 

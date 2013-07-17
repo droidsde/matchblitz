@@ -71,6 +71,9 @@
 		F61EA51E175D196F003C4E82 /* ingame_menu.png in Resources */ = {isa = PBXBuildFile; fileRef = F61EA518175D196F003C4E82 /* ingame_menu.png */; };
 		F6811BBD177979D500824A40 /* MatchThreeDeveloper.mobileprovision in Resources */ = {isa = PBXBuildFile; fileRef = F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */; };
 		F6ECDEE117946D9F000185A0 /* common.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6ECDEDF17946D9F000185A0 /* common.cpp */; };
+		F6ECE31517970FB2000185A0 /* AnimationManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6ECE30C17970FB2000185A0 /* AnimationManager.cpp */; };
+		F6ECE31617970FB2000185A0 /* EventsManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6ECE30E17970FB2000185A0 /* EventsManager.cpp */; };
+		F6ECE31817970FB2000185A0 /* SoundManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F6ECE31317970FB2000185A0 /* SoundManager.cpp */; };
 		F6FDC3581746374F00280CD8 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3571746374F00280CD8 /* QuartzCore.framework */; };
 		F6FDC35A1746374F00280CD8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC3591746374F00280CD8 /* OpenGLES.framework */; };
 		F6FDC35C1746374F00280CD8 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F6FDC35B1746374F00280CD8 /* OpenAL.framework */; };
@@ -401,6 +404,13 @@
 		F6811BBC177979D500824A40 /* MatchThreeDeveloper.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; path = MatchThreeDeveloper.mobileprovision; sourceTree = "<group>"; };
 		F6ECDEDF17946D9F000185A0 /* common.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = common.cpp; path = Classes/common.cpp; sourceTree = "<group>"; };
 		F6ECDEE017946D9F000185A0 /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = common.h; path = Classes/common.h; sourceTree = "<group>"; };
+		F6ECE30C17970FB2000185A0 /* AnimationManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnimationManager.cpp; sourceTree = "<group>"; };
+		F6ECE30D17970FB2000185A0 /* AnimationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnimationManager.h; sourceTree = "<group>"; };
+		F6ECE30E17970FB2000185A0 /* EventsManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventsManager.cpp; sourceTree = "<group>"; };
+		F6ECE30F17970FB2000185A0 /* EventsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventsManager.h; sourceTree = "<group>"; };
+		F6ECE31017970FB2000185A0 /* IManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IManager.h; sourceTree = "<group>"; };
+		F6ECE31317970FB2000185A0 /* SoundManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SoundManager.cpp; sourceTree = "<group>"; };
+		F6ECE31417970FB2000185A0 /* SoundManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundManager.h; sourceTree = "<group>"; };
 		F6FDC3541746374F00280CD8 /* MatchThree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MatchThree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FDC3571746374F00280CD8 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		F6FDC3591746374F00280CD8 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -987,6 +997,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		F6ECE30B17970FB2000185A0 /* managers */ = {
+			isa = PBXGroup;
+			children = (
+				F6ECE30C17970FB2000185A0 /* AnimationManager.cpp */,
+				F6ECE30D17970FB2000185A0 /* AnimationManager.h */,
+				F6ECE30E17970FB2000185A0 /* EventsManager.cpp */,
+				F6ECE30F17970FB2000185A0 /* EventsManager.h */,
+				F6ECE31017970FB2000185A0 /* IManager.h */,
+				F6ECE31317970FB2000185A0 /* SoundManager.cpp */,
+				F6ECE31417970FB2000185A0 /* SoundManager.h */,
+			);
+			name = managers;
+			path = Classes/managers;
+			sourceTree = "<group>";
+		};
 		F6FDC34B1746374F00280CD8 = {
 			isa = PBXGroup;
 			children = (
@@ -2169,6 +2194,7 @@
 		F6FDC6C91746375400280CD8 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				F6ECE30B17970FB2000185A0 /* managers */,
 				F6ECDEDF17946D9F000185A0 /* common.cpp */,
 				F6ECDEE017946D9F000185A0 /* common.h */,
 				F61B4A5A175E6B8D0064D46F /* Box.cpp */,
@@ -2557,6 +2583,9 @@
 				F61B4A5F175E6B8D0064D46F /* Box.cpp in Sources */,
 				F61B4A60175E6B8D0064D46F /* Tile2.cpp in Sources */,
 				F6ECDEE117946D9F000185A0 /* common.cpp in Sources */,
+				F6ECE31517970FB2000185A0 /* AnimationManager.cpp in Sources */,
+				F6ECE31617970FB2000185A0 /* EventsManager.cpp in Sources */,
+				F6ECE31817970FB2000185A0 /* SoundManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
