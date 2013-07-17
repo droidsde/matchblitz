@@ -29,11 +29,12 @@
 #define kHalfBurstTileDelayTime 0.1f
 #define kWrappedStripedBurstAnimationDelay 0.5f
 
-enum Orientation{
+enum Orientation {
 	OrientationHori,
 	OrientationVert,
 };
 typedef enum Orientation Orientation;
 
+typedef void (GameEvents)(const char);
 
 #endif

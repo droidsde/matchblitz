@@ -68,11 +68,11 @@ bool Box::initWithSize (CCSize aSize, int aFactor)
 	readyToRemoveTiles = CCSet::create();
     readyToChangeTiles = CCSet::create();
     unstableTiles = CCArray::create();
-    vanishedTiles = CCSet::create();
+    //vanishedTiles = CCSet::create();
 	readyToRemoveTiles->retain();
     readyToChangeTiles->retain();
     unstableTiles->retain();
-    vanishedTiles->retain();
+    //vanishedTiles->retain();
 
 	return true;
 }
@@ -152,29 +152,33 @@ bool Box::runEffectSequence() {
         Tile2 *tile = (Tile2 *) *itr;
         tile->value = 0;
         
-        if (vanishedTiles->containsObject(tile)) {
-            continue;
-        }
+        if(tile->isVanished) continue;
         
         if (tile->sprite) {
             CCLOG("Scaling tile %d,%d with delay %f", tile->x, tile->y, tile->burstDelay);
             //tile->sprite->stopAllActions();
             CCFiniteTimeAction *action = CCSequence::create(
-                                                            CCDelayTime::create(tile->burstDelay),
-                                                            CCScaleTo::create(0.3f, 0.0f),
-                                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
-                                                            NULL
-                                                            );
+                                            CCDelayTime::create(tile->burstDelay),
+                                            CCScaleTo::create(0.3f, 0.0f),
+                                            CCCallFuncN::create(this, callfuncN_selector(Box::removeSprite)),
+                                            NULL
+                                        );
             tile->sprite->runAction(action);
 
-            // Add the balloon burst effect
-            CCParticleSystemQuad *burst = CCParticleSystemQuad::create(burst_effect_filename.c_str());
-            burst->setPosition(tile->pixPosition());
-            burst->setAutoRemoveOnFinish(true);
-            layer->addChild(burst);
-            
-            // Play pop sound on burst
-            CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("fingerplop4.wav");
+            // Sound and burst animation handled through event listeners
+            // as they tap into the fired event
+
+            if(tile->type == Wrapped) {
+                EventsManager::sharedManager()->dispatchEvent(BALLOON_BURST_WRAPPED, tile);
+            } else if(tile->type == StripedHorizontal || tile->type == StripedVertical) {
+                EventsManager::sharedManager()->dispatchEvent(BALLOON_BURST_STRIPED, tile);
+            } else if(tile->type == ColorBurst) {
+                EventsManager::sharedManager()->dispatchEvent(BALLOON_BURST_COLORBURST, tile);
+            } else if(tile->type == WrappedHalfBurst) {
+                EventsManager::sharedManager()->dispatchEvent(BALLOON_BURST_WRAPPED, tile);
+            } else {
+                EventsManager::sharedManager()->dispatchEvent(BALLOON_BURST_NORMAL, tile);
+            }
         }
     }
 
@@ -215,6 +219,17 @@ bool Box::runEffectSequence() {
                                                    CCDelayTime::create(delay),
                                                    CCFadeIn::create(0.3f),
                                                    NULL));
+        
+        if(type == Wrapped) {
+            EventsManager::sharedManager()->dispatchEvent(WRAPPED_CREATED, tile);
+        } else if(type == StripedHorizontal || type == StripedVertical) {
+            EventsManager::sharedManager()->dispatchEvent(STRIPED_CREATED, tile);
+        } else if(type == ColorBurst) {
+            EventsManager::sharedManager()->dispatchEvent(COLORBURST_CREATED, tile);
+        } else if(type == WrappedHalfBurst) {
+            EventsManager::sharedManager()->dispatchEvent(HALFWRAPPED_CREATED, tile);
+        }
+        EventsManager::sharedManager()->dispatchEvent(BALLOON_CONVERTED, tile);
 
         if(tile->type == WrappedHalfBurst) {
             unstableTiles->addObject(tile);
@@ -244,9 +259,9 @@ bool Box::runEffectSequence() {
 	readyToChangeTiles->retain();
     
     CCLOG("Releasing vanishedtiles");
-    vanishedTiles->release();
-    vanishedTiles = CCSet::create();
-    vanishedTiles->retain();
+    //vanishedTiles->release();
+    //vanishedTiles = CCSet::create();
+    //vanishedTiles->retain();
 
     // REPAIR the box after matched tiles were deleted
     CCLOG("Setting repair callback");
@@ -327,6 +342,14 @@ void Box::deregisterSwappedTiles()
 {
     _swappedTileA = NULL;
     _swappedTileB = NULL;
+}
+
+void Box::registerSwappingDirection(Orientation dir) {
+    _swappingDirection = dir;
+}
+
+void Box::deregisterSwappingDirection() {
+    _swappingDirection = OrientationHori;
 }
 
 /****************************************************
@@ -584,7 +607,8 @@ void Box::burstTile(Tile2 *tile, float burstDelay) {
     tile->burstDelay = burstDelay;
     readyToRemoveTiles->addObject(tile);
     
-    if(vanishedTiles->containsObject(tile)) return;
+    //if(vanishedTiles->containsObject(tile)) return;
+    if(tile->isVanished) return;
 
     // Do the chaining effect of burst action here
     // For various special combos and power ups, behavior
@@ -852,10 +876,9 @@ float Box::getMaxBurstDelay(){
 
 void Box::vanishTile(Tile2 * tile) {
     if (tile && tile->sprite) {
-
-        if(!vanishedTiles->containsObject(tile)) {
-            vanishedTiles->addObject(tile);
-        }
+        //if(!vanishedTiles->containsObject(tile)) {
+        //    vanishedTiles->addObject(tile);
+        //}
         tile->sprite->stopAllActions();
         CCFiniteTimeAction *action = CCSequence::create(
                                                         CCScaleTo::create(0.3f, 0.0f),
@@ -863,5 +886,6 @@ void Box::vanishTile(Tile2 * tile) {
                                                         NULL
                                                         );
         tile->sprite->runAction(action);
+        tile->isVanished = true;
     }
 }

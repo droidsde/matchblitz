@@ -55,11 +55,40 @@ std::string bg_filename = "laputa2.png";
 std::string burst_effect_filename = "burst2.plist";
 std::string burst_smoke_effect_filename = "burst-smoke.plist";
 
+const char* SWIPE_START             = "swipe_start";
+const char* SWIPE_DONE              = "swipe_done";
+const char* SWIPE_CANCELLED         = "swipe_cancelled";
+const char* BALLOON_CONVERTED       = "balloon_converted";
+const char* STRIPED_CREATED         = "created_striped";
+const char* WRAPPED_CREATED         = "created_wrapped";
+const char* COLORBURST_CREATED      = "created_colorburst";
+const char* HALFWRAPPED_CREATED     = "created_halfwrapped";
+const char* SPAWN_STARTED           = "spawn_started";
+const char* SPAWN_DONE              = "spawn_done";
+const char* MOVEMENT_STARTED        = "movement_started";
+const char* MOVEMENT_DONE           = "movement_done";
+const char* BALLOON_BURST_NORMAL    = "burst_normal";
+const char* BALLOON_BURST_STRIPED   = "burst_striped";
+const char* BALLOON_BURST_WRAPPED   = "burst_wrapped";
+const char* BALLOON_BURST_COLORBURST = "burst_colorburst";
+
 
 bool Globals::init()
 {
     _startX = kStartX;
     _startY = kStartY;
+    
+    this->sound_effects.insert(EffectMapPair(SWIPE_DONE, "swipe3.mp3"));
+    this->sound_effects.insert(EffectMapPair(BALLOON_BURST_NORMAL, "fingerplop4.wav"));
+    this->sound_effects.insert(EffectMapPair(BALLOON_BURST_WRAPPED, "fingerplop4.wav"));
+    this->sound_effects.insert(EffectMapPair(BALLOON_BURST_STRIPED, "fingerplop4.wav"));
+    this->sound_effects.insert(EffectMapPair(BALLOON_BURST_COLORBURST, "fingerplop4.wav"));
+
+    this->particle_effects.insert(EffectMapPair(BALLOON_BURST_NORMAL, "burst2.plist"));
+    this->particle_effects.insert(EffectMapPair(BALLOON_BURST_WRAPPED, "burst2.plist"));
+    this->particle_effects.insert(EffectMapPair(BALLOON_BURST_STRIPED, "burst2.plist"));
+    this->particle_effects.insert(EffectMapPair(BALLOON_BURST_COLORBURST, "burst2.plist"));
+    
     return true;
 }
 
@@ -77,4 +106,8 @@ void Globals::setStartX(int x) {
 
 void Globals::setStartY(int y) {
     _startY = y;
+}
+
+std::string Globals::getSoundEffect(const char* name) {
+    return this->sound_effects[name];
 }

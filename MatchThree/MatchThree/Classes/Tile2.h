@@ -34,6 +34,7 @@ public:
     BalloonType type;
     float burstDelay;
     bool _debug_isOriginal;
+    float isVanished;
     
 	CCSprite *sprite;
     Tile2 * tileToSpawn;

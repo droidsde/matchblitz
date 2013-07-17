@@ -24,6 +24,27 @@ extern std::string play_hstripe_filenames[];
 extern std::string play_wrapped_filenames[];
 extern std::string play_color_burst_filename;
 
+
+extern const char* SWIPE_START;
+extern const char* SWIPE_DONE;
+extern const char* SWIPE_CANCELLED;
+extern const char* BALLOON_CONVERTED;
+extern const char* STRIPED_CREATED;
+extern const char* WRAPPED_CREATED;
+extern const char* COLORBURST_CREATED;
+extern const char* HALFWRAPPED_CREATED;
+extern const char* SPAWN_STARTED;
+extern const char* SPAWN_DONE;
+extern const char* MOVEMENT_STARTED;
+extern const char* MOVEMENT_DONE;
+extern const char* BALLOON_BURST_NORMAL;
+extern const char* BALLOON_BURST_STRIPED;
+extern const char* BALLOON_BURST_WRAPPED;
+extern const char* BALLOON_BURST_COLORBURST;
+
+typedef std::pair<const char *, std::string> EffectMapPair;
+typedef std::map<const char*, std::string> EffectMap;
+
 USING_NS_CC;
 class Globals : public CCObject
 {
@@ -32,11 +53,15 @@ private:
 public:
     int _startX;
     int _startY;
+    EffectMap sound_effects;
+    EffectMap particle_effects;
     
     int getStartX();
     int getStartY();
     void setStartX(int x);
     void setStartY(int y);
+    
+    std::string getSoundEffect(const char*);
     
     virtual bool init();
     CREATE_FUNC(Globals);

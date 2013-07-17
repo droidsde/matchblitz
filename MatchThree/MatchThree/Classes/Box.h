@@ -21,6 +21,7 @@
 #include "common.h"
 #include "Tile2.h"
 #include "SimpleAudioEngine.h"
+#include "EventsManager.h"
 
 
 USING_NS_CC;
@@ -29,6 +30,7 @@ private:
     bool _lock;
     Tile2 * _swappedTileA;
     Tile2 * _swappedTileB;
+    Orientation _swappingDirection;
     
     void checkWith(Orientation orient, int order);
     bool checkTilesToClear();
@@ -60,7 +62,7 @@ public:
     CCArray *delayTimeContent;
     
     CCSet *readyToRemoveTiles;
-    CCSet *vanishedTiles;
+    //CCSet *vanishedTiles;
     CCSet *readyToChangeTiles;
     CCArray *unstableTiles;
     
@@ -77,6 +79,8 @@ public:
     
     void registerSwappedTiles(Tile2 * first, Tile2 * second);
     void deregisterSwappedTiles();
+    void registerSwappingDirection(Orientation dir);
+    void deregisterSwappingDirection();
     
     void removeSprite (CCNode * sender);
     void clearBurstDelay();

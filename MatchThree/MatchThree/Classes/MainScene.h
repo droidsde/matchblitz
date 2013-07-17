@@ -41,6 +41,7 @@ public:
     
     // preprocessor macro for "static create()" constructor ( node() deprecated )
     CREATE_FUNC(MatchThree);
+    ~MatchThree();
 };
 
 #endif // __HELLOWORLD_SCENE_H__

@@ -13,6 +13,7 @@ bool Tile2::init()
     value = 99;
     type = Normal;
     tileToSpawn = NULL;
+    isVanished = false;
     return true;
 }
 

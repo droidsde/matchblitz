@@ -1,6 +1,8 @@
 #include "MainScene.h"
 #include "SimpleAudioEngine.h"
-
+#include "SoundManager.h"
+#include "AnimationManager.h"
+#include "EventsManager.h"
 
 using namespace cocos2d;
 using namespace CocosDenshion;
@@ -12,9 +14,14 @@ CCScene* MatchThree::scene()
 {
     //srand(time(0));
     CCScene *scene = CCScene::create();
+    
     MatchThree *layer = MatchThree::create();
-    // layer->retain();
     CCAssert(layer, "No layer created");
+    
+    // Initializing all managers
+    SoundManager::sharedManager()->initListeners(layer);
+    AnimationManager::sharedManager()->initListeners(layer);
+    
     scene->addChild(layer, 0, 1000);                     // Adding layer to the main scene
     return scene;
 }
@@ -113,7 +120,8 @@ void MatchThree::ccTouchesBegan(CCSet* touches, CCEvent* event)
     }
     // Getting the tile at location where touch was made
     Tile2 *tile = _box->objectAtX(x, y);
-    _selectedTile = tile;    
+    _selectedTile = tile;
+    EventsManager::sharedManager()->dispatchEvent(SWIPE_START, tile);
 }
 
 /**
@@ -149,8 +157,7 @@ void MatchThree::ccTouchesMoved(CCSet* touches, CCEvent* event)
         // If its the second touch, do the swap!
         _box->lock();
         this->changeWithTileA(_selectedTile, tile, callfuncND_selector(MatchThree::check));
-        // Play swipe sound
-        CocosDenshion::SimpleAudioEngine::sharedEngine()->playEffect("swipe3.mp3");
+        EventsManager::sharedManager()->dispatchEvent(SWIPE_DONE, tile);
         _selectedTile = NULL;
     } 
 }
@@ -172,7 +179,7 @@ void MatchThree::ccTouchesEnded(CCSet* touches, CCEvent* event){
         }
         Tile2 *tile = _box->objectAtX(x, y);
         if (this->_debugChangeToHStriped || this->_debugChangeToVStriped) {
-            tile->type =  (this->_debugChangeToHStriped)?StripedHorizontal:StripedVertical;
+            tile->type =  (this->_debugChangeToHStriped)? StripedHorizontal:StripedVertical;
         }
         if (this->_debugCycleColor) {
             // cycle through the color
@@ -216,6 +223,7 @@ void MatchThree::backCheck(CCNode * sender, Tile2 * data)
     }
     _firstOne = NULL;
     _box->deregisterSwappedTiles();
+    _box->deregisterSwappingDirection();
     _box->unlock();
 }
 
@@ -225,8 +233,13 @@ void MatchThree::check(CCNode * sender, Tile2 * data)
         _firstOne = data;
         return;
     }
-    
+
     _box->registerSwappedTiles(_firstOne, data);
+    if(_firstOne->x != data->x) {
+        _box->registerSwappingDirection(OrientationHori);
+    } else if(_firstOne->y != data->y) {
+        _box->registerSwappingDirection(OrientationVert);
+    }
     
     bool result = _box->check();
     if (result)
@@ -239,13 +252,21 @@ void MatchThree::check(CCNode * sender, Tile2 * data)
         this->runAction(CCSequence::create(
                             CCDelayTime::create(kMoveTileTime + 0.03f),
                             CCCallFuncN::create(_box, callfuncN_selector(Box::unlock)), NULL));
+        
+        EventsManager::sharedManager()->dispatchEvent(SWIPE_CANCELLED, data);
     }
     
     _firstOne = NULL;
 }
 
+MatchThree::~MatchThree() {
+    SoundManager::sharedManager()->removeListeners();
+}
+
 void MatchThree::menuCloseCallback(CCObject* pSender)
 {
+    SoundManager::sharedManager()->removeListeners();
+    
     CCDirector::sharedDirector()->end();
 
 #if (CC_TARGET_PLATFORM == CC_PLATFORM_IOS)

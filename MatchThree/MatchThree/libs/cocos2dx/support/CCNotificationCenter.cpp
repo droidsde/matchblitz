@@ -86,8 +86,8 @@ void CCNotificationCenter::addObserver(CCObject *target,
                                        const char *name,
                                        CCObject *obj)
 {
-    if (this->observerExisted(target, name))
-        return;
+    //if (this->observerExisted(target, name))
+    //    return;
     
     CCNotificationObserver *observer = new CCNotificationObserver(target, selector, name, obj);
     if (!observer)
